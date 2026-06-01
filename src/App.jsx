@@ -1538,7 +1538,7 @@ export default function App() {
       </aside>
 
       <section className="lg:pl-80">
-        <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/92 px-4 py-4 backdrop-blur md:px-7">
+        <header className="z-10 border-b border-slate-200 bg-white/92 px-4 py-4 backdrop-blur md:px-7 lg:sticky lg:top-0">
           <div className="mx-auto flex max-w-7xl flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <div className="flex flex-wrap items-center gap-2">
