@@ -13,6 +13,9 @@ const PREVIOUS_SAVED_DIAGNOSES_KEY = "mari-betioli-saved-diagnoses-v2";
 const CURRENT_DIAGNOSIS_KEY = "currentDiagnosis";
 const SAVED_DIAGNOSES_KEY = "savedDiagnoses";
 const STORAGE_MIGRATION_KEY = "mari-betioli-storage-migration-v3";
+const PUBLISHED_DIAGNOSIS_SEED_KEY = "mari-betioli-published-diagnosis-seeded-v1";
+const PUBLISHED_DIAGNOSIS_ID = "published-mari-betioli-2026-06-01-1333";
+const PUBLISHED_DIAGNOSIS_SAVED_AT = "2026-06-01T13:33:00-03:00";
 
 const stages = [
   {
@@ -646,16 +649,30 @@ function createSavedDiagnosis(data, overrides = {}) {
   };
 }
 
+function createPublishedDiagnosis() {
+  return createSavedDiagnosis(PUBLISHED_DIAGNOSIS, {
+    id: PUBLISHED_DIAGNOSIS_ID,
+    name: "Diagnóstico Mari Betioli — 01/06/2026 13:33",
+    savedAt: PUBLISHED_DIAGNOSIS_SAVED_AT,
+    updatedAt: PUBLISHED_DIAGNOSIS_SAVED_AT
+  });
+}
+
 function loadSavedDiagnoses() {
   const saved = safeReadJson(SAVED_DIAGNOSES_KEY, null);
   const previousSaved = safeReadJson(PREVIOUS_SAVED_DIAGNOSES_KEY, []);
-  const source = Array.isArray(saved) && saved.length ? saved : previousSaved;
+  const source = Array.isArray(saved) ? saved : previousSaved;
 
   if (!Array.isArray(source)) {
-    return [];
+    if (safeReadJson(PUBLISHED_DIAGNOSIS_SEED_KEY, false)) {
+      return [];
+    }
+
+    window.localStorage.setItem(PUBLISHED_DIAGNOSIS_SEED_KEY, "true");
+    return [createPublishedDiagnosis()];
   }
 
-  return source
+  const normalizedDiagnoses = source
     .filter((diagnosis) => diagnosis?.data)
     .map((diagnosis) =>
       createSavedDiagnosis(diagnosis.data, {
@@ -666,6 +683,26 @@ function loadSavedDiagnoses() {
       })
     )
     .sort((first, second) => new Date(second.savedAt) - new Date(first.savedAt));
+  const shouldSeedPublishedDiagnosis = !safeReadJson(PUBLISHED_DIAGNOSIS_SEED_KEY, false);
+  const publishedDiagnosis = createPublishedDiagnosis();
+  const publishedSnapshot = snapshotDiagnosis(publishedDiagnosis.data);
+  const hasPublishedDiagnosis = normalizedDiagnoses.some(
+    (diagnosis) =>
+      diagnosis.id === PUBLISHED_DIAGNOSIS_ID ||
+      snapshotDiagnosis(diagnosis.data) === publishedSnapshot
+  );
+
+  if (shouldSeedPublishedDiagnosis) {
+    window.localStorage.setItem(PUBLISHED_DIAGNOSIS_SEED_KEY, "true");
+  }
+
+  if (shouldSeedPublishedDiagnosis && !hasPublishedDiagnosis) {
+    return [publishedDiagnosis, ...normalizedDiagnoses].sort(
+      (first, second) => new Date(second.savedAt) - new Date(first.savedAt)
+    );
+  }
+
+  return normalizedDiagnoses;
 }
 
 function getFilledFields(stageData) {
@@ -1188,9 +1225,9 @@ function SavedDiagnosesPanel({ diagnoses, onOpen, onEdit, onDelete, onDuplicate 
     <section className="no-print rounded-lg border border-slate-200 bg-white p-5 shadow-panel">
       <div className="flex flex-col gap-2 border-l-4 border-brand pl-4">
         <p className="text-xs font-bold uppercase text-brand">Diagnósticos salvos</p>
-        <h3 className="text-2xl font-semibold text-slate-950">Histórico local de diagnósticos</h3>
+        <h3 className="text-2xl font-semibold text-slate-950">Histórico de diagnósticos</h3>
         <p className="max-w-3xl text-sm leading-7 text-slate-500">
-          Cópias salvas ficam disponíveis neste navegador e podem ser abertas, duplicadas ou excluídas.
+          Use Abrir para carregar o relatório salvo no resumo ou Editar para retomar o preenchimento.
         </p>
       </div>
 
@@ -1249,6 +1286,27 @@ function SavedDiagnosesPanel({ diagnoses, onOpen, onEdit, onDelete, onDuplicate 
   );
 }
 
+function EmptySummaryState({ savedCount }) {
+  return (
+    <section className="rounded-lg border border-dashed border-slate-300 bg-white p-6 text-center shadow-panel">
+      <p className="text-xs font-bold uppercase text-brand">Nenhum diagnóstico aberto</p>
+      <h3 className="mt-2 text-2xl font-semibold text-slate-950">
+        O resumo atual está limpo
+      </h3>
+      <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-slate-500">
+        Para visualizar um relatório já salvo, use o botão Abrir no histórico de diagnósticos.
+        Para começar uma nova reunião, preencha as etapas pelo menu.
+      </p>
+      {savedCount ? (
+        <p className="mt-4 text-sm font-semibold text-brand">
+          {savedCount} diagnóstico{savedCount === 1 ? "" : "s"} salvo{savedCount === 1 ? "" : "s"}{" "}
+          {savedCount === 1 ? "disponível" : "disponíveis"} no histórico.
+        </p>
+      ) : null}
+    </section>
+  );
+}
+
 export default function App() {
   const [activeStage, setActiveStage] = useState(getStageFromHash);
   const [data, setData] = useState(loadCurrentDiagnosis);
@@ -1287,14 +1345,11 @@ export default function App() {
   const progress = Math.round((completedFields / totalFields) * 100);
   const currentStage = stages.find((stage) => stage.id === activeStage);
   const isSummary = activeStage === "resumo";
-  const publishedDiagnosis = useMemo(() => mergeSavedData(PUBLISHED_DIAGNOSIS), []);
-  const reportData = useMemo(
-    () => (hasDiagnosisData(data) ? data : publishedDiagnosis),
-    [data, publishedDiagnosis]
-  );
+  const hasCurrentDiagnosisData = useMemo(() => hasDiagnosisData(data), [data]);
+  const reportData = data;
   const currentSnapshot = useMemo(() => snapshotDiagnosis(data), [data]);
   const hasUnsavedChanges = useMemo(() => {
-    if (!hasDiagnosisData(data)) {
+    if (!hasCurrentDiagnosisData) {
       return false;
     }
 
@@ -1303,7 +1358,7 @@ export default function App() {
     );
 
     return currentSnapshot !== lastSavedSnapshot && !matchesSavedDiagnosis;
-  }, [currentSnapshot, data, lastSavedSnapshot, savedDiagnoses]);
+  }, [currentSnapshot, hasCurrentDiagnosisData, lastSavedSnapshot, savedDiagnoses]);
 
   const consolidated = useMemo(() => buildExecutiveSummary(reportData), [reportData]);
 
@@ -1342,11 +1397,21 @@ export default function App() {
   }
 
   async function copySummary() {
+    if (!hasCurrentDiagnosisData) {
+      setSaveState("Nenhum diagnóstico aberto");
+      return;
+    }
+
     await navigator.clipboard.writeText(formatSummary(reportData));
     setSaveState("Resumo copiado");
   }
 
   function saveDiagnostic() {
+    if (!hasCurrentDiagnosisData) {
+      setSaveState("Nenhum diagnóstico para salvar");
+      return;
+    }
+
     const diagnosis = createSavedDiagnosis(data);
     setSavedDiagnoses((current) => [diagnosis, ...current]);
     setLastSavedSnapshot(snapshotDiagnosis(diagnosis.data));
@@ -1442,6 +1507,11 @@ export default function App() {
   }
 
   function exportPdf() {
+    if (!hasCurrentDiagnosisData) {
+      setSaveState("Nenhum diagnóstico aberto");
+      return;
+    }
+
     window.print();
   }
 
@@ -1660,32 +1730,44 @@ export default function App() {
                   <div>
                     <p className="text-xs font-bold uppercase text-brand">Síntese executiva</p>
                     <h2 className="mt-2 text-3xl font-semibold text-slate-950">
-                      Diagnóstico consolidado da reunião
+                      {hasCurrentDiagnosisData
+                        ? "Diagnóstico consolidado da reunião"
+                        : "Nenhum diagnóstico aberto"}
                     </h2>
                     <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-500">
-                      O resumo abaixo é gerado automaticamente a partir dos registros das etapas.
-                      Edite os campos anteriores para refinar a leitura final antes de salvar ou exportar.
+                      {hasCurrentDiagnosisData
+                        ? "O resumo abaixo é gerado automaticamente a partir dos registros das etapas. Edite os campos anteriores para refinar a leitura final antes de salvar ou exportar."
+                        : "O preenchimento atual está limpo. Abra um diagnóstico salvo no histórico para visualizar o relatório, exportar em PDF ou editar as respostas."}
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <button
                       type="button"
                       onClick={exportPdf}
-                      className="rounded-md bg-brand px-4 py-3 text-sm font-bold text-white shadow-brand hover:bg-brand-deep"
+                      disabled={!hasCurrentDiagnosisData}
+                      className={`rounded-md bg-brand px-4 py-3 text-sm font-bold text-white shadow-brand hover:bg-brand-deep ${
+                        hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
+                      }`}
                     >
                       Exportar em PDF
                     </button>
                     <button
                       type="button"
                       onClick={copySummary}
-                      className="rounded-md border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50"
+                      disabled={!hasCurrentDiagnosisData}
+                      className={`rounded-md border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 ${
+                        hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
+                      }`}
                     >
                       Copiar resumo completo
                     </button>
                     <button
                       type="button"
                       onClick={saveDiagnostic}
-                      className="rounded-md border border-brand/20 bg-brand-soft px-4 py-3 text-sm font-bold text-brand hover:bg-brand/10"
+                      disabled={!hasCurrentDiagnosisData}
+                      className={`rounded-md border border-brand/20 bg-brand-soft px-4 py-3 text-sm font-bold text-brand hover:bg-brand/10 ${
+                        hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
+                      }`}
                     >
                       Salvar diagnóstico
                     </button>
@@ -1715,43 +1797,49 @@ export default function App() {
                 onDuplicate={duplicateSavedDiagnosis}
               />
 
-              <SalesPerformance />
+              {hasCurrentDiagnosisData ? (
+                <>
+                  <SalesPerformance />
 
-              <section className="print-stack grid gap-4 lg:grid-cols-2">
-                {consolidated.map((section) => (
-                  <SummarySection
-                    key={section.title}
-                    title={section.title}
-                    entries={section.entries}
-                    marker={section.marker}
-                    icon={section.icon}
-                    tone={section.tone}
-                  />
-                ))}
-              </section>
+                  <section className="print-stack grid gap-4 lg:grid-cols-2">
+                    {consolidated.map((section) => (
+                      <SummarySection
+                        key={section.title}
+                        title={section.title}
+                        entries={section.entries}
+                        marker={section.marker}
+                        icon={section.icon}
+                        tone={section.tone}
+                      />
+                    ))}
+                  </section>
 
-              <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-panel">
-                <div className="flex flex-col gap-2 border-l-4 border-brand pl-4">
-                  <p className="text-xs font-bold uppercase text-brand">Resumo completo</p>
-                  <h3 className="text-2xl font-semibold text-slate-950">
-                    Relatório executivo por etapa
-                  </h3>
-                  <p className="max-w-3xl text-sm leading-7 text-slate-500">
-                    Leitura organizada para apresentação após a reunião, separando respostas,
-                    observações, insights e hipóteses por categoria.
-                  </p>
-                </div>
+                  <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-panel">
+                    <div className="flex flex-col gap-2 border-l-4 border-brand pl-4">
+                      <p className="text-xs font-bold uppercase text-brand">Resumo completo</p>
+                      <h3 className="text-2xl font-semibold text-slate-950">
+                        Relatório executivo por etapa
+                      </h3>
+                      <p className="max-w-3xl text-sm leading-7 text-slate-500">
+                        Leitura organizada para apresentação após a reunião, separando respostas,
+                        observações, insights e hipóteses por categoria.
+                      </p>
+                    </div>
 
-                <div className="mt-5 grid gap-4">
-                  {stages.map((stage) => (
-                    <StageReportCard
-                      key={stage.id}
-                      stage={stage}
-                      stageData={reportData[stage.id] || {}}
-                    />
-                  ))}
-                </div>
-              </section>
+                    <div className="mt-5 grid gap-4">
+                      {stages.map((stage) => (
+                        <StageReportCard
+                          key={stage.id}
+                          stage={stage}
+                          stageData={reportData[stage.id] || {}}
+                        />
+                      ))}
+                    </div>
+                  </section>
+                </>
+              ) : (
+                <EmptySummaryState savedCount={savedDiagnoses.length} />
+              )}
             </div>
           )}
         </div>
