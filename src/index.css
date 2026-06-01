@@ -29,9 +29,13 @@ body {
   text-wrap: balance;
 }
 
+.print-only {
+  display: none;
+}
+
 @media print {
   @page {
-    margin: 14mm;
+    margin: 12mm;
   }
 
   html,
@@ -58,12 +62,8 @@ body {
     text-shadow: none !important;
   }
 
-  main,
-  main *,
-  section,
-  article {
+  main {
     background: #ffffff !important;
-    color: #111827 !important;
   }
 
   .lg\:pl-80 {
@@ -86,6 +86,24 @@ body {
     padding-bottom: 0 !important;
   }
 
+  .print-only {
+    display: block !important;
+  }
+
+  .print-report-header {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 10px !important;
+  }
+
+  .print-report-logo {
+    display: block;
+    width: 100%;
+    max-height: 86px;
+    object-fit: contain;
+    object-position: left center;
+  }
+
   .print-stack {
     display: block !important;
   }
@@ -102,22 +120,38 @@ body {
 
   .print-card,
   .print-stage-card {
-    margin-bottom: 10px !important;
+    margin-bottom: 8px !important;
     padding: 12px !important;
   }
 
   .print-entry {
-    margin-top: 8px !important;
+    margin-top: 7px !important;
     padding: 10px !important;
   }
 
-  .print-avoid-break,
-  .print-entry {
+  .print-heading-group,
+  .print-avoid-break {
     break-inside: avoid;
     page-break-inside: avoid;
   }
 
+  .print-section-heading,
+  .print-stage-header {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
   .print-stage-card {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  .print-stage-card:not(.print-long-stage) .print-entry {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-long-stage .print-entry {
     break-inside: auto;
     page-break-inside: auto;
   }

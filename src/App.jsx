@@ -729,43 +729,52 @@ const summaryToneClasses = {
 };
 
 function SummarySection({ title, entries, marker, icon, tone }) {
+  const [firstEntry, ...remainingEntries] = entries;
+
+  const renderEntry = (entry) => (
+    <article
+      key={`${entry.stage}-${entry.text}`}
+      className={`print-entry print-avoid-break rounded-md border px-4 py-3 ${
+        entry.generated
+          ? "border-brand/15 bg-brand-soft/70"
+          : "border-slate-200 bg-slate-50"
+      }`}
+    >
+      <p className="text-xs font-bold uppercase text-slate-400">
+        {entry.generated ? "Leitura consultiva" : entry.stage}
+      </p>
+      <p className="mt-1 whitespace-pre-wrap text-sm leading-7 text-slate-700">{entry.text}</p>
+    </article>
+  );
+
   return (
-    <section className="print-card print-avoid-break rounded-lg border border-slate-200 bg-white p-5 shadow-panel">
-      <div className="flex items-center gap-3">
-        <span
-          className={`grid h-9 w-9 place-items-center rounded-md border text-sm font-bold ${
-            summaryToneClasses[tone] || summaryToneClasses.neutral
-          }`}
-        >
-          {icon}
-        </span>
-        <div>
-          <p className="text-xs font-bold uppercase text-slate-400">{marker}</p>
-          <h3 className="text-sm font-bold uppercase text-brand">{title}</h3>
+    <section className="print-card rounded-lg border border-slate-200 bg-white p-5 shadow-panel">
+      <div className={firstEntry ? "print-heading-group" : ""}>
+        <div className="print-section-heading flex items-center gap-3">
+          <span
+            className={`grid h-9 w-9 place-items-center rounded-md border text-sm font-bold ${
+              summaryToneClasses[tone] || summaryToneClasses.neutral
+            }`}
+          >
+            {icon}
+          </span>
+          <div>
+            <p className="text-xs font-bold uppercase text-slate-400">{marker}</p>
+            <h3 className="text-sm font-bold uppercase text-brand">{title}</h3>
+          </div>
         </div>
+        {firstEntry ? <div className="mt-5">{renderEntry(firstEntry)}</div> : null}
       </div>
       {entries.length ? (
-        <div className="mt-5 grid gap-3">
-          {entries.map((entry) => (
-            <article
-              key={`${entry.stage}-${entry.text}`}
-              className={`print-entry print-avoid-break rounded-md border px-4 py-3 ${
-                entry.generated
-                  ? "border-brand/15 bg-brand-soft/70"
-                  : "border-slate-200 bg-slate-50"
-              }`}
-            >
-              <p className="text-xs font-bold uppercase text-slate-400">
-                {entry.generated ? "Leitura consultiva" : entry.stage}
-              </p>
-              <p className="mt-1 whitespace-pre-wrap text-sm leading-7 text-slate-700">{entry.text}</p>
-            </article>
-          ))}
+        <div className="mt-3 grid gap-3">
+          {remainingEntries.map((entry) => renderEntry(entry))}
         </div>
       ) : (
-        <p className="mt-4 rounded-md border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-sm text-slate-500">
-          Ainda sem registros suficientes.
-        </p>
+        <div className="print-heading-group">
+          <p className="mt-4 rounded-md border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-sm text-slate-500">
+            Ainda sem registros suficientes.
+          </p>
+        </div>
       )}
     </section>
   );
@@ -774,10 +783,15 @@ function SummarySection({ title, entries, marker, icon, tone }) {
 function StageReportCard({ stage, stageData }) {
   const hasContent =
     fieldConfig.some((field) => stageData[field.key]?.trim()) || stageData.signals?.length > 0;
+  const canBreakInPrint = stage.id === "pesquisa";
 
   return (
-    <article className="print-stage-card rounded-lg border border-slate-200 bg-white p-5 shadow-panel">
-      <div className="flex flex-col gap-3 border-b border-slate-100 pb-4 md:flex-row md:items-start md:justify-between">
+    <article
+      className={`print-stage-card rounded-lg border border-slate-200 bg-white p-5 shadow-panel ${
+        canBreakInPrint ? "print-long-stage" : ""
+      }`}
+    >
+      <div className="print-stage-header flex flex-col gap-3 border-b border-slate-100 pb-4 md:flex-row md:items-start md:justify-between">
         <div>
           <p className="text-xs font-bold uppercase text-brand">Etapa {stage.number}</p>
           <h3 className="mt-1 text-2xl font-semibold text-slate-950">{stage.title}</h3>
@@ -795,7 +809,9 @@ function StageReportCard({ stage, stageData }) {
             return (
               <section
                 key={field.key}
-                className="print-entry print-avoid-break rounded-md border border-slate-200 bg-slate-50 p-4"
+                className={`print-entry rounded-md border border-slate-200 bg-slate-50 p-4 ${
+                  canBreakInPrint ? "" : "print-avoid-break"
+                }`}
               >
                 <p className="text-xs font-bold uppercase text-slate-500">{field.label}</p>
                 {value ? (
@@ -807,7 +823,11 @@ function StageReportCard({ stage, stageData }) {
             );
           })}
           {stageData.signals?.length ? (
-            <section className="print-entry print-avoid-break rounded-md border border-brand/15 bg-brand-soft/60 p-4 lg:col-span-2">
+            <section
+              className={`print-entry rounded-md border border-brand/15 bg-brand-soft/60 p-4 lg:col-span-2 ${
+                canBreakInPrint ? "" : "print-avoid-break"
+              }`}
+            >
               <p className="text-xs font-bold uppercase text-brand">Sinais estratégicos marcados</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {stageData.signals.map((signal) => (
@@ -1268,6 +1288,23 @@ export default function App() {
             </div>
           ) : (
             <div className="grid gap-5">
+              <section className="print-only print-report-header rounded-lg border border-brand/15 bg-white p-5">
+                <img
+                  src={mariProfileLockup}
+                  alt={`${APP_CONFIG.expertName} - ${APP_CONFIG.projectName}`}
+                  className="print-report-logo"
+                />
+                <div className="mt-4 border-l-4 border-brand pl-4">
+                  <p className="text-xs font-bold uppercase text-brand">Diagnóstico estratégico</p>
+                  <h1 className="mt-1 text-3xl font-semibold text-slate-950">
+                    {APP_CONFIG.expertName}
+                  </h1>
+                  <p className="mt-2 text-sm leading-6 text-slate-500">
+                    {APP_CONFIG.projectName} · Relatório executivo de discovery
+                  </p>
+                </div>
+              </section>
+
               <section className="rounded-lg border border-brand/15 bg-white p-5 shadow-panel">
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                   <div>
