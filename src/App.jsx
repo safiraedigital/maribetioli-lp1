@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import mariProfileLockup from "../Mari Betioli perfil.png";
 
 const APP_CONFIG = {
   expertName: "Mari Betioli",
@@ -1081,9 +1082,11 @@ export default function App() {
       <aside className="fixed inset-y-0 left-0 z-20 hidden w-80 overflow-y-auto border-r border-slate-200 bg-white px-5 py-6 shadow-sidebar lg:block">
         <div className="border-b border-slate-100 pb-6">
           <p className="text-xs font-bold uppercase text-brand">Discovery estratégico</p>
-          <h1 className="mt-2 text-2xl font-semibold leading-tight text-slate-950">
-            {APP_CONFIG.expertName}
-          </h1>
+          <img
+            src={mariProfileLockup}
+            alt={`${APP_CONFIG.expertName} - ${APP_CONFIG.projectName}`}
+            className="mt-3 w-full rounded-lg object-contain"
+          />
           <p className="mt-3 text-sm leading-6 text-slate-500">
             Workspace de diagnóstico para registrar respostas, hipóteses e leitura consultiva ao vivo.
           </p>
