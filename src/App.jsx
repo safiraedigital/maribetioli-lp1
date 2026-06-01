@@ -385,29 +385,29 @@ const diagnosticRules = [
 ];
 
 const salesByWhatsAppData = [
-  { label: "Jun/24", value: 1 },
-  { label: "Ago/24", value: 22 },
-  { label: "Set/24", value: 7 },
-  { label: "Out/24", value: 3 },
-  { label: "Nov/24", value: 2 },
-  { label: "Dez/24", value: 2 },
-  { label: "Jan/25", value: 5 },
-  { label: "Fev/25", value: 27 },
-  { label: "Mar/25", value: 11 },
-  { label: "Abr/25", value: 16 },
-  { label: "Mai/25", value: 13 },
-  { label: "Jun/25", value: 15 },
-  { label: "Jul/25", value: 23 },
-  { label: "Ago/25", value: 43 },
-  { label: "Set/25", value: 25 },
-  { label: "Out/25", value: 12 },
-  { label: "Nov/25", value: 32 },
-  { label: "Dez/25", value: 20 },
-  { label: "Jan/26", value: 28 },
-  { label: "Fev/26", value: 7 },
-  { label: "Mar/26", value: 7 },
-  { label: "Abr/26", value: 5 },
-  { label: "Mai/26", value: 7 }
+  { date: "2024-06", label: "Jun/24", value: 1 },
+  { date: "2024-08", label: "Ago/24", value: 22 },
+  { date: "2024-09", label: "Set/24", value: 7 },
+  { date: "2024-10", label: "Out/24", value: 3 },
+  { date: "2024-11", label: "Nov/24", value: 2 },
+  { date: "2024-12", label: "Dez/24", value: 2 },
+  { date: "2025-01", label: "Jan/25", value: 5 },
+  { date: "2025-02", label: "Fev/25", value: 27 },
+  { date: "2025-03", label: "Mar/25", value: 11 },
+  { date: "2025-04", label: "Abr/25", value: 16 },
+  { date: "2025-05", label: "Mai/25", value: 13 },
+  { date: "2025-06", label: "Jun/25", value: 15 },
+  { date: "2025-07", label: "Jul/25", value: 23 },
+  { date: "2025-08", label: "Ago/25", value: 43 },
+  { date: "2025-09", label: "Set/25", value: 25 },
+  { date: "2025-10", label: "Out/25", value: 12 },
+  { date: "2025-11", label: "Nov/25", value: 32 },
+  { date: "2025-12", label: "Dez/25", value: 20 },
+  { date: "2026-01", label: "Jan/26", value: 28 },
+  { date: "2026-02", label: "Fev/26", value: 7 },
+  { date: "2026-03", label: "Mar/26", value: 7 },
+  { date: "2026-04", label: "Abr/26", value: 5 },
+  { date: "2026-05", label: "Mai/26", value: 7 }
 ];
 
 const salesHighlights = [
@@ -866,9 +866,10 @@ function StrategicSignals({ stage, selectedSignals, onChange }) {
 
 function SalesPerformance() {
   const chartWidth = 720;
-  const chartHeight = 260;
-  const padding = { top: 22, right: 22, bottom: 46, left: 42 };
+  const chartHeight = 224;
+  const padding = { top: 26, right: 22, bottom: 34, left: 46 };
   const maxValue = 45;
+  const [hoveredIndex, setHoveredIndex] = useState(null);
   const plotWidth = chartWidth - padding.left - padding.right;
   const plotHeight = chartHeight - padding.top - padding.bottom;
   const points = salesByWhatsAppData.map((item, index) => {
@@ -879,7 +880,24 @@ function SalesPerformance() {
   });
   const path = points.map((point) => `${point.x},${point.y}`).join(" ");
   const peak = points.reduce((highest, point) => (point.value > highest.value ? point : highest), points[0]);
-  const labelIndexes = new Set([0, 4, 8, 12, 13, 16, 20, 22]);
+  const activePoint = hoveredIndex === null ? peak : points[hoveredIndex];
+  const yearTicks = Array.from(
+    points
+      .reduce((ticks, point) => {
+        const year = point.date.slice(0, 4);
+        return ticks.has(year) ? ticks : ticks.set(year, point);
+      }, new Map())
+      .entries()
+  ).map(([year, point]) => ({ year, x: point.x }));
+  const tooltipWidth = 166;
+  const tooltipX = Math.min(
+    Math.max(activePoint.x - tooltipWidth / 2, padding.left),
+    chartWidth - padding.right - tooltipWidth
+  );
+  const tooltipY = Math.max(activePoint.y - 44, 8);
+  const activeLabel = `${activePoint.label} · ${activePoint.value} ${
+    activePoint.value === 1 ? "venda" : "vendas"
+  }`;
 
   return (
     <section className="print-chart print-avoid-break rounded-lg border border-slate-200 bg-white p-5 shadow-panel">
@@ -892,13 +910,14 @@ function SalesPerformance() {
         </p>
       </div>
 
-      <div className="mt-5 grid gap-5 xl:grid-cols-[1.55fr_0.75fr]">
-        <div className="rounded-lg border border-brand/10 bg-brand-soft/45 p-4">
+      <div className="mt-5 grid items-start gap-5 xl:grid-cols-[1.55fr_0.75fr]">
+        <div className="rounded-lg border border-brand/10 bg-brand-soft/45 p-3 sm:p-4">
           <svg
             viewBox={`0 0 ${chartWidth} ${chartHeight}`}
             role="img"
             aria-label="Gráfico de vendas mensais por WhatsApp"
-            className="h-auto w-full"
+            className="block w-full"
+            onMouseLeave={() => setHoveredIndex(null)}
           >
             {[0, 10, 20, 30, 40].map((tick) => {
               const y = padding.top + (1 - tick / maxValue) * plotHeight;
@@ -910,7 +929,7 @@ function SalesPerformance() {
                     y1={y}
                     x2={chartWidth - padding.right}
                     y2={y}
-                    stroke="#D9C2E6"
+                    stroke="#E5D7EE"
                     strokeWidth="1"
                   />
                   <text x={padding.left - 12} y={y + 4} textAnchor="end" fontSize="12" fill="#64748B">
@@ -926,7 +945,7 @@ function SalesPerformance() {
               x2={chartWidth - padding.right}
               y2={chartHeight - padding.bottom}
               stroke="#BFA7CE"
-              strokeWidth="1.5"
+              strokeWidth="1.25"
             />
             <line
               x1={padding.left}
@@ -934,7 +953,7 @@ function SalesPerformance() {
               x2={padding.left}
               y2={chartHeight - padding.bottom}
               stroke="#BFA7CE"
-              strokeWidth="1.5"
+              strokeWidth="1.25"
             />
 
             <polyline
@@ -943,43 +962,76 @@ function SalesPerformance() {
               stroke={APP_CONFIG.brandColor}
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth="4"
+              strokeWidth="2.75"
             />
 
             {points.map((point, index) => (
-              <g key={point.label}>
+              <g key={point.date}>
                 <circle
                   cx={point.x}
                   cy={point.y}
-                  r={point.label === peak.label ? 6 : 4}
-                  fill={point.label === peak.label ? "#4E176F" : APP_CONFIG.brandColor}
+                  r={point.date === activePoint.date ? 5.5 : 3.8}
+                  fill={point.date === activePoint.date ? "#4E176F" : APP_CONFIG.brandColor}
                   stroke="#FFFFFF"
                   strokeWidth="2"
                 />
-                {labelIndexes.has(index) ? (
-                  <text
-                    x={point.x}
-                    y={chartHeight - padding.bottom + 23}
-                    textAnchor="middle"
-                    fontSize="11"
-                    fill="#475569"
-                  >
-                    {point.label}
-                  </text>
-                ) : null}
+                <circle
+                  cx={point.x}
+                  cy={point.y}
+                  r="12"
+                  fill="transparent"
+                  className="cursor-pointer"
+                  tabIndex={0}
+                  aria-label={`${point.label}: ${point.value} ${
+                    point.value === 1 ? "venda" : "vendas"
+                  }`}
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onFocus={() => setHoveredIndex(index)}
+                  onBlur={() => setHoveredIndex(null)}
+                />
               </g>
             ))}
 
-            <g transform={`translate(${peak.x - 78} ${peak.y - 36})`}>
-              <rect width="156" height="28" rx="8" fill="#4E176F" />
-              <text x="78" y="18" textAnchor="middle" fontSize="12" fontWeight="700" fill="#FFFFFF">
-                Ago/25 · 43 vendas
+            {yearTicks.map((tick) => (
+              <g key={tick.year}>
+                <line
+                  x1={tick.x}
+                  y1={chartHeight - padding.bottom}
+                  x2={tick.x}
+                  y2={chartHeight - padding.bottom + 5}
+                  stroke="#BFA7CE"
+                  strokeWidth="1.25"
+                />
+                <text
+                  x={tick.x}
+                  y={chartHeight - padding.bottom + 23}
+                  textAnchor="middle"
+                  fontSize="12"
+                  fontWeight="700"
+                  fill="#475569"
+                >
+                  {tick.year}
+                </text>
+              </g>
+            ))}
+
+            <g transform={`translate(${tooltipX} ${tooltipY})`} pointerEvents="none">
+              <rect width={tooltipWidth} height="30" rx="8" fill="#4E176F" />
+              <text
+                x={tooltipWidth / 2}
+                y="19"
+                textAnchor="middle"
+                fontSize="12"
+                fontWeight="700"
+                fill="#FFFFFF"
+              >
+                {activeLabel}
               </text>
             </g>
           </svg>
         </div>
 
-        <aside className="grid content-start gap-3">
+        <div className="grid content-start gap-3">
           {salesHighlights.map((item) => (
             <div key={item.label} className="rounded-lg border border-slate-200 bg-white p-4 shadow-panel">
               <p className="text-xs font-bold uppercase text-slate-400">{item.label}</p>
@@ -993,7 +1045,7 @@ function SalesPerformance() {
               de investigar origem dos picos, cadência comercial e previsibilidade do perpétuo.
             </p>
           </div>
-        </aside>
+        </div>
       </div>
     </section>
   );
