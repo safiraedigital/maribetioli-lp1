@@ -384,6 +384,38 @@ const diagnosticRules = [
   }
 ];
 
+const salesByWhatsAppData = [
+  { label: "Jun/24", value: 1 },
+  { label: "Ago/24", value: 22 },
+  { label: "Set/24", value: 7 },
+  { label: "Out/24", value: 3 },
+  { label: "Nov/24", value: 2 },
+  { label: "Dez/24", value: 2 },
+  { label: "Jan/25", value: 5 },
+  { label: "Fev/25", value: 27 },
+  { label: "Mar/25", value: 11 },
+  { label: "Abr/25", value: 16 },
+  { label: "Mai/25", value: 13 },
+  { label: "Jun/25", value: 15 },
+  { label: "Jul/25", value: 23 },
+  { label: "Ago/25", value: 43 },
+  { label: "Set/25", value: 25 },
+  { label: "Out/25", value: 12 },
+  { label: "Nov/25", value: 32 },
+  { label: "Dez/25", value: 20 },
+  { label: "Jan/26", value: 28 },
+  { label: "Fev/26", value: 7 },
+  { label: "Mar/26", value: 7 },
+  { label: "Abr/26", value: 5 },
+  { label: "Mai/26", value: 7 }
+];
+
+const salesHighlights = [
+  { label: "Período", value: "Jun/24 a Mai/26" },
+  { label: "Vendas", value: "293 vendas" },
+  { label: "Pico absoluto", value: "Agosto de 2025 · 43 vendas" }
+];
+
 function normalizeStageData(stageData = {}, allowedSignals = []) {
   const normalized = fieldConfig.reduce((fields, field) => {
     fields[field.key] = typeof stageData[field.key] === "string" ? stageData[field.key] : "";
@@ -715,6 +747,141 @@ function StrategicSignals({ stage, selectedSignals, onChange }) {
             </label>
           );
         })}
+      </div>
+    </section>
+  );
+}
+
+function SalesPerformance() {
+  const chartWidth = 720;
+  const chartHeight = 260;
+  const padding = { top: 22, right: 22, bottom: 46, left: 42 };
+  const maxValue = 45;
+  const plotWidth = chartWidth - padding.left - padding.right;
+  const plotHeight = chartHeight - padding.top - padding.bottom;
+  const points = salesByWhatsAppData.map((item, index) => {
+    const x = padding.left + (index / (salesByWhatsAppData.length - 1)) * plotWidth;
+    const y = padding.top + (1 - item.value / maxValue) * plotHeight;
+
+    return { ...item, x, y };
+  });
+  const path = points.map((point) => `${point.x},${point.y}`).join(" ");
+  const peak = points.reduce((highest, point) => (point.value > highest.value ? point : highest), points[0]);
+  const labelIndexes = new Set([0, 4, 8, 12, 13, 16, 20, 22]);
+
+  return (
+    <section className="print-chart print-avoid-break rounded-lg border border-slate-200 bg-white p-5 shadow-panel">
+      <div className="flex flex-col gap-2 border-l-4 border-brand pl-4">
+        <p className="text-xs font-bold uppercase text-brand">Vendas por WhatsApp</p>
+        <h3 className="text-2xl font-semibold text-slate-950">Evolução mensal de vendas</h3>
+        <p className="max-w-3xl text-sm leading-7 text-slate-500">
+          Série informada após a chamada para apoiar a leitura de previsibilidade,
+          sazonalidade e oportunidades de conversão.
+        </p>
+      </div>
+
+      <div className="mt-5 grid gap-5 xl:grid-cols-[1.55fr_0.75fr]">
+        <div className="rounded-lg border border-brand/10 bg-brand-soft/45 p-4">
+          <svg
+            viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+            role="img"
+            aria-label="Gráfico de vendas mensais por WhatsApp"
+            className="h-auto w-full"
+          >
+            {[0, 10, 20, 30, 40].map((tick) => {
+              const y = padding.top + (1 - tick / maxValue) * plotHeight;
+
+              return (
+                <g key={tick}>
+                  <line
+                    x1={padding.left}
+                    y1={y}
+                    x2={chartWidth - padding.right}
+                    y2={y}
+                    stroke="#D9C2E6"
+                    strokeWidth="1"
+                  />
+                  <text x={padding.left - 12} y={y + 4} textAnchor="end" fontSize="12" fill="#64748B">
+                    {tick}
+                  </text>
+                </g>
+              );
+            })}
+
+            <line
+              x1={padding.left}
+              y1={chartHeight - padding.bottom}
+              x2={chartWidth - padding.right}
+              y2={chartHeight - padding.bottom}
+              stroke="#BFA7CE"
+              strokeWidth="1.5"
+            />
+            <line
+              x1={padding.left}
+              y1={padding.top}
+              x2={padding.left}
+              y2={chartHeight - padding.bottom}
+              stroke="#BFA7CE"
+              strokeWidth="1.5"
+            />
+
+            <polyline
+              fill="none"
+              points={path}
+              stroke={APP_CONFIG.brandColor}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="4"
+            />
+
+            {points.map((point, index) => (
+              <g key={point.label}>
+                <circle
+                  cx={point.x}
+                  cy={point.y}
+                  r={point.label === peak.label ? 6 : 4}
+                  fill={point.label === peak.label ? "#4E176F" : APP_CONFIG.brandColor}
+                  stroke="#FFFFFF"
+                  strokeWidth="2"
+                />
+                {labelIndexes.has(index) ? (
+                  <text
+                    x={point.x}
+                    y={chartHeight - padding.bottom + 23}
+                    textAnchor="middle"
+                    fontSize="11"
+                    fill="#475569"
+                  >
+                    {point.label}
+                  </text>
+                ) : null}
+              </g>
+            ))}
+
+            <g transform={`translate(${peak.x - 78} ${peak.y - 36})`}>
+              <rect width="156" height="28" rx="8" fill="#4E176F" />
+              <text x="78" y="18" textAnchor="middle" fontSize="12" fontWeight="700" fill="#FFFFFF">
+                Ago/25 · 43 vendas
+              </text>
+            </g>
+          </svg>
+        </div>
+
+        <aside className="grid content-start gap-3">
+          {salesHighlights.map((item) => (
+            <div key={item.label} className="rounded-lg border border-slate-200 bg-white p-4 shadow-panel">
+              <p className="text-xs font-bold uppercase text-slate-400">{item.label}</p>
+              <p className="mt-2 text-xl font-semibold leading-tight text-brand">{item.value}</p>
+            </div>
+          ))}
+          <div className="rounded-lg border border-brand/15 bg-brand-soft p-4">
+            <p className="text-xs font-bold uppercase text-brand">Leitura rápida</p>
+            <p className="mt-2 text-sm leading-7 text-brand-deep">
+              A série mostra picos pontuais fortes e queda no volume recente, sugerindo oportunidade
+              de investigar origem dos picos, cadência comercial e previsibilidade do perpétuo.
+            </p>
+          </div>
+        </aside>
       </div>
     </section>
   );
@@ -1260,6 +1427,8 @@ export default function App() {
                 <InsightList title="Perguntas de apoio" items={currentStage.supportQuestions} />
               </section>
 
+              {currentStage.id === "vendas" ? <SalesPerformance /> : null}
+
               <section className="grid gap-4">
                 <div className="flex flex-col gap-2 border-l-4 border-brand pl-4">
                   <p className="text-xs font-bold uppercase text-brand">Registro da conversa</p>
@@ -1364,6 +1533,8 @@ export default function App() {
                 onDelete={deleteSavedDiagnosis}
                 onDuplicate={duplicateSavedDiagnosis}
               />
+
+              <SalesPerformance />
 
               <section className="print-stack grid gap-4 lg:grid-cols-2">
                 {consolidated.map((section) => (

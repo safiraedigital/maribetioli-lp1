@@ -114,12 +114,14 @@ body {
 
   .print-card,
   .print-stage-card,
-  .print-entry {
+  .print-entry,
+  .print-chart {
     border-color: #e5e7eb !important;
   }
 
   .print-card,
-  .print-stage-card {
+  .print-stage-card,
+  .print-chart {
     margin-bottom: 8px !important;
     padding: 12px !important;
   }
@@ -130,7 +132,8 @@ body {
   }
 
   .print-heading-group,
-  .print-avoid-break {
+  .print-avoid-break,
+  .print-chart {
     break-inside: avoid;
     page-break-inside: avoid;
   }
