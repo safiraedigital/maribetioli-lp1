@@ -419,112 +419,6 @@ const salesHighlights = [
   { label: "Pico absoluto", value: "Agosto de 2025 · 43 vendas" }
 ];
 
-const PUBLISHED_DIAGNOSIS = {
-  estrutura: {
-    resposta:
-      "Ela está completamente sozinha.\nDesde a ideia de conteúdo até gravação, edição e ManyChat.",
-    observacoes:
-      "Uma pequena agência de marketing repassa algumas demandas.\nNão há traqueamento nas páginas.",
-    insights: "O projeto tem potencial, mas precisa de ajustes primeiro.",
-    hipoteses:
-      "Adicionar:\n- Quiz de pré-qualificação\n- Pesquisa pós-compra\n- Testar mais 1 versão da página de vendas\n- Avaliar as métricas da VSL na Vturb",
-    signals: [
-      "Operação centralizada na especialista",
-      "Ausência de time de marketing",
-      "Ausência de comercial estruturado",
-      "Baixa clareza de processos internos",
-      "Necessidade de organização operacional",
-      "Dependência de terceiros pontuais"
-    ]
-  },
-  vendas: {
-    resposta:
-      "Fluxo do ManyChat manda para o WhatsApp, onde há uma aula gratuita (VSL).\nPrecisa olhar na Hotmart, pois não tem isso planilhado.\nAs vendas acontecem de forma passiva.",
-    observacoes: "Vendia todo dia com a estrutura anterior.",
-    insights:
-      "Ela tem um bom alcance, mas não faz um trabalho de conversão no direct.\nAdicionar um braço de SS pode aumentar a conversão.",
-    hipoteses:
-      "- Adicionar um braço comercial para conversão e recuperação de vendas.\n- CS para aumentar o LTV",
-    signals: [
-      "Vendas 100% orgânicas",
-      "Baixa previsibilidade de vendas",
-      "Falta de clareza sobre origem das vendas",
-      "Ausência de acompanhamento mensal",
-      "Potencial de otimização da conversão",
-      "Conversão passiva pela página",
-      "Perpétuo rodando sem tráfego pago"
-    ]
-  },
-  base: {
-    resposta:
-      "Base continua em 2k alunas, mas não são todas do curso online; também conta com atendimentos presenciais.\nExiste acompanhamento após a compra em um grupo.",
-    observacoes:
-      "É perceptível a falta de clareza sobre as alunas e a falta de estrutura após a compra.",
-    insights:
-      "A gestação mexe muito com os hormônios femininos. Acredito que ir além da venda do primeiro produto e gerar uma comunidade forte pode ser um bom caminho para o projeto ganhar peso e aumentar o faturamento.",
-    hipoteses:
-      "- Identificar a janela de compra\n- Entender as dores por fase da gestação\n- Identificar o que cada perfil compraria após o curso principal.",
-    signals: [
-      "Base pouco segmentada",
-      "Potencial de ativação da base",
-      "Relacionamento pós-compra informal",
-      "Potencial de comunidade",
-      "Possível janela de compra curta"
-    ]
-  },
-  pesquisa: {
-    resposta: "Não existe pesquisa.",
-    observacoes:
-      'Ela apresentou baixa consciência sobre os próprios dados. Ela sabe o macro, "compram porque estão grávidas e têm urgência", mas não sabe dizer com mais detalhes:\n- Perfil das compradoras\n- Motivos de compra\n- Jornada da gestação\n- Principais preocupações\n- Classe social predominante',
-    insights:
-      "Desenvolver uma pesquisa para identificar:\n- contexto da compra;\n- nível de comprometimento;\n- perfil da gestação;\n- momento de vida;\n- capacidade de investimento relacionada ao parto.\n\nExemplos de perguntas:\n1. Sobre o parto: onde você pretende ter seu bebê?\na) SUS\nb) Convênio\nc) Particular\n\n2. Sobre a equipe: você pretende contratar equipe particular para acompanhamento do parto?\na) Sim\nb) Não\nc) Ainda não sei\n\n3. Sobre os investimentos na gestação: qual dessas situações mais se aproxima da sua realidade?\na) Estou tentando economizar ao máximo durante a gestação.\nb) Invisto apenas no que considero essencial.\nc) Estou investindo em profissionais e serviços que me tragam mais segurança.\nd) Estou montando toda a experiência do parto de acordo com minhas preferências.\n\n4. O que levou você a comprar agora?\na) Medo de sofrer violência obstétrica\nb) Medo da dor\nc) Desejo de ter um parto normal\nd) Falta de informação\ne) Recomendação de outra mãe\nf) Conteúdo da Mari\ng) Outro\n\n5. O que quase impediu sua compra?\n\n6. Em qual momento da gestação você comprou?\na) Tentando engravidar\nb) 1º trimestre\nc) 2º trimestre\nd) 3º trimestre\ne) Próxima da DPP",
-    hipoteses:
-      "Validar o perfil econômico de forma indireta através do contexto do parto, equipe escolhida e investimentos realizados durante a gestação, evitando perguntas explícitas sobre renda.",
-    signals: [
-      "Ausência de pesquisa pós-compra",
-      "Baixa clareza sobre ICP real",
-      "Motivos de compra pouco registrados",
-      "Objeções ainda pouco mapeadas",
-      "Potencial de segmentação por trimestre",
-      "Potencial de novos produtos a partir da jornada",
-      "Forte dor emocional no processo de compra"
-    ]
-  },
-  produtos: {
-    resposta: "Curso de amamentação já está escrito.",
-    observacoes:
-      "Ela relatou que tem um produto escrito, mas que não faz sentido gravar e lançar antes de ajustar o funil principal.",
-    insights:
-      "Adicionar um funil de quiz para levar para ofertas distintas, de acordo com o perfil do lead.",
-    hipoteses:
-      "Implementar um quiz para identificar o momento da gestante.\n\nExemplo:\n0 a 3 meses -> caminho 1: O Poder do Parto + O.D 01 + Upsell 01\n4 a 6 meses -> caminho 2: O Poder do Parto + O.D 02 + Upsell 02\n7 a 9 meses -> caminho 3: O Poder do Parto + O.D 03 + Upsell 03\n\nPois dependendo da fase da gestação, as dores e objeções são diferentes.",
-    signals: [
-      "Produto em desenvolvimento",
-      "Oportunidade de produto pós-parto",
-      "Oportunidade de produto complementar",
-      "Oportunidade de produto de amamentação",
-      "Oportunidade de assessoria ou acompanhamento"
-    ]
-  },
-  prioridades: {
-    resposta:
-      "Ajustar o funil perpétuo e adicionar produtos conforme as vendas vão acontecendo.\nEla disse que vendia bem até mudar a estrutura do perpétuo.",
-    observacoes:
-      "Ela entende que o funil está mal estruturado, não tem clareza sobre as métricas e identificou uma queda nas vendas depois das mudanças realizadas.",
-    insights:
-      "Primeiro ajustar o que já está rodando e aos poucos adicionar mais produtos para aumentar o ticket médio.",
-    hipoteses:
-      "Falta metrificar os dados de tráfego, conversão etc.\nA estrutura está bem incompleta, então não dá para saber com precisão o maior gargalo. Teremos que arrumar a casa primeiro e começar a coletar dados para depois pensar em escala.",
-    signals: [
-      "Prioridade em organizar operação",
-      "Prioridade em aumentar vendas",
-      "Prioridade em melhorar conversão",
-      "Prioridade em entender dados",
-      "Prioridade em criar previsibilidade"
-    ]
-  }
-};
-
 function normalizeStageData(stageData = {}, allowedSignals = []) {
   const normalized = fieldConfig.reduce((fields, field) => {
     fields[field.key] = typeof stageData[field.key] === "string" ? stageData[field.key] : "";
@@ -649,30 +543,16 @@ function createSavedDiagnosis(data, overrides = {}) {
   };
 }
 
-function createPublishedDiagnosis() {
-  return createSavedDiagnosis(PUBLISHED_DIAGNOSIS, {
-    id: PUBLISHED_DIAGNOSIS_ID,
-    name: "Diagnóstico Mari Betioli — 01/06/2026 13:33",
-    savedAt: PUBLISHED_DIAGNOSIS_SAVED_AT,
-    updatedAt: PUBLISHED_DIAGNOSIS_SAVED_AT
-  });
-}
-
 function loadSavedDiagnoses() {
   const saved = safeReadJson(SAVED_DIAGNOSES_KEY, null);
   const previousSaved = safeReadJson(PREVIOUS_SAVED_DIAGNOSES_KEY, []);
   const source = Array.isArray(saved) ? saved : previousSaved;
 
   if (!Array.isArray(source)) {
-    if (safeReadJson(PUBLISHED_DIAGNOSIS_SEED_KEY, false)) {
-      return [];
-    }
-
-    window.localStorage.setItem(PUBLISHED_DIAGNOSIS_SEED_KEY, "true");
-    return [createPublishedDiagnosis()];
+    return [];
   }
 
-  const normalizedDiagnoses = source
+  return source
     .filter((diagnosis) => diagnosis?.data)
     .map((diagnosis) =>
       createSavedDiagnosis(diagnosis.data, {
@@ -683,26 +563,6 @@ function loadSavedDiagnoses() {
       })
     )
     .sort((first, second) => new Date(second.savedAt) - new Date(first.savedAt));
-  const shouldSeedPublishedDiagnosis = !safeReadJson(PUBLISHED_DIAGNOSIS_SEED_KEY, false);
-  const publishedDiagnosis = createPublishedDiagnosis();
-  const publishedSnapshot = snapshotDiagnosis(publishedDiagnosis.data);
-  const hasPublishedDiagnosis = normalizedDiagnoses.some(
-    (diagnosis) =>
-      diagnosis.id === PUBLISHED_DIAGNOSIS_ID ||
-      snapshotDiagnosis(diagnosis.data) === publishedSnapshot
-  );
-
-  if (shouldSeedPublishedDiagnosis) {
-    window.localStorage.setItem(PUBLISHED_DIAGNOSIS_SEED_KEY, "true");
-  }
-
-  if (shouldSeedPublishedDiagnosis && !hasPublishedDiagnosis) {
-    return [publishedDiagnosis, ...normalizedDiagnoses].sort(
-      (first, second) => new Date(second.savedAt) - new Date(first.savedAt)
-    );
-  }
-
-  return normalizedDiagnoses;
 }
 
 function getFilledFields(stageData) {
@@ -1307,12 +1167,111 @@ function EmptySummaryState({ savedCount }) {
   );
 }
 
+function LoginScreen({ status, message, onLogin }) {
+  const [password, setPassword] = useState("");
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    onLogin(password);
+  }
+
+  return (
+    <main className="grid min-h-screen place-items-center bg-slate-100 px-4 py-8 text-slate-900">
+      <section className="w-full max-w-md rounded-lg border border-slate-200 bg-white p-6 shadow-panel">
+        <div className="border-b border-slate-100 pb-5">
+          <p className="text-xs font-bold uppercase text-brand">Acesso protegido</p>
+          <img
+            src={mariProfileLockup}
+            alt={`${APP_CONFIG.expertName} - ${APP_CONFIG.projectName}`}
+            className="mt-3 w-full rounded-lg object-contain"
+          />
+          <h1 className="mt-5 text-2xl font-semibold text-slate-950">
+            Diagnóstico estratégico
+          </h1>
+          <p className="mt-2 text-sm leading-6 text-slate-500">
+            Digite a senha de acesso para visualizar o diagnóstico e o histórico salvo.
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="mt-5 grid gap-4">
+          <label>
+            <span className="text-xs font-bold uppercase text-slate-500">Senha</span>
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              autoComplete="current-password"
+              className="mt-2 w-full rounded-md border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 outline-none transition focus:border-brand focus:ring-4 focus:ring-brand/15"
+              placeholder="Digite a senha"
+            />
+          </label>
+
+          {message ? (
+            <p className="rounded-md border border-brand/15 bg-brand-soft px-4 py-3 text-sm leading-6 text-brand-deep">
+              {message}
+            </p>
+          ) : null}
+
+          <button
+            type="submit"
+            disabled={status === "checking"}
+            className="rounded-md bg-brand px-4 py-3 text-sm font-bold text-white shadow-brand transition hover:bg-brand-deep disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {status === "checking" ? "Verificando..." : "Entrar"}
+          </button>
+        </form>
+      </section>
+    </main>
+  );
+}
+
 export default function App() {
+  const [authStatus, setAuthStatus] = useState("checking");
+  const [authMessage, setAuthMessage] = useState("");
   const [activeStage, setActiveStage] = useState(getStageFromHash);
   const [data, setData] = useState(loadCurrentDiagnosis);
   const [savedDiagnoses, setSavedDiagnoses] = useState(loadSavedDiagnoses);
   const [lastSavedSnapshot, setLastSavedSnapshot] = useState("");
   const [saveState, setSaveState] = useState("Salvo localmente");
+
+  useEffect(() => {
+    let active = true;
+
+    async function checkSession() {
+      try {
+        const response = await fetch("/api/session", { credentials: "include" });
+        const result = await response.json();
+
+        if (!active) {
+          return;
+        }
+
+        if (result.authenticated) {
+          setAuthStatus("authenticated");
+          setAuthMessage("");
+          return;
+        }
+
+        setAuthStatus("unauthenticated");
+        setAuthMessage(
+          result.configured
+            ? ""
+            : "A senha ainda não foi configurada na Vercel. Configure ACCESS_PASSWORD nas variáveis de ambiente."
+        );
+      } catch {
+        if (active) {
+          setAuthStatus("unauthenticated");
+          setAuthMessage("Não foi possível verificar a sessão. Tente novamente em instantes.");
+        }
+      }
+    }
+
+    checkSession();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -1330,6 +1289,65 @@ export default function App() {
   useEffect(() => {
     window.localStorage.setItem(SAVED_DIAGNOSES_KEY, JSON.stringify(savedDiagnoses));
   }, [savedDiagnoses]);
+
+  useEffect(() => {
+    if (authStatus !== "authenticated" || safeReadJson(PUBLISHED_DIAGNOSIS_SEED_KEY, false)) {
+      return;
+    }
+
+    let active = true;
+
+    async function seedPublishedDiagnosis() {
+      try {
+        const response = await fetch("/api/published-diagnosis", { credentials: "include" });
+
+        if (!response.ok) {
+          return;
+        }
+
+        const result = await response.json();
+        const diagnosis = result.diagnosis;
+
+        if (!active || !diagnosis?.data) {
+          return;
+        }
+
+        const publishedDiagnosis = createSavedDiagnosis(diagnosis.data, {
+          id: diagnosis.id || PUBLISHED_DIAGNOSIS_ID,
+          name: diagnosis.name || "Diagnóstico Mari Betioli — 01/06/2026 13:33",
+          savedAt: diagnosis.savedAt || PUBLISHED_DIAGNOSIS_SAVED_AT,
+          updatedAt: diagnosis.updatedAt || diagnosis.savedAt || PUBLISHED_DIAGNOSIS_SAVED_AT
+        });
+        const publishedSnapshot = snapshotDiagnosis(publishedDiagnosis.data);
+
+        setSavedDiagnoses((current) => {
+          const alreadySaved = current.some(
+            (item) =>
+              item.id === publishedDiagnosis.id ||
+              snapshotDiagnosis(item.data) === publishedSnapshot
+          );
+
+          window.localStorage.setItem(PUBLISHED_DIAGNOSIS_SEED_KEY, "true");
+
+          if (alreadySaved) {
+            return current;
+          }
+
+          return [publishedDiagnosis, ...current].sort(
+            (first, second) => new Date(second.savedAt) - new Date(first.savedAt)
+          );
+        });
+      } catch {
+        setSaveState("Histórico protegido indisponível");
+      }
+    }
+
+    seedPublishedDiagnosis();
+
+    return () => {
+      active = false;
+    };
+  }, [authStatus]);
 
   useEffect(() => {
     const handleHashChange = () => setActiveStage(getStageFromHash());
@@ -1365,6 +1383,47 @@ export default function App() {
   function navigateTo(stageId) {
     window.location.hash = stageId;
     setActiveStage(stageId);
+  }
+
+  async function login(password) {
+    setAuthStatus("checking");
+    setAuthMessage("");
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ password })
+      });
+      const result = await response.json();
+
+      if (!response.ok) {
+        setAuthStatus("unauthenticated");
+        setAuthMessage(result.message || "Não foi possível entrar.");
+        return;
+      }
+
+      setAuthStatus("authenticated");
+      setAuthMessage("");
+    } catch {
+      setAuthStatus("unauthenticated");
+      setAuthMessage("Não foi possível conectar ao servidor de login.");
+    }
+  }
+
+  async function logout() {
+    try {
+      await fetch("/api/logout", {
+        method: "POST",
+        credentials: "include"
+      });
+    } finally {
+      setAuthStatus("unauthenticated");
+      setAuthMessage("");
+    }
   }
 
   function updateField(fieldKey, value) {
@@ -1515,6 +1574,10 @@ export default function App() {
     window.print();
   }
 
+  if (authStatus !== "authenticated") {
+    return <LoginScreen status={authStatus} message={authMessage} onLogin={login} />;
+  }
+
   return (
     <main className="min-h-screen bg-slate-100 text-slate-900">
       <aside className="fixed inset-y-0 left-0 z-20 hidden w-80 overflow-y-auto border-r border-slate-200 bg-white px-5 py-6 shadow-sidebar lg:block">
@@ -1603,6 +1666,13 @@ export default function App() {
             >
               Resetar preenchimento
             </button>
+            <button
+              type="button"
+              onClick={logout}
+              className="rounded-md border border-brand/20 bg-white px-3 py-2 text-sm font-bold text-brand hover:bg-brand-soft"
+            >
+              Sair
+            </button>
           </div>
         </section>
       </aside>
@@ -1616,6 +1686,13 @@ export default function App() {
                   {isSummary ? "Etapa final" : `Etapa ${currentStage.number}`}
                 </span>
                 <span className="text-xs font-semibold text-slate-500">{saveState}</span>
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="rounded-full border border-brand/20 bg-white px-3 py-1 text-xs font-bold text-brand hover:bg-brand-soft"
+                >
+                  Sair
+                </button>
               </div>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 md:text-3xl">
                 {isSummary ? "Resumo e Diagnóstico" : currentStage.title}
