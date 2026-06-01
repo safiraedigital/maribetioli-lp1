@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #111827;
+  background: #f1f5f9;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background: #f1f5f9;
+}
+
+::selection {
+  background: rgba(112, 34, 153, 0.18);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+@media print {
+  @page {
+    margin: 14mm;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  aside,
+  header,
+  button,
+  .no-print {
+    display: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  main,
+  main *,
+  section,
+  article {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  .lg\:pl-80 {
+    padding-left: 0 !important;
+  }
+
+  .max-w-7xl {
+    max-width: none !important;
+  }
+
+  .px-4,
+  .md\:px-7 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .py-6,
+  .md\:py-8 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .print-stack {
+    display: block !important;
+  }
+
+  .print-stack > * + * {
+    margin-top: 10px !important;
+  }
+
+  .print-card,
+  .print-stage-card,
+  .print-entry {
+    border-color: #e5e7eb !important;
+  }
+
+  .print-card,
+  .print-stage-card {
+    margin-bottom: 10px !important;
+    padding: 12px !important;
+  }
+
+  .print-entry {
+    margin-top: 8px !important;
+    padding: 10px !important;
+  }
+
+  .print-avoid-break,
+  .print-entry {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-stage-card {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  h2,
+  h3,
+  h4,
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+}
