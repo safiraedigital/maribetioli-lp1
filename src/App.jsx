@@ -1038,14 +1038,15 @@ function SalesPerformance() {
               <p className="mt-2 text-xl font-semibold leading-tight text-brand">{item.value}</p>
             </div>
           ))}
-          <div className="rounded-lg border border-brand/15 bg-brand-soft p-4">
-            <p className="text-xs font-bold uppercase text-brand">Leitura rápida</p>
-            <p className="mt-2 text-sm leading-7 text-brand-deep">
-              A série mostra picos pontuais fortes e queda no volume recente, sugerindo oportunidade
-              de investigar origem dos picos, cadência comercial e previsibilidade do perpétuo.
-            </p>
-          </div>
         </div>
+      </div>
+
+      <div className="mt-4 rounded-lg border border-brand/15 bg-brand-soft p-4">
+        <p className="text-xs font-bold uppercase text-brand">Leitura rápida</p>
+        <p className="mt-2 text-sm leading-7 text-brand-deep">
+          A série mostra picos pontuais fortes e queda no volume recente, sugerindo oportunidade
+          de investigar origem dos picos, cadência comercial e previsibilidade do perpétuo.
+        </p>
       </div>
     </section>
   );
