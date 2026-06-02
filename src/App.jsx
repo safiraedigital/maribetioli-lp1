@@ -3,7 +3,7 @@ import mariProfileLockup from "../Mari Betioli perfil.png";
 
 const APP_CONFIG = {
   expertName: "Mari Betioli",
-  projectName: "Poder do Parto",
+  projectName: "O Poder do Parto",
   brandColor: "#702299"
 };
 
@@ -693,6 +693,7 @@ function getProposalOpportunities(data) {
 }
 
 function buildProposalFields(data, previous = {}) {
+  const normalizedPrevious = normalizeProposalFields(previous);
   const opportunities = getProposalOpportunities(data);
   const formattedOpportunities = opportunities.map((item) => item.toLowerCase());
 
@@ -712,15 +713,32 @@ A partir da leitura estratégica realizada, enxergamos um caminho de parceria vo
       "Evoluir os mecanismos de aquisição e conversão por meio de Conteúdo Guiado, processos de relacionamento e Social Selling mediante aprovação da especialista.",
     expansion:
       "Aprofundar a compreensão da base de alunas, identificar oportunidades ao longo da jornada e desenvolver novas ofertas com potencial de expansão de LTV.",
-    specialistPercentage: previous.specialistPercentage || "",
-    partnershipPercentage: previous.partnershipPercentage || "",
+    specialistPercentage: normalizedPrevious.specialistPercentage || "",
+    partnershipPercentage: normalizedPrevious.partnershipPercentage || "",
     responsibilities:
-      previous.responsibilities ||
-      "Safira & Digital: estratégia, estruturação, acompanhamento comercial, organização dos ativos digitais, leitura de dados e condução das frentes de crescimento.\n\nEspecialista: validação estratégica, aprovação de diretrizes, participação em decisões-chave, produção de conteúdos sensíveis à autoridade técnica e disponibilidade para alinhamentos definidos entre as partes.",
-    observations: previous.observations || "",
+      normalizedPrevious.responsibilities ||
+      "Amanda & Robson: estratégia, estruturação, acompanhamento comercial, organização dos ativos digitais, leitura de dados e condução das frentes de crescimento.\n\nMari Betioli: validação estratégica, aprovação de diretrizes, participação em decisões-chave, produção de conteúdos sensíveis à autoridade técnica e disponibilidade para alinhamentos definidos entre as partes.",
+    observations: normalizedPrevious.observations || "",
     conditions:
-      previous.conditions ||
+      normalizedPrevious.conditions ||
       "Os percentuais finais, responsabilidades específicas, investimentos e condições operacionais serão formalizados após alinhamento entre as partes."
+  };
+}
+
+function normalizeProposalFields(proposal) {
+  if (!proposal) {
+    return null;
+  }
+
+  return {
+    ...proposal,
+    vision: (proposal.vision || "").replaceAll(
+      "projeto Poder do Parto",
+      `projeto ${APP_CONFIG.projectName}`
+    ),
+    responsibilities: (proposal.responsibilities || "")
+      .replaceAll("Safira & Digital:", "Amanda & Robson:")
+      .replaceAll("Especialista:", "Mari Betioli:")
   };
 }
 
@@ -1415,6 +1433,37 @@ function ProposalPage({ number, eyebrow, title, children, cover = false }) {
   );
 }
 
+function ProposalResponsibilities({ value }) {
+  const lines = (value || "A definir.").split("\n");
+
+  return (
+    <div className="mt-4 grid gap-3 whitespace-pre-wrap text-lg leading-9 text-slate-700">
+      {lines.map((line, index) => {
+        const trimmedLine = line.trim();
+
+        if (!trimmedLine) {
+          return <span key={`space-${index}`} className="h-1" />;
+        }
+
+        const label = ["Amanda & Robson:", "Mari Betioli:"].find((prefix) =>
+          trimmedLine.startsWith(prefix)
+        );
+
+        if (!label) {
+          return <p key={`${trimmedLine}-${index}`}>{line}</p>;
+        }
+
+        return (
+          <p key={`${trimmedLine}-${index}`}>
+            <strong className="font-semibold text-slate-950">{label}</strong>
+            {trimmedLine.slice(label.length)}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
 function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, onGenerate, onExport }) {
   const updateProposal = (key, value) => onProposalChange({ ...proposal, [key]: value });
   const proposalDate = formatDateTime().split(" ")[0];
@@ -1542,7 +1591,7 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
             <ProposalPage number="01" eyebrow={`Data: ${proposalDate}`} title="Proposta de Parceria" cover>
               <div className="max-w-4xl border-t-2 border-brand/60 pt-6">
                 <p className="text-3xl italic leading-tight text-slate-900 md:text-4xl">
-                  {APP_CONFIG.projectName} & Safira Digital
+                  Mariana Betioli - {APP_CONFIG.projectName}
                 </p>
                 <div className="mt-12 grid gap-4 text-lg text-slate-600 md:grid-cols-2">
                   <p>
@@ -1654,9 +1703,7 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
                     Responsabilidades
                   </p>
-                  <p className="mt-4 whitespace-pre-wrap text-base leading-8 text-slate-700">
-                    {proposal.responsibilities || "A definir."}
-                  </p>
+                  <ProposalResponsibilities value={proposal.responsibilities} />
                 </section>
                 <section className="border-t border-slate-300 pt-5">
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
@@ -1748,7 +1795,9 @@ export default function App() {
   const [data, setData] = useState(loadCurrentDiagnosis);
   const [savedDiagnoses, setSavedDiagnoses] = useState(loadSavedDiagnoses);
   const [proposal, setProposal] = useState(
-    () => safeReadJson(PROPOSAL_STORAGE_KEY, null) || buildProposalFields(loadCurrentDiagnosis())
+    () =>
+      normalizeProposalFields(safeReadJson(PROPOSAL_STORAGE_KEY, null)) ||
+      buildProposalFields(loadCurrentDiagnosis())
   );
   const [lastSavedSnapshot, setLastSavedSnapshot] = useState("");
   const [saveState, setSaveState] = useState("Salvo localmente");
