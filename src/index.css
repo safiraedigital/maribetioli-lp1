@@ -159,6 +159,53 @@ body {
     page-break-inside: auto;
   }
 
+  .print-mode-diagnosis .proposal-module {
+    display: none !important;
+  }
+
+  .print-mode-proposal .diagnostic-summary-content {
+    display: none !important;
+  }
+
+  .print-mode-proposal .proposal-module {
+    border: 0 !important;
+    padding: 0 !important;
+  }
+
+  .print-mode-proposal .proposal-document {
+    display: block !important;
+  }
+
+  .print-mode-proposal .proposal-page {
+    break-after: page;
+    page-break-after: always;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border-color: #e5e7eb !important;
+    margin-bottom: 0 !important;
+    min-height: auto !important;
+    padding: 18px !important;
+  }
+
+  .print-mode-proposal .proposal-page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .print-mode-proposal .proposal-timeline-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-mode-proposal .proposal-edit-field {
+    display: none !important;
+  }
+
+  .print-mode-proposal .proposal-print-value,
+  .print-mode-proposal .proposal-print-note {
+    display: block !important;
+  }
+
   h2,
   h3,
   h4,

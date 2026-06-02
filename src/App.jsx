@@ -12,6 +12,7 @@ const PREVIOUS_CURRENT_DIAGNOSIS_KEY = "mari-betioli-current-diagnosis-v2";
 const PREVIOUS_SAVED_DIAGNOSES_KEY = "mari-betioli-saved-diagnoses-v2";
 const CURRENT_DIAGNOSIS_KEY = "currentDiagnosis";
 const SAVED_DIAGNOSES_KEY = "savedDiagnoses";
+const PROPOSAL_STORAGE_KEY = "proposalCommercialConfig";
 const STORAGE_MIGRATION_KEY = "mari-betioli-storage-migration-v3";
 const PUBLISHED_DIAGNOSIS_SEED_KEY = "mari-betioli-published-diagnosis-seeded-v1";
 const PUBLISHED_DIAGNOSIS_ID = "published-mari-betioli-2026-06-01-1333";
@@ -419,6 +420,156 @@ const salesHighlights = [
   { label: "Pico absoluto", value: "Agosto de 2025 · 43 vendas" }
 ];
 
+const proposalWorkBlocks = [
+  {
+    key: "strategy",
+    title: "Estratégia",
+    items: [
+      "Direcionamentos de ajustes",
+      "Arquitetura de crescimento",
+      "Priorização de ações",
+      "Refinamento de ofertas e funis",
+      "Planejamento comercial"
+    ]
+  },
+  {
+    key: "structure",
+    title: "Estrutura",
+    items: [
+      "CRM",
+      "Tracking",
+      "Automações",
+      "Organização dos ativos digitais"
+    ]
+  },
+  {
+    key: "acquisition",
+    title: "Aquisição e conversão",
+    items: [
+      "Implementação do Conteúdo Guiado",
+      "Social Selling, mediante aprovação da especialista",
+      "Processos de relacionamento",
+      "Evolução dos mecanismos de conversão"
+    ]
+  },
+  {
+    key: "expansion",
+    title: "LTV e expansão",
+    items: [
+      "Pesquisa com compradoras",
+      "Ascensão de novos produtos",
+      "Desenvolvimento de novas ofertas",
+      "Estratégias de retenção e recorrência"
+    ]
+  }
+];
+
+const proposalTimeline = [
+  {
+    phase: "Fase 01",
+    title: "Ambientação e imersão",
+    objective: "Compreender profundamente a operação atual.",
+    deliveries: [
+      "Acessos",
+      "Levantamento de ativos",
+      "Imersão no negócio",
+      "Organização inicial das informações"
+    ],
+    deadline: "7 a 10 dias"
+  },
+  {
+    phase: "Fase 02",
+    title: "Estruturação e mapeamento",
+    objective: "Construir a base necessária para tomada de decisão.",
+    deliveries: [
+      "Tracking",
+      "CRM",
+      "Fluxos",
+      "Estrutura de dados",
+      "Pesquisa com compradoras",
+      "ICP",
+      "Jornada de compra",
+      "Mapeamento de objeções"
+    ],
+    deadline: "15 a 30 dias"
+  },
+  {
+    phase: "Fase 03",
+    title: "Otimização",
+    objective: "Melhorar eficiência e conversão dos ativos existentes.",
+    deliveries: [
+      "Ajustes de oferta",
+      "Ajustes de perpétuo",
+      "Refinamento dos processos de conversão",
+      "Conteúdo Guiado",
+      "Relacionamento"
+    ],
+    deadline: "30 a 60 dias"
+  },
+  {
+    phase: "Fase 04",
+    title: "Análise de dados e escala",
+    objective: "Tomar decisões baseadas em dados e expandir o que funciona.",
+    deliveries: [
+      "Análise de resultados",
+      "Novas oportunidades",
+      "Evolução da esteira",
+      "Escala dos canais validados"
+    ],
+    deadline: "Contínuo"
+  }
+];
+
+const signalProposalLanguage = {
+  "Operação centralizada na especialista": "evolução da governança operacional",
+  "Ausência de time de marketing": "estruturação de apoio estratégico de marketing",
+  "Ausência de comercial estruturado": "evolução dos processos de conversão",
+  "Dependência de terceiros pontuais": "organização dos papéis e fluxos de execução",
+  "Baixa clareza de processos internos": "clareza de processos e rituais de acompanhamento",
+  "Necessidade de organização operacional": "estruturação da rotina operacional",
+  "Vendas 100% orgânicas": "fortalecimento dos canais orgânicos já validados",
+  "Baixa previsibilidade de vendas": "construção de previsibilidade comercial",
+  "Conversão depende de interação direta": "evolução dos processos de relacionamento e conversão",
+  "Conversão passiva pela página": "otimização dos ativos de conversão existentes",
+  "Ausência de acompanhamento mensal": "estruturação da camada de indicadores e acompanhamento",
+  "Falta de clareza sobre origem das vendas": "estruturação da camada de dados comerciais",
+  "Perpétuo rodando sem tráfego pago": "ampliação gradual dos canais de aquisição validados",
+  "Potencial de otimização da conversão": "refinamento dos mecanismos de conversão",
+  "Base de alunas relevante": "ativação estratégica da base de alunas",
+  "Base pouco segmentada": "segmentação da base por perfil, momento e intenção",
+  "Relacionamento pós-compra inexistente": "construção de relacionamento pós-compra",
+  "Relacionamento pós-compra informal": "evolução do relacionamento pós-compra",
+  "Potencial de ativação da base": "reativação e nutrição da base atual",
+  "Potencial de pesquisa com alunas": "pesquisa com compradoras e alunas",
+  "Possível janela de compra curta": "comunicação alinhada ao momento da jornada",
+  "Potencial de comunidade": "fortalecimento de comunidade e pertencimento",
+  "Ausência de pesquisa pós-compra": "implantação de pesquisa pós-compra",
+  "Baixa clareza sobre ICP real": "aprofundamento do perfil das compradoras",
+  "Compra concentrada em fase específica da gestação": "segmentação por etapa da gestação",
+  "Objeções ainda pouco mapeadas": "mapeamento consultivo de objeções",
+  "Motivos de compra pouco registrados": "organização dos motivos de compra",
+  "Forte dor emocional no processo de compra": "comunicação sensível aos motivadores emocionais",
+  "Forte influência do estágio da gestação": "jornada de comunicação por fase da gestação",
+  "Potencial de segmentação por trimestre": "segmentação por trimestre gestacional",
+  "Potencial de novos produtos a partir da jornada": "desenvolvimento de novas oportunidades de oferta",
+  "Produtos futuros ainda não priorizados": "priorização de esteira de produtos",
+  "Produto em desenvolvimento": "organização da próxima oferta",
+  "Demanda recorrente por novos temas": "desenvolvimento de ofertas a partir de demanda validada",
+  "Oportunidade de produto complementar": "expansão de produto complementar",
+  "Oportunidade de produto pós-parto": "expansão para a jornada pós-parto",
+  "Oportunidade de produto de amamentação": "estruturação de oferta sobre amamentação",
+  "Oportunidade de formação profissional": "avaliação de oferta para profissionais",
+  "Oportunidade de assessoria ou acompanhamento": "avaliação de acompanhamento ou assessoria",
+  "Prioridade em organizar operação": "estruturação operacional",
+  "Prioridade em aumentar vendas": "crescimento comercial",
+  "Prioridade em entender dados": "decisões orientadas por dados",
+  "Prioridade em estruturar conteúdo": "organização estratégica de conteúdo",
+  "Prioridade em validar novos produtos": "validação de novas ofertas",
+  "Prioridade em melhorar conversão": "otimização de conversão",
+  "Prioridade em criar previsibilidade": "previsibilidade de receita",
+  "Prioridade em retomar crescimento": "retomada de crescimento sustentável"
+};
+
 function normalizeStageData(stageData = {}, allowedSignals = []) {
   const normalized = fieldConfig.reduce((fields, field) => {
     fields[field.key] = typeof stageData[field.key] === "string" ? stageData[field.key] : "";
@@ -521,6 +672,56 @@ function hasDiagnosisData(data) {
     const hasSignals = Array.isArray(stageData.signals) && stageData.signals.length > 0;
     return hasText || hasSignals;
   });
+}
+
+function getProposalOpportunities(data) {
+  const mappedSignals = getSelectedSignals(data)
+    .map(({ signal }) => signalProposalLanguage[signal])
+    .filter(Boolean);
+  const uniqueSignals = Array.from(new Set(mappedSignals));
+
+  if (uniqueSignals.length) {
+    return uniqueSignals.slice(0, 8);
+  }
+
+  return [
+    "estruturação da camada comercial",
+    "organização dos ativos digitais",
+    "evolução dos processos de relacionamento",
+    "desenvolvimento de novas oportunidades de monetização"
+  ];
+}
+
+function buildProposalFields(data, previous = {}) {
+  const opportunities = getProposalOpportunities(data);
+  const formattedOpportunities = opportunities.map((item) => item.toLowerCase());
+
+  const visionText = `Acreditamos que o projeto ${APP_CONFIG.projectName} possui potencial para crescimento sustentável por meio da evolução da estrutura comercial, dos processos de relacionamento e da construção de novas oportunidades de monetização ao longo da jornada das alunas.
+
+A partir da leitura estratégica realizada, enxergamos um caminho de parceria voltado para ${formattedOpportunities
+    .slice(0, 4)
+    .join(", ")}. A proposta é organizar as próximas etapas com clareza, priorização e acompanhamento, preservando a autoridade da especialista e ampliando a capacidade de crescimento do projeto.`;
+
+  return {
+    vision: visionText,
+    strategy:
+      "Construir uma arquitetura de crescimento com prioridades claras, refinamento dos ativos comerciais e organização das decisões estratégicas do projeto.",
+    structure:
+      "Estruturar a base operacional necessária para acompanhamento, leitura de dados, automações, CRM e organização dos principais ativos digitais.",
+    acquisition:
+      "Evoluir os mecanismos de aquisição e conversão por meio de Conteúdo Guiado, processos de relacionamento e Social Selling mediante aprovação da especialista.",
+    expansion:
+      "Aprofundar a compreensão da base de alunas, identificar oportunidades ao longo da jornada e desenvolver novas ofertas com potencial de expansão de LTV.",
+    specialistPercentage: previous.specialistPercentage || "",
+    partnershipPercentage: previous.partnershipPercentage || "",
+    responsibilities:
+      previous.responsibilities ||
+      "Safira & Digital: estratégia, estruturação, acompanhamento comercial, organização dos ativos digitais, leitura de dados e condução das frentes de crescimento.\n\nEspecialista: validação estratégica, aprovação de diretrizes, participação em decisões-chave, produção de conteúdos sensíveis à autoridade técnica e disponibilidade para alinhamentos definidos entre as partes.",
+    observations: previous.observations || "",
+    conditions:
+      previous.conditions ||
+      "Os percentuais finais, responsabilidades específicas, investimentos e condições operacionais serão formalizados após alinhamento entre as partes."
+  };
 }
 
 function getStageFromHash() {
@@ -1167,6 +1368,226 @@ function EmptySummaryState({ savedCount }) {
   );
 }
 
+function ProposalTextarea({ label, value, onChange, rows = 5 }) {
+  return (
+    <label className="block">
+      <span className="text-xs font-bold uppercase text-slate-500">{label}</span>
+      <textarea
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        rows={rows}
+        className="proposal-edit-field mt-2 w-full resize-y rounded-md border border-slate-200 bg-white px-4 py-3 text-sm leading-7 text-slate-800 outline-none transition focus:border-brand focus:ring-4 focus:ring-brand/15"
+      />
+      <p className="proposal-print-value mt-2 hidden whitespace-pre-wrap rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-7 text-slate-700">
+        {value || "A definir."}
+      </p>
+    </label>
+  );
+}
+
+function ProposalPage({ number, eyebrow, title, children, cover = false }) {
+  return (
+    <section
+      className={`proposal-page rounded-lg border border-slate-200 bg-white p-6 shadow-panel ${
+        cover ? "proposal-cover" : ""
+      }`}
+    >
+      <div className={cover ? "min-h-[420px] content-center" : ""}>
+        <div className="flex items-start justify-between gap-4 border-b border-slate-100 pb-4">
+          <div>
+            <p className="text-xs font-bold uppercase text-brand">{eyebrow}</p>
+            <h3 className="mt-2 text-2xl font-semibold text-slate-950 md:text-3xl">{title}</h3>
+          </div>
+          <span className="rounded-full bg-brand-soft px-3 py-1 text-xs font-bold text-brand">
+            {number}
+          </span>
+        </div>
+        <div className="mt-6">{children}</div>
+      </div>
+    </section>
+  );
+}
+
+function ProposalModule({ data, hasCurrentDiagnosisData, proposal, onProposalChange, onGenerate, onExport }) {
+  const updateProposal = (key, value) => onProposalChange({ ...proposal, [key]: value });
+
+  return (
+    <section className="proposal-module rounded-lg border border-brand/15 bg-white p-5 shadow-panel">
+      <div className="proposal-controls no-print flex flex-col gap-4 border-l-4 border-brand pl-4 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+          <p className="text-xs font-bold uppercase text-brand">Proposta comercial</p>
+          <h2 className="mt-1 text-2xl font-semibold text-slate-950">
+            Módulo de geração de proposta
+          </h2>
+          <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-500">
+            A proposta usa o diagnóstico apenas como contexto e transforma a leitura interna em
+            uma apresentação positiva, consultiva e orientada para crescimento.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={onGenerate}
+            disabled={!hasCurrentDiagnosisData}
+            className={`rounded-md border border-brand/20 bg-brand-soft px-4 py-3 text-sm font-bold text-brand hover:bg-brand/10 ${
+              hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
+            }`}
+          >
+            Gerar com dados atuais
+          </button>
+          <button
+            type="button"
+            onClick={onExport}
+            disabled={!hasCurrentDiagnosisData}
+            className={`rounded-md bg-brand px-4 py-3 text-sm font-bold text-white shadow-brand hover:bg-brand-deep ${
+              hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
+            }`}
+          >
+            Exportar proposta em PDF
+          </button>
+        </div>
+      </div>
+
+      {!hasCurrentDiagnosisData ? (
+        <p className="mt-5 rounded-md border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-sm text-slate-500">
+          Abra ou preencha um diagnóstico para gerar a proposta comercial.
+        </p>
+      ) : (
+        <div className="proposal-document mt-6 grid gap-5">
+          <ProposalPage number="01" eyebrow="Capa" title="Proposta de Parceria" cover>
+            <div className="grid gap-5 md:grid-cols-2">
+              <div className="rounded-lg border border-brand/15 bg-brand-soft p-5">
+                <p className="text-xs font-bold uppercase text-brand">Projeto</p>
+                <p className="mt-2 text-3xl font-semibold text-brand-deep">{APP_CONFIG.projectName}</p>
+              </div>
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+                <p className="text-xs font-bold uppercase text-slate-500">Especialista</p>
+                <p className="mt-2 text-3xl font-semibold text-slate-950">Mariana Betioli</p>
+              </div>
+            </div>
+          </ProposalPage>
+
+          <ProposalPage number="02" eyebrow="Nossa visão sobre o projeto" title="Potencial de crescimento sustentável">
+            <ProposalTextarea
+              label="Texto da visão"
+              value={proposal.vision}
+              onChange={(value) => updateProposal("vision", value)}
+              rows={8}
+            />
+          </ProposalPage>
+
+          <ProposalPage number="03" eyebrow="Nossa atuação no projeto" title="Frentes de atuação">
+            <div className="grid gap-4 md:grid-cols-2">
+              {proposalWorkBlocks.map((block) => (
+                <section key={block.key} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <h4 className="text-sm font-bold uppercase text-brand">{block.title}</h4>
+                  <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-600">
+                    {block.items.map((item) => (
+                      <li key={item} className="rounded-md border border-slate-200 bg-white px-3 py-2">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="no-print mt-4">
+                    <ProposalTextarea
+                      label={`Leitura editável - ${block.title}`}
+                      value={proposal[block.key]}
+                      onChange={(value) => updateProposal(block.key, value)}
+                      rows={4}
+                    />
+                  </div>
+                  <p className="proposal-print-note mt-4 hidden whitespace-pre-wrap text-sm leading-7 text-slate-700">
+                    {proposal[block.key]}
+                  </p>
+                </section>
+              ))}
+            </div>
+          </ProposalPage>
+
+          <ProposalPage number="04" eyebrow="Plano de trabalho" title="Timeline de implantação">
+            <div className="grid gap-4">
+              {proposalTimeline.map((item) => (
+                <article key={item.phase} className="proposal-timeline-item rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                    <div>
+                      <p className="text-xs font-bold uppercase text-brand">{item.phase}</p>
+                      <h4 className="mt-1 text-lg font-semibold uppercase text-slate-950">{item.title}</h4>
+                    </div>
+                    <span className="w-fit rounded-full bg-brand-soft px-3 py-1 text-xs font-bold text-brand">
+                      {item.deadline}
+                    </span>
+                  </div>
+                  <p className="mt-3 text-sm leading-7 text-slate-600">{item.objective}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {item.deliveries.map((delivery) => (
+                      <span
+                        key={delivery}
+                        className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-600"
+                      >
+                        {delivery}
+                      </span>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </ProposalPage>
+
+          <ProposalPage number="05" eyebrow="Modelo de parceria" title="Modelo de Coprodução">
+            <div className="rounded-lg border border-brand/15 bg-brand-soft p-5">
+              <p className="text-base leading-8 text-brand-deep">
+                Formato baseado em divisão percentual. Todos os investimentos, custos operacionais e
+                receitas serão compartilhados conforme o percentual acordado entre as partes.
+              </p>
+              <p className="mt-4 text-base leading-8 text-brand-deep">
+                O modelo busca alinhar interesses e garantir que o crescimento do projeto beneficie
+                todos os envolvidos.
+              </p>
+            </div>
+          </ProposalPage>
+
+          <ProposalPage number="06" eyebrow="Proposta comercial" title="Configuração da parceria">
+            <div className="grid gap-4 md:grid-cols-2">
+              <ProposalTextarea
+                label="Percentual da especialista"
+                value={proposal.specialistPercentage}
+                onChange={(value) => updateProposal("specialistPercentage", value)}
+                rows={3}
+              />
+              <ProposalTextarea
+                label="Percentual da parceria"
+                value={proposal.partnershipPercentage}
+                onChange={(value) => updateProposal("partnershipPercentage", value)}
+                rows={3}
+              />
+              <div className="md:col-span-2">
+                <ProposalTextarea
+                  label="Responsabilidades"
+                  value={proposal.responsibilities}
+                  onChange={(value) => updateProposal("responsibilities", value)}
+                  rows={7}
+                />
+              </div>
+              <ProposalTextarea
+                label="Observações comerciais"
+                value={proposal.observations}
+                onChange={(value) => updateProposal("observations", value)}
+                rows={5}
+              />
+              <ProposalTextarea
+                label="Condições"
+                value={proposal.conditions}
+                onChange={(value) => updateProposal("conditions", value)}
+                rows={5}
+              />
+            </div>
+          </ProposalPage>
+        </div>
+      )}
+    </section>
+  );
+}
+
 function LoginScreen({ status, message, onLogin }) {
   const [password, setPassword] = useState("");
 
@@ -1231,8 +1652,12 @@ export default function App() {
   const [activeStage, setActiveStage] = useState(getStageFromHash);
   const [data, setData] = useState(loadCurrentDiagnosis);
   const [savedDiagnoses, setSavedDiagnoses] = useState(loadSavedDiagnoses);
+  const [proposal, setProposal] = useState(
+    () => safeReadJson(PROPOSAL_STORAGE_KEY, null) || buildProposalFields(loadCurrentDiagnosis())
+  );
   const [lastSavedSnapshot, setLastSavedSnapshot] = useState("");
   const [saveState, setSaveState] = useState("Salvo localmente");
+  const [printMode, setPrintMode] = useState("diagnosis");
 
   useEffect(() => {
     let active = true;
@@ -1289,6 +1714,16 @@ export default function App() {
   useEffect(() => {
     window.localStorage.setItem(SAVED_DIAGNOSES_KEY, JSON.stringify(savedDiagnoses));
   }, [savedDiagnoses]);
+
+  useEffect(() => {
+    window.localStorage.setItem(PROPOSAL_STORAGE_KEY, JSON.stringify(proposal));
+  }, [proposal]);
+
+  useEffect(() => {
+    const resetPrintMode = () => setPrintMode("diagnosis");
+    window.addEventListener("afterprint", resetPrintMode);
+    return () => window.removeEventListener("afterprint", resetPrintMode);
+  }, []);
 
   useEffect(() => {
     if (authStatus !== "authenticated" || safeReadJson(PUBLISHED_DIAGNOSIS_SEED_KEY, false)) {
@@ -1565,13 +2000,34 @@ export default function App() {
     setSaveState("Diagnóstico duplicado");
   }
 
+  function generateProposal() {
+    if (!hasCurrentDiagnosisData) {
+      setSaveState("Abra um diagnóstico para gerar a proposta");
+      return;
+    }
+
+    setProposal((current) => buildProposalFields(data, current));
+    setSaveState("Proposta atualizada");
+  }
+
   function exportPdf() {
     if (!hasCurrentDiagnosisData) {
       setSaveState("Nenhum diagnóstico aberto");
       return;
     }
 
-    window.print();
+    setPrintMode("diagnosis");
+    window.setTimeout(() => window.print(), 50);
+  }
+
+  function exportProposalPdf() {
+    if (!hasCurrentDiagnosisData) {
+      setSaveState("Nenhum diagnóstico aberto");
+      return;
+    }
+
+    setPrintMode("proposal");
+    window.setTimeout(() => window.print(), 50);
   }
 
   if (authStatus !== "authenticated") {
@@ -1579,7 +2035,7 @@ export default function App() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-100 text-slate-900">
+    <main className={`min-h-screen bg-slate-100 text-slate-900 print-mode-${printMode}`}>
       <aside className="fixed inset-y-0 left-0 z-20 hidden w-80 overflow-y-auto border-r border-slate-200 bg-white px-5 py-6 shadow-sidebar lg:block">
         <div className="border-b border-slate-100 pb-6">
           <p className="text-xs font-bold uppercase text-brand">Discovery estratégico</p>
@@ -1785,138 +2241,149 @@ export default function App() {
             </div>
           ) : (
             <div className="grid gap-5">
-              <section className="print-only print-report-header rounded-lg border border-brand/15 bg-white p-5">
-                <img
-                  src={mariProfileLockup}
-                  alt={`${APP_CONFIG.expertName} - ${APP_CONFIG.projectName}`}
-                  className="print-report-logo"
-                />
-                <div className="mt-4 border-l-4 border-brand pl-4">
-                  <p className="text-xs font-bold uppercase text-brand">Diagnóstico estratégico</p>
-                  <h1 className="mt-1 text-3xl font-semibold text-slate-950">
-                    {APP_CONFIG.expertName}
-                  </h1>
-                  <p className="mt-2 text-sm leading-6 text-slate-500">
-                    {APP_CONFIG.projectName} · Relatório executivo de discovery
-                  </p>
-                </div>
-              </section>
-
-              <section className="rounded-lg border border-brand/15 bg-white p-5 shadow-panel">
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                  <div>
-                    <p className="text-xs font-bold uppercase text-brand">Síntese executiva</p>
-                    <h2 className="mt-2 text-3xl font-semibold text-slate-950">
-                      {hasCurrentDiagnosisData
-                        ? "Diagnóstico consolidado da reunião"
-                        : "Nenhum diagnóstico aberto"}
-                    </h2>
-                    <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-500">
-                      {hasCurrentDiagnosisData
-                        ? "O resumo abaixo é gerado automaticamente a partir dos registros das etapas. Edite os campos anteriores para refinar a leitura final antes de salvar ou exportar."
-                        : "O preenchimento atual está limpo. Abra um diagnóstico salvo no histórico para visualizar o relatório, exportar em PDF ou editar as respostas."}
+              <div className="diagnostic-summary-content grid gap-5">
+                <section className="print-only print-report-header rounded-lg border border-brand/15 bg-white p-5">
+                  <img
+                    src={mariProfileLockup}
+                    alt={`${APP_CONFIG.expertName} - ${APP_CONFIG.projectName}`}
+                    className="print-report-logo"
+                  />
+                  <div className="mt-4 border-l-4 border-brand pl-4">
+                    <p className="text-xs font-bold uppercase text-brand">Diagnóstico estratégico</p>
+                    <h1 className="mt-1 text-3xl font-semibold text-slate-950">
+                      {APP_CONFIG.expertName}
+                    </h1>
+                    <p className="mt-2 text-sm leading-6 text-slate-500">
+                      {APP_CONFIG.projectName} · Relatório executivo de discovery
                     </p>
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    <button
-                      type="button"
-                      onClick={exportPdf}
-                      disabled={!hasCurrentDiagnosisData}
-                      className={`rounded-md bg-brand px-4 py-3 text-sm font-bold text-white shadow-brand hover:bg-brand-deep ${
-                        hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
-                      }`}
-                    >
-                      Exportar em PDF
-                    </button>
-                    <button
-                      type="button"
-                      onClick={copySummary}
-                      disabled={!hasCurrentDiagnosisData}
-                      className={`rounded-md border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 ${
-                        hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
-                      }`}
-                    >
-                      Copiar resumo completo
-                    </button>
-                    <button
-                      type="button"
-                      onClick={saveDiagnostic}
-                      disabled={!hasCurrentDiagnosisData}
-                      className={`rounded-md border border-brand/20 bg-brand-soft px-4 py-3 text-sm font-bold text-brand hover:bg-brand/10 ${
-                        hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
-                      }`}
-                    >
-                      Salvar diagnóstico
-                    </button>
-                    <button
-                      type="button"
-                      onClick={newDiagnosis}
-                      className="rounded-md border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50"
-                    >
-                      Novo diagnóstico
-                    </button>
-                    <button
-                      type="button"
-                      onClick={resetCurrentDiagnosis}
-                      className="rounded-md border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50"
-                    >
-                      Resetar preenchimento
-                    </button>
-                  </div>
-                </div>
-              </section>
+                </section>
 
-              <SavedDiagnosesPanel
-                diagnoses={savedDiagnoses}
-                onOpen={openSavedDiagnosis}
-                onEdit={editSavedDiagnosis}
-                onDelete={deleteSavedDiagnosis}
-                onDuplicate={duplicateSavedDiagnosis}
-              />
-
-              {hasCurrentDiagnosisData ? (
-                <>
-                  <SalesPerformance />
-
-                  <section className="print-stack grid gap-4 lg:grid-cols-2">
-                    {consolidated.map((section) => (
-                      <SummarySection
-                        key={section.title}
-                        title={section.title}
-                        entries={section.entries}
-                        marker={section.marker}
-                        icon={section.icon}
-                        tone={section.tone}
-                      />
-                    ))}
-                  </section>
-
-                  <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-panel">
-                    <div className="flex flex-col gap-2 border-l-4 border-brand pl-4">
-                      <p className="text-xs font-bold uppercase text-brand">Resumo completo</p>
-                      <h3 className="text-2xl font-semibold text-slate-950">
-                        Relatório executivo por etapa
-                      </h3>
-                      <p className="max-w-3xl text-sm leading-7 text-slate-500">
-                        Leitura organizada para apresentação após a reunião, separando respostas,
-                        observações, insights e hipóteses por categoria.
+                <section className="rounded-lg border border-brand/15 bg-white p-5 shadow-panel">
+                  <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                    <div>
+                      <p className="text-xs font-bold uppercase text-brand">Síntese executiva</p>
+                      <h2 className="mt-2 text-3xl font-semibold text-slate-950">
+                        {hasCurrentDiagnosisData
+                          ? "Diagnóstico consolidado da reunião"
+                          : "Nenhum diagnóstico aberto"}
+                      </h2>
+                      <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-500">
+                        {hasCurrentDiagnosisData
+                          ? "O resumo abaixo é gerado automaticamente a partir dos registros das etapas. Edite os campos anteriores para refinar a leitura final antes de salvar ou exportar."
+                          : "O preenchimento atual está limpo. Abra um diagnóstico salvo no histórico para visualizar o relatório, exportar em PDF ou editar as respostas."}
                       </p>
                     </div>
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={exportPdf}
+                        disabled={!hasCurrentDiagnosisData}
+                        className={`rounded-md bg-brand px-4 py-3 text-sm font-bold text-white shadow-brand hover:bg-brand-deep ${
+                          hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
+                        }`}
+                      >
+                        Exportar em PDF
+                      </button>
+                      <button
+                        type="button"
+                        onClick={copySummary}
+                        disabled={!hasCurrentDiagnosisData}
+                        className={`rounded-md border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 ${
+                          hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
+                        }`}
+                      >
+                        Copiar resumo completo
+                      </button>
+                      <button
+                        type="button"
+                        onClick={saveDiagnostic}
+                        disabled={!hasCurrentDiagnosisData}
+                        className={`rounded-md border border-brand/20 bg-brand-soft px-4 py-3 text-sm font-bold text-brand hover:bg-brand/10 ${
+                          hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
+                        }`}
+                      >
+                        Salvar diagnóstico
+                      </button>
+                      <button
+                        type="button"
+                        onClick={newDiagnosis}
+                        className="rounded-md border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50"
+                      >
+                        Novo diagnóstico
+                      </button>
+                      <button
+                        type="button"
+                        onClick={resetCurrentDiagnosis}
+                        className="rounded-md border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50"
+                      >
+                        Resetar preenchimento
+                      </button>
+                    </div>
+                  </div>
+                </section>
 
-                    <div className="mt-5 grid gap-4">
-                      {stages.map((stage) => (
-                        <StageReportCard
-                          key={stage.id}
-                          stage={stage}
-                          stageData={reportData[stage.id] || {}}
+                <SavedDiagnosesPanel
+                  diagnoses={savedDiagnoses}
+                  onOpen={openSavedDiagnosis}
+                  onEdit={editSavedDiagnosis}
+                  onDelete={deleteSavedDiagnosis}
+                  onDuplicate={duplicateSavedDiagnosis}
+                />
+
+                {hasCurrentDiagnosisData ? (
+                  <>
+                    <SalesPerformance />
+
+                    <section className="print-stack grid gap-4 lg:grid-cols-2">
+                      {consolidated.map((section) => (
+                        <SummarySection
+                          key={section.title}
+                          title={section.title}
+                          entries={section.entries}
+                          marker={section.marker}
+                          icon={section.icon}
+                          tone={section.tone}
                         />
                       ))}
-                    </div>
-                  </section>
-                </>
-              ) : (
-                <EmptySummaryState savedCount={savedDiagnoses.length} />
-              )}
+                    </section>
+
+                    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-panel">
+                      <div className="flex flex-col gap-2 border-l-4 border-brand pl-4">
+                        <p className="text-xs font-bold uppercase text-brand">Resumo completo</p>
+                        <h3 className="text-2xl font-semibold text-slate-950">
+                          Relatório executivo por etapa
+                        </h3>
+                        <p className="max-w-3xl text-sm leading-7 text-slate-500">
+                          Leitura organizada para apresentação após a reunião, separando respostas,
+                          observações, insights e hipóteses por categoria.
+                        </p>
+                      </div>
+
+                      <div className="mt-5 grid gap-4">
+                        {stages.map((stage) => (
+                          <StageReportCard
+                            key={stage.id}
+                            stage={stage}
+                            stageData={reportData[stage.id] || {}}
+                          />
+                        ))}
+                      </div>
+                    </section>
+                  </>
+                ) : (
+                  <EmptySummaryState savedCount={savedDiagnoses.length} />
+                )}
+              </div>
+
+              <ProposalModule
+                data={data}
+                hasCurrentDiagnosisData={hasCurrentDiagnosisData}
+                proposal={proposal}
+                onProposalChange={setProposal}
+                onGenerate={generateProposal}
+                onExport={exportProposalPdf}
+              />
             </div>
           )}
         </div>
