@@ -761,7 +761,7 @@ function normalizeProposalFields(proposal) {
 
 function getStageFromHash() {
   const hash = window.location.hash.replace("#", "");
-  const validIds = new Set([...stages.map((stage) => stage.id), "resumo", "proposta"]);
+  const validIds = new Set([...stages.map((stage) => stage.id), "documento", "resumo", "proposta"]);
   return validIds.has(hash) ? hash : stages[0].id;
 }
 
@@ -1544,10 +1544,132 @@ async function exportNodeAsPng(node, filename) {
   downloadCanvas(canvas, filename);
 }
 
-function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, onGenerate, onExport }) {
-  const updateProposal = (key, value) => onProposalChange({ ...proposal, [key]: value });
-  const [cardsAreEditable, setCardsAreEditable] = useState(false);
+function ProposalEditorModule({ hasCurrentDiagnosisData, proposalDraft, onProposalDraftChange, onSave, onSaveEdit }) {
+  const updateProposal = (key, value) => onProposalDraftChange({ ...proposalDraft, [key]: value });
 
+  return (
+    <section className="proposal-module grid gap-5">
+      <section className="rounded-lg border border-brand/15 bg-white p-5 shadow-panel">
+        <div className="flex flex-col gap-4 border-l-4 border-brand pl-4 lg:flex-row lg:items-start lg:justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase text-brand">Proposta comercial</p>
+            <h2 className="mt-1 text-2xl font-semibold text-slate-950">Documento de parceria</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-500">
+              Página independente para apresentar a proposta em linguagem comercial, positiva e
+              orientada para crescimento. O diagnóstico entra apenas como contexto.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={onSave}
+              disabled={!hasCurrentDiagnosisData}
+              className={`rounded-md bg-brand px-4 py-3 text-sm font-bold text-white shadow-brand hover:bg-brand-deep ${
+                hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
+              }`}
+            >
+              Salvar proposta
+            </button>
+            <button
+              type="button"
+              onClick={onSaveEdit}
+              disabled={!hasCurrentDiagnosisData}
+              className={`rounded-md border border-brand/20 bg-brand-soft px-4 py-3 text-sm font-bold text-brand hover:bg-brand/10 ${
+                hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
+              }`}
+            >
+              Editar proposta - Salvar edição
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {!hasCurrentDiagnosisData ? (
+        <p className="rounded-lg border border-dashed border-slate-200 bg-white px-4 py-5 text-sm text-slate-500 shadow-panel">
+          Abra ou preencha um diagnóstico para editar e salvar a proposta comercial.
+        </p>
+      ) : (
+        <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-panel">
+          <div className="border-l-4 border-brand pl-4">
+            <p className="text-xs font-bold uppercase text-brand">Edição manual</p>
+            <h3 className="mt-1 text-xl font-semibold text-slate-950">Campos da proposta</h3>
+            <p className="mt-2 text-sm leading-7 text-slate-500">
+              Edite aqui antes de exportar. A proposta formatada será atualizada depois de salvar.
+            </p>
+          </div>
+          <div className="mt-5 grid gap-4 lg:grid-cols-2">
+            <div className="lg:col-span-2">
+              <ProposalTextarea
+                label="Nossa visão sobre o projeto"
+                value={proposalDraft.vision}
+                onChange={(value) => updateProposal("vision", value)}
+                rows={7}
+              />
+            </div>
+            <ProposalTextarea
+              label="Estratégia"
+              value={proposalDraft.strategy}
+              onChange={(value) => updateProposal("strategy", value)}
+              rows={4}
+            />
+            <ProposalTextarea
+              label="Estrutura"
+              value={proposalDraft.structure}
+              onChange={(value) => updateProposal("structure", value)}
+              rows={4}
+            />
+            <ProposalTextarea
+              label="Aquisição e conversão"
+              value={proposalDraft.acquisition}
+              onChange={(value) => updateProposal("acquisition", value)}
+              rows={4}
+            />
+            <ProposalTextarea
+              label="LTV e expansão"
+              value={proposalDraft.expansion}
+              onChange={(value) => updateProposal("expansion", value)}
+              rows={4}
+            />
+            <ProposalTextarea
+              label="Percentual da especialista"
+              value={proposalDraft.specialistPercentage}
+              onChange={(value) => updateProposal("specialistPercentage", value)}
+              rows={2}
+            />
+            <ProposalTextarea
+              label="Percentual da parceria"
+              value={proposalDraft.partnershipPercentage}
+              onChange={(value) => updateProposal("partnershipPercentage", value)}
+              rows={2}
+            />
+            <div className="lg:col-span-2">
+              <ProposalTextarea
+                label="Responsabilidades"
+                value={proposalDraft.responsibilities}
+                onChange={(value) => updateProposal("responsibilities", value)}
+                rows={6}
+              />
+            </div>
+            <ProposalTextarea
+              label="Observações comerciais"
+              value={proposalDraft.observations}
+              onChange={(value) => updateProposal("observations", value)}
+              rows={4}
+            />
+            <ProposalTextarea
+              label="Condições"
+              value={proposalDraft.conditions}
+              onChange={(value) => updateProposal("conditions", value)}
+              rows={4}
+            />
+          </div>
+        </section>
+      )}
+    </section>
+  );
+}
+
+function ProposalModule({ proposal, onExport }) {
   async function downloadProposalCard(card, filename) {
     try {
       await exportNodeAsPng(card, filename);
@@ -1562,134 +1684,27 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
         <div className="flex flex-col gap-4 border-l-4 border-brand pl-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <p className="text-xs font-bold uppercase text-brand">Proposta comercial</p>
-            <h2 className="mt-1 text-2xl font-semibold text-slate-950">Documento de parceria</h2>
+            <h2 className="mt-1 text-2xl font-semibold text-slate-950">Proposta formatada</h2>
             <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-500">
-              Página independente para apresentar a proposta em linguagem comercial, positiva e
-              orientada para crescimento. O diagnóstico entra apenas como contexto.
+              Versão final da proposta salva no Documento de parceria.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
-              onClick={onGenerate}
-              disabled={!hasCurrentDiagnosisData}
-              className={`rounded-md border border-brand/20 bg-brand-soft px-4 py-3 text-sm font-bold text-brand hover:bg-brand/10 ${
-                hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
-              }`}
-            >
-              Gerar com dados atuais
-            </button>
-            <button
-              type="button"
               onClick={onExport}
-              disabled={!hasCurrentDiagnosisData}
-              className={`rounded-md bg-brand px-4 py-3 text-sm font-bold text-white shadow-brand hover:bg-brand-deep ${
-                hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
-              }`}
+              className="rounded-md bg-brand px-4 py-3 text-sm font-bold text-white shadow-brand hover:bg-brand-deep"
             >
               Exportar proposta em PDF
-            </button>
-            <button
-              type="button"
-              onClick={() => setCardsAreEditable((current) => !current)}
-              disabled={!hasCurrentDiagnosisData}
-              className={`rounded-md border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 ${
-                hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
-              }`}
-            >
-              {cardsAreEditable ? "Edição visual ativa" : "Editar cards prontos"}
             </button>
           </div>
         </div>
       </div>
 
-      {!hasCurrentDiagnosisData ? (
-        <p className="rounded-lg border border-dashed border-slate-200 bg-white px-4 py-5 text-sm text-slate-500 shadow-panel">
-          Abra ou preencha um diagnóstico para gerar a proposta comercial.
-        </p>
-      ) : (
-        <>
-          <section className="proposal-editor no-print rounded-lg border border-slate-200 bg-white p-5 shadow-panel">
-            <div className="border-l-4 border-brand pl-4">
-              <p className="text-xs font-bold uppercase text-brand">Edição manual</p>
-              <h3 className="mt-1 text-xl font-semibold text-slate-950">Campos da proposta</h3>
-              <p className="mt-2 text-sm leading-7 text-slate-500">
-                Edite aqui antes de exportar. O documento abaixo já mostra a versão final para apresentação.
-              </p>
-            </div>
-            <div className="mt-5 grid gap-4 lg:grid-cols-2">
-              <div className="lg:col-span-2">
-                <ProposalTextarea
-                  label="Nossa visão sobre o projeto"
-                  value={proposal.vision}
-                  onChange={(value) => updateProposal("vision", value)}
-                  rows={7}
-                />
-              </div>
-              <ProposalTextarea
-                label="Estratégia"
-                value={proposal.strategy}
-                onChange={(value) => updateProposal("strategy", value)}
-                rows={4}
-              />
-              <ProposalTextarea
-                label="Estrutura"
-                value={proposal.structure}
-                onChange={(value) => updateProposal("structure", value)}
-                rows={4}
-              />
-              <ProposalTextarea
-                label="Aquisição e conversão"
-                value={proposal.acquisition}
-                onChange={(value) => updateProposal("acquisition", value)}
-                rows={4}
-              />
-              <ProposalTextarea
-                label="LTV e expansão"
-                value={proposal.expansion}
-                onChange={(value) => updateProposal("expansion", value)}
-                rows={4}
-              />
-              <ProposalTextarea
-                label="Percentual da especialista"
-                value={proposal.specialistPercentage}
-                onChange={(value) => updateProposal("specialistPercentage", value)}
-                rows={2}
-              />
-              <ProposalTextarea
-                label="Percentual da parceria"
-                value={proposal.partnershipPercentage}
-                onChange={(value) => updateProposal("partnershipPercentage", value)}
-                rows={2}
-              />
-              <div className="lg:col-span-2">
-                <ProposalTextarea
-                  label="Responsabilidades"
-                  value={proposal.responsibilities}
-                  onChange={(value) => updateProposal("responsibilities", value)}
-                  rows={6}
-                />
-              </div>
-              <ProposalTextarea
-                label="Observações comerciais"
-                value={proposal.observations}
-                onChange={(value) => updateProposal("observations", value)}
-                rows={4}
-              />
-              <ProposalTextarea
-                label="Condições"
-                value={proposal.conditions}
-                onChange={(value) => updateProposal("conditions", value)}
-                rows={4}
-              />
-            </div>
-          </section>
-
-          <div className="proposal-document grid gap-5">
+      <div className="proposal-document grid gap-5">
             <ProposalPage
               title="Proposta de Parceria"
               cover
-              editable={cardsAreEditable}
               filename="proposta-mariana-betioli-card-01-capa.png"
               onDownload={downloadProposalCard}
             >
@@ -1713,7 +1728,6 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
             <ProposalPage
               number="02"
               eyebrow="Nossa visão sobre o projeto"
-              editable={cardsAreEditable}
               filename="proposta-mariana-betioli-card-02-visao.png"
               onDownload={downloadProposalCard}
             >
@@ -1726,7 +1740,6 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
               number="03"
               eyebrow="Nossa atuação no projeto"
               title="A Entrega Estratégica é Dividida em 4 Frentes"
-              editable={cardsAreEditable}
               filename="proposta-mariana-betioli-card-03-atuacao.png"
               onDownload={downloadProposalCard}
             >
@@ -1753,7 +1766,6 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
             <ProposalPage
               number="04"
               title="Plano de Trabalho"
-              editable={cardsAreEditable}
               filename="proposta-mariana-betioli-card-04-plano.png"
               onDownload={downloadProposalCard}
             >
@@ -1802,7 +1814,6 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
               number="05"
               eyebrow="Responsabilidades"
               title="Responsabilidades"
-              editable={cardsAreEditable}
               filename="proposta-mariana-betioli-card-05-responsabilidades.png"
               onDownload={downloadProposalCard}
             >
@@ -1813,7 +1824,6 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
               number="06"
               eyebrow="Modelo de parceria + proposta comercial"
               title="Modelo de Coprodução"
-              editable={cardsAreEditable}
               filename="proposta-mariana-betioli-card-06-modelo-proposta.png"
               onDownload={downloadProposalCard}
             >
@@ -1856,7 +1866,6 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
               number="07"
               eyebrow="Observações + condições"
               title="Observações e Condições"
-              editable={cardsAreEditable}
               filename="proposta-mariana-betioli-card-07-observacoes-condicoes.png"
               onDownload={downloadProposalCard}
             >
@@ -1880,8 +1889,6 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
               </div>
             </ProposalPage>
           </div>
-        </>
-      )}
     </section>
   );
 }
@@ -1951,6 +1958,11 @@ export default function App() {
   const [data, setData] = useState(loadCurrentDiagnosis);
   const [savedDiagnoses, setSavedDiagnoses] = useState(loadSavedDiagnoses);
   const [proposal, setProposal] = useState(
+    () =>
+      normalizeProposalFields(safeReadJson(PROPOSAL_STORAGE_KEY, null)) ||
+      buildProposalFields(loadCurrentDiagnosis())
+  );
+  const [proposalDraft, setProposalDraft] = useState(
     () =>
       normalizeProposalFields(safeReadJson(PROPOSAL_STORAGE_KEY, null)) ||
       buildProposalFields(loadCurrentDiagnosis())
@@ -2098,6 +2110,7 @@ export default function App() {
   const progress = Math.round((completedFields / totalFields) * 100);
   const currentStage = stages.find((stage) => stage.id === activeStage) || stages[0];
   const isSummary = activeStage === "resumo";
+  const isDocument = activeStage === "documento";
   const isProposal = activeStage === "proposta";
   const hasCurrentDiagnosisData = useMemo(() => hasDiagnosisData(data), [data]);
   const reportData = data;
@@ -2115,6 +2128,20 @@ export default function App() {
   }, [currentSnapshot, hasCurrentDiagnosisData, lastSavedSnapshot, savedDiagnoses]);
 
   const consolidated = useMemo(() => buildExecutiveSummary(reportData), [reportData]);
+  const headerBadge = isProposal
+    ? "Proposta"
+    : isDocument
+      ? "Etapa 07"
+      : isSummary
+        ? "Etapa final"
+        : `Etapa ${currentStage.number}`;
+  const headerTitle = isProposal
+    ? "Proposta Comercial"
+    : isDocument
+      ? "Documento de parceria"
+      : isSummary
+        ? "Resumo e Diagnóstico"
+        : currentStage.title;
 
   function navigateTo(stageId) {
     window.location.hash = stageId;
@@ -2301,14 +2328,17 @@ export default function App() {
     setSaveState("Diagnóstico duplicado");
   }
 
-  function generateProposal() {
+  function saveProposalDraft(message = "Proposta salva") {
     if (!hasCurrentDiagnosisData) {
-      setSaveState("Abra um diagnóstico para gerar a proposta");
+      setSaveState("Abra um diagnóstico para salvar a proposta");
       return;
     }
 
-    setProposal((current) => buildProposalFields(data, current));
-    setSaveState("Proposta atualizada");
+    const normalizedProposal = normalizeProposalFields(proposalDraft) || buildProposalFields(data);
+    setProposal(normalizedProposal);
+    setProposalDraft(normalizedProposal);
+    setSaveState(message);
+    navigateTo("proposta");
   }
 
   function exportPdf() {
@@ -2392,6 +2422,37 @@ export default function App() {
 
           <button
             type="button"
+            onClick={() => navigateTo("documento")}
+            className={`mt-3 grid grid-cols-[36px_1fr_auto] items-center gap-3 rounded-lg border px-3 py-3 text-left transition ${
+              isDocument
+                ? "border-brand bg-brand text-white shadow-brand"
+                : "border-transparent bg-white text-slate-700 hover:border-slate-200 hover:bg-slate-50"
+            }`}
+          >
+            <span
+              className={`grid h-9 w-9 place-items-center rounded-md text-xs font-bold ${
+                isDocument ? "bg-white/15 text-white" : "bg-brand-soft text-brand"
+              }`}
+            >
+              07
+            </span>
+            <span>
+              <span className="block text-sm font-semibold">Documento de parceria</span>
+              <span className={isDocument ? "text-xs text-white/70" : "text-xs text-slate-400"}>
+                Proposta comercial
+              </span>
+            </span>
+            <span
+              className={`rounded-full px-2 py-1 text-[11px] font-bold ${
+                isDocument ? "bg-white/15 text-white" : "bg-slate-100 text-slate-500"
+              }`}
+            >
+              7
+            </span>
+          </button>
+
+          <button
+            type="button"
             onClick={() => navigateTo("resumo")}
             className={`mt-3 rounded-lg border px-4 py-4 text-left transition ${
               isSummary
@@ -2455,7 +2516,7 @@ export default function App() {
             <div>
               <div className="flex flex-wrap items-center gap-2">
                 <span className="rounded-full bg-brand-soft px-3 py-1 text-xs font-bold uppercase text-brand">
-                  {isProposal ? "Proposta" : isSummary ? "Etapa final" : `Etapa ${currentStage.number}`}
+                  {headerBadge}
                 </span>
                 <span className="text-xs font-semibold text-slate-500">{saveState}</span>
                 <button
@@ -2467,7 +2528,7 @@ export default function App() {
                 </button>
               </div>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 md:text-3xl">
-                {isProposal ? "Proposta Comercial" : isSummary ? "Resumo e Diagnóstico" : currentStage.title}
+                {headerTitle}
               </h2>
             </div>
 
@@ -2486,7 +2547,12 @@ export default function App() {
           </div>
 
           <div className="mx-auto mt-4 flex max-w-7xl gap-2 overflow-x-auto pb-1 lg:hidden">
-            {[...stages, { id: "resumo", number: "R", title: "Resumo" }, { id: "proposta", number: "P", title: "Proposta" }].map((stage) => (
+            {[
+              ...stages,
+              { id: "documento", number: "07", title: "Documento" },
+              { id: "resumo", number: "R", title: "Resumo" },
+              { id: "proposta", number: "P", title: "Proposta" }
+            ].map((stage) => (
               <button
                 key={stage.id}
                 type="button"
@@ -2504,7 +2570,7 @@ export default function App() {
         </header>
 
         <div className="mx-auto max-w-7xl px-4 py-6 md:px-7 md:py-8">
-          {!isSummary && !isProposal ? (
+          {!isSummary && !isProposal && !isDocument ? (
             <div className="grid gap-6">
               <FlowCard title={currentStage.title} eyebrow="Tema da categoria" tone="brand">
                 <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1.25fr]">
@@ -2555,6 +2621,14 @@ export default function App() {
                 />
               </section>
             </div>
+          ) : isDocument ? (
+            <ProposalEditorModule
+              hasCurrentDiagnosisData={hasCurrentDiagnosisData}
+              proposalDraft={proposalDraft}
+              onProposalDraftChange={setProposalDraft}
+              onSave={() => saveProposalDraft("Proposta salva")}
+              onSaveEdit={() => saveProposalDraft("Edição da proposta salva")}
+            />
           ) : isSummary ? (
             <div className="grid gap-5">
               <div className="diagnostic-summary-content grid gap-5">
@@ -2694,10 +2768,7 @@ export default function App() {
             </div>
           ) : (
             <ProposalModule
-              hasCurrentDiagnosisData={hasCurrentDiagnosisData}
               proposal={proposal}
-              onProposalChange={setProposal}
-              onGenerate={generateProposal}
               onExport={exportProposalPdf}
             />
           )}
