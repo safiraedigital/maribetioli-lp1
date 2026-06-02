@@ -726,7 +726,7 @@ A partir da leitura estratégica realizada, enxergamos um caminho de parceria vo
 
 function getStageFromHash() {
   const hash = window.location.hash.replace("#", "");
-  const validIds = new Set([...stages.map((stage) => stage.id), "resumo"]);
+  const validIds = new Set([...stages.map((stage) => stage.id), "resumo", "proposta"]);
   return validIds.has(hash) ? hash : stages[0].id;
 }
 
@@ -1388,201 +1388,296 @@ function ProposalTextarea({ label, value, onChange, rows = 5 }) {
 function ProposalPage({ number, eyebrow, title, children, cover = false }) {
   return (
     <section
-      className={`proposal-page rounded-lg border border-slate-200 bg-white p-6 shadow-panel ${
+      className={`proposal-page relative overflow-hidden rounded-lg border border-slate-200 bg-white p-8 shadow-panel md:p-10 ${
         cover ? "proposal-cover" : ""
       }`}
     >
-      <div className={cover ? "min-h-[420px] content-center" : ""}>
-        <div className="flex items-start justify-between gap-4 border-b border-slate-100 pb-4">
-          <div>
-            <p className="text-xs font-bold uppercase text-brand">{eyebrow}</p>
-            <h3 className="mt-2 text-2xl font-semibold text-slate-950 md:text-3xl">{title}</h3>
+      <div className="absolute inset-y-0 left-0 w-3 bg-brand/80" />
+      <div className={cover ? "min-h-[480px] content-center pl-4" : "pl-4"}>
+        <div className="flex items-start justify-between gap-4">
+          <div className={cover ? "max-w-4xl" : ""}>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">{eyebrow}</p>
+            <h3
+              className={`${
+                cover ? "mt-8 text-5xl md:text-7xl" : "mt-2 text-3xl md:text-4xl"
+              } font-semibold leading-tight text-slate-950`}
+            >
+              {title}
+            </h3>
           </div>
-          <span className="rounded-full bg-brand-soft px-3 py-1 text-xs font-bold text-brand">
+          <span className="rounded-full border border-brand/25 bg-white px-4 py-2 text-xs font-bold text-brand">
             {number}
           </span>
         </div>
-        <div className="mt-6">{children}</div>
+        <div className={cover ? "mt-12" : "mt-8"}>{children}</div>
       </div>
     </section>
   );
 }
 
-function ProposalModule({ data, hasCurrentDiagnosisData, proposal, onProposalChange, onGenerate, onExport }) {
+function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, onGenerate, onExport }) {
   const updateProposal = (key, value) => onProposalChange({ ...proposal, [key]: value });
+  const proposalDate = formatDateTime().split(" ")[0];
 
   return (
-    <section className="proposal-module rounded-lg border border-brand/15 bg-white p-5 shadow-panel">
-      <div className="proposal-controls no-print flex flex-col gap-4 border-l-4 border-brand pl-4 lg:flex-row lg:items-start lg:justify-between">
-        <div>
-          <p className="text-xs font-bold uppercase text-brand">Proposta comercial</p>
-          <h2 className="mt-1 text-2xl font-semibold text-slate-950">
-            Módulo de geração de proposta
-          </h2>
-          <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-500">
-            A proposta usa o diagnóstico apenas como contexto e transforma a leitura interna em
-            uma apresentação positiva, consultiva e orientada para crescimento.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={onGenerate}
-            disabled={!hasCurrentDiagnosisData}
-            className={`rounded-md border border-brand/20 bg-brand-soft px-4 py-3 text-sm font-bold text-brand hover:bg-brand/10 ${
-              hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
-            }`}
-          >
-            Gerar com dados atuais
-          </button>
-          <button
-            type="button"
-            onClick={onExport}
-            disabled={!hasCurrentDiagnosisData}
-            className={`rounded-md bg-brand px-4 py-3 text-sm font-bold text-white shadow-brand hover:bg-brand-deep ${
-              hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
-            }`}
-          >
-            Exportar proposta em PDF
-          </button>
+    <section className="proposal-module grid gap-5">
+      <div className="proposal-controls no-print rounded-lg border border-brand/15 bg-white p-5 shadow-panel">
+        <div className="flex flex-col gap-4 border-l-4 border-brand pl-4 lg:flex-row lg:items-start lg:justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase text-brand">Proposta comercial</p>
+            <h2 className="mt-1 text-2xl font-semibold text-slate-950">Documento de parceria</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-500">
+              Página independente para apresentar a proposta em linguagem comercial, positiva e
+              orientada para crescimento. O diagnóstico entra apenas como contexto.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={onGenerate}
+              disabled={!hasCurrentDiagnosisData}
+              className={`rounded-md border border-brand/20 bg-brand-soft px-4 py-3 text-sm font-bold text-brand hover:bg-brand/10 ${
+                hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
+              }`}
+            >
+              Gerar com dados atuais
+            </button>
+            <button
+              type="button"
+              onClick={onExport}
+              disabled={!hasCurrentDiagnosisData}
+              className={`rounded-md bg-brand px-4 py-3 text-sm font-bold text-white shadow-brand hover:bg-brand-deep ${
+                hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
+              }`}
+            >
+              Exportar proposta em PDF
+            </button>
+          </div>
         </div>
       </div>
 
       {!hasCurrentDiagnosisData ? (
-        <p className="mt-5 rounded-md border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-sm text-slate-500">
+        <p className="rounded-lg border border-dashed border-slate-200 bg-white px-4 py-5 text-sm text-slate-500 shadow-panel">
           Abra ou preencha um diagnóstico para gerar a proposta comercial.
         </p>
       ) : (
-        <div className="proposal-document mt-6 grid gap-5">
-          <ProposalPage number="01" eyebrow="Capa" title="Proposta de Parceria" cover>
-            <div className="grid gap-5 md:grid-cols-2">
-              <div className="rounded-lg border border-brand/15 bg-brand-soft p-5">
-                <p className="text-xs font-bold uppercase text-brand">Projeto</p>
-                <p className="mt-2 text-3xl font-semibold text-brand-deep">{APP_CONFIG.projectName}</p>
-              </div>
-              <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
-                <p className="text-xs font-bold uppercase text-slate-500">Especialista</p>
-                <p className="mt-2 text-3xl font-semibold text-slate-950">Mariana Betioli</p>
-              </div>
-            </div>
-          </ProposalPage>
-
-          <ProposalPage number="02" eyebrow="Nossa visão sobre o projeto" title="Potencial de crescimento sustentável">
-            <ProposalTextarea
-              label="Texto da visão"
-              value={proposal.vision}
-              onChange={(value) => updateProposal("vision", value)}
-              rows={8}
-            />
-          </ProposalPage>
-
-          <ProposalPage number="03" eyebrow="Nossa atuação no projeto" title="Frentes de atuação">
-            <div className="grid gap-4 md:grid-cols-2">
-              {proposalWorkBlocks.map((block) => (
-                <section key={block.key} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-                  <h4 className="text-sm font-bold uppercase text-brand">{block.title}</h4>
-                  <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-600">
-                    {block.items.map((item) => (
-                      <li key={item} className="rounded-md border border-slate-200 bg-white px-3 py-2">
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="no-print mt-4">
-                    <ProposalTextarea
-                      label={`Leitura editável - ${block.title}`}
-                      value={proposal[block.key]}
-                      onChange={(value) => updateProposal(block.key, value)}
-                      rows={4}
-                    />
-                  </div>
-                  <p className="proposal-print-note mt-4 hidden whitespace-pre-wrap text-sm leading-7 text-slate-700">
-                    {proposal[block.key]}
-                  </p>
-                </section>
-              ))}
-            </div>
-          </ProposalPage>
-
-          <ProposalPage number="04" eyebrow="Plano de trabalho" title="Timeline de implantação">
-            <div className="grid gap-4">
-              {proposalTimeline.map((item) => (
-                <article key={item.phase} className="proposal-timeline-item rounded-lg border border-slate-200 bg-slate-50 p-4">
-                  <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-                    <div>
-                      <p className="text-xs font-bold uppercase text-brand">{item.phase}</p>
-                      <h4 className="mt-1 text-lg font-semibold uppercase text-slate-950">{item.title}</h4>
-                    </div>
-                    <span className="w-fit rounded-full bg-brand-soft px-3 py-1 text-xs font-bold text-brand">
-                      {item.deadline}
-                    </span>
-                  </div>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{item.objective}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {item.deliveries.map((delivery) => (
-                      <span
-                        key={delivery}
-                        className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-600"
-                      >
-                        {delivery}
-                      </span>
-                    ))}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </ProposalPage>
-
-          <ProposalPage number="05" eyebrow="Modelo de parceria" title="Modelo de Coprodução">
-            <div className="rounded-lg border border-brand/15 bg-brand-soft p-5">
-              <p className="text-base leading-8 text-brand-deep">
-                Formato baseado em divisão percentual. Todos os investimentos, custos operacionais e
-                receitas serão compartilhados conforme o percentual acordado entre as partes.
-              </p>
-              <p className="mt-4 text-base leading-8 text-brand-deep">
-                O modelo busca alinhar interesses e garantir que o crescimento do projeto beneficie
-                todos os envolvidos.
+        <>
+          <section className="proposal-editor no-print rounded-lg border border-slate-200 bg-white p-5 shadow-panel">
+            <div className="border-l-4 border-brand pl-4">
+              <p className="text-xs font-bold uppercase text-brand">Edição manual</p>
+              <h3 className="mt-1 text-xl font-semibold text-slate-950">Campos da proposta</h3>
+              <p className="mt-2 text-sm leading-7 text-slate-500">
+                Edite aqui antes de exportar. O documento abaixo já mostra a versão final para apresentação.
               </p>
             </div>
-          </ProposalPage>
-
-          <ProposalPage number="06" eyebrow="Proposta comercial" title="Configuração da parceria">
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="mt-5 grid gap-4 lg:grid-cols-2">
+              <div className="lg:col-span-2">
+                <ProposalTextarea
+                  label="Nossa visão sobre o projeto"
+                  value={proposal.vision}
+                  onChange={(value) => updateProposal("vision", value)}
+                  rows={7}
+                />
+              </div>
+              <ProposalTextarea
+                label="Estratégia"
+                value={proposal.strategy}
+                onChange={(value) => updateProposal("strategy", value)}
+                rows={4}
+              />
+              <ProposalTextarea
+                label="Estrutura"
+                value={proposal.structure}
+                onChange={(value) => updateProposal("structure", value)}
+                rows={4}
+              />
+              <ProposalTextarea
+                label="Aquisição e conversão"
+                value={proposal.acquisition}
+                onChange={(value) => updateProposal("acquisition", value)}
+                rows={4}
+              />
+              <ProposalTextarea
+                label="LTV e expansão"
+                value={proposal.expansion}
+                onChange={(value) => updateProposal("expansion", value)}
+                rows={4}
+              />
               <ProposalTextarea
                 label="Percentual da especialista"
                 value={proposal.specialistPercentage}
                 onChange={(value) => updateProposal("specialistPercentage", value)}
-                rows={3}
+                rows={2}
               />
               <ProposalTextarea
                 label="Percentual da parceria"
                 value={proposal.partnershipPercentage}
                 onChange={(value) => updateProposal("partnershipPercentage", value)}
-                rows={3}
+                rows={2}
               />
-              <div className="md:col-span-2">
+              <div className="lg:col-span-2">
                 <ProposalTextarea
                   label="Responsabilidades"
                   value={proposal.responsibilities}
                   onChange={(value) => updateProposal("responsibilities", value)}
-                  rows={7}
+                  rows={6}
                 />
               </div>
               <ProposalTextarea
                 label="Observações comerciais"
                 value={proposal.observations}
                 onChange={(value) => updateProposal("observations", value)}
-                rows={5}
+                rows={4}
               />
               <ProposalTextarea
                 label="Condições"
                 value={proposal.conditions}
                 onChange={(value) => updateProposal("conditions", value)}
-                rows={5}
+                rows={4}
               />
             </div>
-          </ProposalPage>
-        </div>
+          </section>
+
+          <div className="proposal-document grid gap-5">
+            <ProposalPage number="01" eyebrow={`Data: ${proposalDate}`} title="Proposta de Parceria" cover>
+              <div className="max-w-4xl border-t-2 border-brand/60 pt-6">
+                <p className="text-3xl italic leading-tight text-slate-900 md:text-4xl">
+                  {APP_CONFIG.projectName} & Safira Digital
+                </p>
+                <div className="mt-12 grid gap-4 text-lg text-slate-600 md:grid-cols-2">
+                  <p>
+                    <span className="block text-xs font-bold uppercase tracking-[0.18em] text-brand">
+                      Projeto
+                    </span>
+                    <span className="mt-2 block text-2xl font-semibold text-slate-950">
+                      {APP_CONFIG.projectName}
+                    </span>
+                  </p>
+                  <p>
+                    <span className="block text-xs font-bold uppercase tracking-[0.18em] text-brand">
+                      Especialista
+                    </span>
+                    <span className="mt-2 block text-2xl font-semibold text-slate-950">
+                      Mariana Betioli
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </ProposalPage>
+
+            <ProposalPage number="02" eyebrow="Nossa visão sobre o projeto" title="Uma parceria para crescimento sustentável">
+              <p className="max-w-5xl whitespace-pre-wrap text-lg leading-9 text-slate-700">
+                {proposal.vision}
+              </p>
+            </ProposalPage>
+
+            <ProposalPage number="03" eyebrow="Nossa atuação no projeto" title="Como iremos atuar">
+              <p className="max-w-4xl text-lg leading-9 text-slate-700">
+                A atuação será conduzida de ponta a ponta, conectando estratégia, estrutura, aquisição,
+                conversão e expansão de LTV para criar uma base de crescimento mais clara, mensurável
+                e sustentável.
+              </p>
+              <div className="mt-10 grid gap-x-10 gap-y-8 md:grid-cols-2">
+                {proposalWorkBlocks.map((block, index) => (
+                  <section key={block.key} className="border-t border-brand/35 pt-5">
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">
+                      0{index + 1}
+                    </p>
+                    <h4 className="mt-2 text-2xl font-semibold text-slate-950">{block.title}</h4>
+                    <p className="mt-4 whitespace-pre-wrap text-base leading-8 text-slate-700">
+                      {proposal[block.key]}
+                    </p>
+                    <p className="mt-4 text-sm leading-7 text-slate-500">
+                      Inclui: {block.items.join(", ")}.
+                    </p>
+                  </section>
+                ))}
+              </div>
+            </ProposalPage>
+
+            <ProposalPage number="04" eyebrow="Plano de trabalho" title="Etapas, objetivos, entregas e prazos">
+              <div className="grid gap-x-10 gap-y-8 md:grid-cols-2">
+                {proposalTimeline.map((item, index) => (
+                  <article key={item.phase} className="proposal-timeline-item border-t border-slate-300 pt-5">
+                    <p className="text-sm font-bold uppercase tracking-[0.18em] text-brand">
+                      0{index + 1}. {item.phase}
+                    </p>
+                    <h4 className="mt-3 text-2xl font-semibold uppercase leading-tight text-slate-950">
+                      {item.title}
+                    </h4>
+                    <p className="mt-4 text-base leading-8 text-slate-700">
+                      <strong>Objetivo:</strong> {item.objective}
+                    </p>
+                    <p className="mt-3 text-base leading-8 text-slate-700">
+                      <strong>Entregas:</strong> {item.deliveries.join(", ")}.
+                    </p>
+                    <p className="mt-3 text-sm font-bold uppercase tracking-[0.14em] text-brand">
+                      Prazo estimado: {item.deadline}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </ProposalPage>
+
+            <ProposalPage number="05" eyebrow="Modelo de parceria" title="Modelo de Coprodução">
+              <div className="max-w-5xl text-xl leading-10 text-slate-800">
+                <p>
+                  Formato baseado em divisão percentual. Todos os investimentos, custos operacionais
+                  e receitas serão compartilhados conforme o percentual acordado entre as partes.
+                </p>
+                <p className="mt-6">
+                  O modelo busca alinhar interesses e garantir que o crescimento do projeto beneficie
+                  todos os envolvidos.
+                </p>
+              </div>
+            </ProposalPage>
+
+            <ProposalPage number="06" eyebrow="Proposta comercial" title="Configuração da parceria">
+              <div className="grid gap-8 md:grid-cols-2">
+                <section className="border-t border-brand/35 pt-5">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
+                    Percentual da especialista
+                  </p>
+                  <p className="mt-3 whitespace-pre-wrap text-2xl font-semibold text-slate-950">
+                    {proposal.specialistPercentage || "A definir"}
+                  </p>
+                </section>
+                <section className="border-t border-brand/35 pt-5">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
+                    Percentual da parceria
+                  </p>
+                  <p className="mt-3 whitespace-pre-wrap text-2xl font-semibold text-slate-950">
+                    {proposal.partnershipPercentage || "A definir"}
+                  </p>
+                </section>
+                <section className="border-t border-slate-300 pt-5 md:col-span-2">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
+                    Responsabilidades
+                  </p>
+                  <p className="mt-4 whitespace-pre-wrap text-base leading-8 text-slate-700">
+                    {proposal.responsibilities || "A definir."}
+                  </p>
+                </section>
+                <section className="border-t border-slate-300 pt-5">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
+                    Observações
+                  </p>
+                  <p className="mt-4 whitespace-pre-wrap text-base leading-8 text-slate-700">
+                    {proposal.observations || "A definir."}
+                  </p>
+                </section>
+                <section className="border-t border-slate-300 pt-5">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
+                    Condições
+                  </p>
+                  <p className="mt-4 whitespace-pre-wrap text-base leading-8 text-slate-700">
+                    {proposal.conditions || "A definir."}
+                  </p>
+                </section>
+              </div>
+            </ProposalPage>
+          </div>
+        </>
       )}
     </section>
   );
@@ -1796,8 +1891,9 @@ export default function App() {
 
   const totalFields = stages.length * fieldConfig.length;
   const progress = Math.round((completedFields / totalFields) * 100);
-  const currentStage = stages.find((stage) => stage.id === activeStage);
+  const currentStage = stages.find((stage) => stage.id === activeStage) || stages[0];
   const isSummary = activeStage === "resumo";
+  const isProposal = activeStage === "proposta";
   const hasCurrentDiagnosisData = useMemo(() => hasDiagnosisData(data), [data]);
   const reportData = data;
   const currentSnapshot = useMemo(() => snapshotDiagnosis(data), [data]);
@@ -2103,6 +2199,21 @@ export default function App() {
               Síntese consolidada
             </span>
           </button>
+
+          <button
+            type="button"
+            onClick={() => navigateTo("proposta")}
+            className={`rounded-lg border px-4 py-4 text-left transition ${
+              isProposal
+                ? "border-brand bg-brand text-white shadow-brand"
+                : "border-slate-200 bg-slate-50 text-slate-800 hover:bg-white"
+            }`}
+          >
+            <span className="block text-sm font-semibold">Proposta Comercial</span>
+            <span className={isProposal ? "text-xs text-white/70" : "text-xs text-slate-500"}>
+              Documento de parceria
+            </span>
+          </button>
         </nav>
 
         <section className="mt-5 rounded-lg border border-slate-200 bg-slate-50 p-4">
@@ -2139,7 +2250,7 @@ export default function App() {
             <div>
               <div className="flex flex-wrap items-center gap-2">
                 <span className="rounded-full bg-brand-soft px-3 py-1 text-xs font-bold uppercase text-brand">
-                  {isSummary ? "Etapa final" : `Etapa ${currentStage.number}`}
+                  {isProposal ? "Proposta" : isSummary ? "Etapa final" : `Etapa ${currentStage.number}`}
                 </span>
                 <span className="text-xs font-semibold text-slate-500">{saveState}</span>
                 <button
@@ -2151,7 +2262,7 @@ export default function App() {
                 </button>
               </div>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 md:text-3xl">
-                {isSummary ? "Resumo e Diagnóstico" : currentStage.title}
+                {isProposal ? "Proposta Comercial" : isSummary ? "Resumo e Diagnóstico" : currentStage.title}
               </h2>
             </div>
 
@@ -2170,7 +2281,7 @@ export default function App() {
           </div>
 
           <div className="mx-auto mt-4 flex max-w-7xl gap-2 overflow-x-auto pb-1 lg:hidden">
-            {[...stages, { id: "resumo", number: "R", title: "Resumo" }].map((stage) => (
+            {[...stages, { id: "resumo", number: "R", title: "Resumo" }, { id: "proposta", number: "P", title: "Proposta" }].map((stage) => (
               <button
                 key={stage.id}
                 type="button"
@@ -2188,7 +2299,7 @@ export default function App() {
         </header>
 
         <div className="mx-auto max-w-7xl px-4 py-6 md:px-7 md:py-8">
-          {!isSummary ? (
+          {!isSummary && !isProposal ? (
             <div className="grid gap-6">
               <FlowCard title={currentStage.title} eyebrow="Tema da categoria" tone="brand">
                 <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1.25fr]">
@@ -2239,7 +2350,7 @@ export default function App() {
                 />
               </section>
             </div>
-          ) : (
+          ) : isSummary ? (
             <div className="grid gap-5">
               <div className="diagnostic-summary-content grid gap-5">
                 <section className="print-only print-report-header rounded-lg border border-brand/15 bg-white p-5">
@@ -2375,16 +2486,15 @@ export default function App() {
                   <EmptySummaryState savedCount={savedDiagnoses.length} />
                 )}
               </div>
-
-              <ProposalModule
-                data={data}
-                hasCurrentDiagnosisData={hasCurrentDiagnosisData}
-                proposal={proposal}
-                onProposalChange={setProposal}
-                onGenerate={generateProposal}
-                onExport={exportProposalPdf}
-              />
             </div>
+          ) : (
+            <ProposalModule
+              hasCurrentDiagnosisData={hasCurrentDiagnosisData}
+              proposal={proposal}
+              onProposalChange={setProposal}
+              onGenerate={generateProposal}
+              onExport={exportProposalPdf}
+            />
           )}
         </div>
       </section>
