@@ -441,57 +441,36 @@ const proposalWorkBlocks = [
 
 const proposalTimeline = [
   {
-    phase: "Fase 01",
-    title: "Ambientação e imersão",
-    objective: "Compreender profundamente a operação atual.",
+    phase: "Mapeamento estratégico",
+    objective: "Compreender como o negócio opera hoje e quais elementos precisam estar presentes para que a expansão aconteça.",
     deliveries: [
-      "Acessos",
-      "Levantamento de ativos",
-      "Imersão no negócio",
-      "Organização inicial das informações"
+      "Análise do modelo de negócio e dos indicadores críticos",
+      "Revisão de funis, canais, comportamento de cliente e histórico de resultados",
+      "Identificação das oportunidades de melhoria e das ineficiências estruturais",
+      "Definição dos pilares que irão orientar o planejamento"
     ],
-    deadline: "7 a 10 dias"
+    deadline: "2 semanas"
   },
   {
-    phase: "Fase 02",
-    title: "Estruturação e mapeamento",
-    objective: "Construir a base necessária para tomada de decisão.",
+    phase: "Planejamento e decisões estruturais",
+    objective: "Transformar o diagnóstico em direção clara e priorizada, definindo o que irá guiar o crescimento no próximo ciclo.",
     deliveries: [
-      "Tracking",
-      "CRM",
-      "Fluxos",
-      "Estrutura de dados",
-      "Pesquisa com compradoras",
-      "ICP",
-      "Jornada de compra",
-      "Mapeamento de objeções"
+      "Priorização das frentes estratégicas",
+      "Metas e direcionadores definidos",
+      "Organização das decisões no F.O.E. Framework",
+      "Direção para funis de vendas, oferta e aquisição"
     ],
-    deadline: "15 a 30 dias"
+    deadline: "2 semanas"
   },
   {
-    phase: "Fase 03",
-    title: "Otimização",
-    objective: "Melhorar eficiência e conversão dos ativos existentes.",
+    phase: "Plano de implementação e acompanhamento inicial",
+    objective: "Organizar a execução para que o crescimento saia do papel com clareza, ritmo e coerência operacional.",
     deliveries: [
-      "Ajustes de oferta",
-      "Ajustes de perpétuo",
-      "Refinamento dos processos de conversão",
-      "Conteúdo Guiado",
-      "Relacionamento"
+      "Plano de implementação com etapas, responsáveis e prazos",
+      "Padrões e recomendações essenciais para garantir alinhamento entre estratégia e execução",
+      "Acompanhamento inicial das primeiras ações para validar aderência ao direcionamento definido"
     ],
-    deadline: "30 a 60 dias"
-  },
-  {
-    phase: "Fase 04",
-    title: "Análise de dados e escala",
-    objective: "Tomar decisões baseadas em dados e expandir o que funciona.",
-    deliveries: [
-      "Análise de resultados",
-      "Novas oportunidades",
-      "Evolução da esteira",
-      "Escala dos canais validados"
-    ],
-    deadline: "Contínuo"
+    deadline: "3 a 4 semanas"
   }
 ];
 
@@ -1423,23 +1402,29 @@ function ProposalPage({ number, eyebrow, title, children, cover = false }) {
       }`}
     >
       <div className="absolute inset-y-0 left-0 w-3 bg-brand/80" />
-      <div className={cover ? "min-h-[480px] content-center pl-4" : "pl-4"}>
+      <div className={cover ? "min-h-[430px] content-center pl-4" : "pl-4"}>
         <div className="flex items-start justify-between gap-4">
           <div className={cover ? "max-w-4xl" : ""}>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">{eyebrow}</p>
-            <h3
-              className={`${
-                cover ? "mt-8 text-5xl md:text-7xl" : "mt-2 text-3xl md:text-4xl"
-              } font-semibold leading-tight text-slate-950`}
-            >
-              {title}
-            </h3>
+            {eyebrow ? (
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">{eyebrow}</p>
+            ) : null}
+            {title ? (
+              <h3
+                className={`${
+                  cover ? "mt-5 text-5xl md:text-7xl" : "mt-2 text-3xl md:text-4xl"
+                } font-semibold leading-tight text-slate-950`}
+              >
+                {title}
+              </h3>
+            ) : null}
           </div>
-          <span className="rounded-full border border-brand/25 bg-white px-4 py-2 text-xs font-bold text-brand">
-            {number}
-          </span>
+          {number ? (
+            <span className="rounded-full border border-brand/25 bg-white px-4 py-2 text-xs font-bold text-brand">
+              {number}
+            </span>
+          ) : null}
         </div>
-        <div className={cover ? "mt-12" : "mt-8"}>{children}</div>
+        <div className={cover ? "mt-8" : title ? "mt-7" : "mt-4"}>{children}</div>
       </div>
     </section>
   );
@@ -1449,7 +1434,7 @@ function ProposalResponsibilities({ value }) {
   const lines = (value || "A definir.").split("\n");
 
   return (
-    <div className="mt-4 grid gap-3 whitespace-pre-wrap text-lg leading-9 text-slate-700">
+    <div className="mt-4 grid gap-2 whitespace-pre-wrap text-base leading-7 text-slate-700">
       {lines.map((line, index) => {
         const trimmedLine = line.trim();
 
@@ -1476,9 +1461,97 @@ function ProposalResponsibilities({ value }) {
   );
 }
 
+function inlineComputedStyles(sourceNode, targetNode) {
+  const computedStyle = window.getComputedStyle(sourceNode);
+  targetNode.style.cssText = Array.from(computedStyle)
+    .map((property) => `${property}:${computedStyle.getPropertyValue(property)};`)
+    .join("");
+
+  Array.from(sourceNode.children).forEach((sourceChild, index) => {
+    if (targetNode.children[index]) {
+      inlineComputedStyles(sourceChild, targetNode.children[index]);
+    }
+  });
+}
+
+function downloadCanvas(canvas, filename) {
+  const link = document.createElement("a");
+  link.download = filename;
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+}
+
+function waitForImageLoad(image) {
+  return new Promise((resolve, reject) => {
+    image.onload = resolve;
+    image.onerror = reject;
+  });
+}
+
+async function exportNodeAsPng(node, filename) {
+  await document.fonts?.ready;
+
+  const width = Math.ceil(node.offsetWidth);
+  const height = Math.ceil(node.offsetHeight);
+  const clone = node.cloneNode(true);
+  inlineComputedStyles(node, clone);
+  clone.style.width = `${width}px`;
+  clone.style.height = `${height}px`;
+  clone.style.margin = "0";
+  clone.style.boxSizing = "border-box";
+
+  const serializedNode = new XMLSerializer().serializeToString(clone);
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+      <foreignObject width="100%" height="100%">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="width:${width}px;height:${height}px;background:#ffffff;">
+          ${serializedNode}
+        </div>
+      </foreignObject>
+    </svg>
+  `;
+  const svgUrl = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml;charset=utf-8" }));
+  const image = new Image();
+  image.src = svgUrl;
+  await waitForImageLoad(image);
+
+  const scale = 2;
+  const canvas = document.createElement("canvas");
+  canvas.width = width * scale;
+  canvas.height = height * scale;
+  const context = canvas.getContext("2d");
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.scale(scale, scale);
+  context.drawImage(image, 0, 0);
+  URL.revokeObjectURL(svgUrl);
+  downloadCanvas(canvas, filename);
+}
+
 function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, onGenerate, onExport }) {
   const updateProposal = (key, value) => onProposalChange({ ...proposal, [key]: value });
-  const proposalDate = formatDateTime().split(" ")[0];
+  const [pngExportStatus, setPngExportStatus] = useState("");
+
+  async function exportProposalCardsAsPng() {
+    const cards = Array.from(document.querySelectorAll(".proposal-page"));
+
+    if (!cards.length) {
+      return;
+    }
+
+    setPngExportStatus("Gerando PNGs...");
+
+    try {
+      for (const [index, card] of cards.entries()) {
+        await exportNodeAsPng(card, `proposta-mariana-betioli-card-${String(index + 1).padStart(2, "0")}.png`);
+        await new Promise((resolve) => setTimeout(resolve, 250));
+      }
+      setPngExportStatus("PNGs baixados");
+      window.setTimeout(() => setPngExportStatus(""), 2500);
+    } catch {
+      setPngExportStatus("Não foi possível gerar os PNGs neste navegador");
+    }
+  }
 
   return (
     <section className="proposal-module grid gap-5">
@@ -1513,7 +1586,20 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
             >
               Exportar proposta em PDF
             </button>
+            <button
+              type="button"
+              onClick={exportProposalCardsAsPng}
+              disabled={!hasCurrentDiagnosisData}
+              className={`rounded-md border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 ${
+                hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
+              }`}
+            >
+              Baixar cards em PNG
+            </button>
           </div>
+          {pngExportStatus ? (
+            <p className="text-xs font-semibold text-slate-500 lg:text-right">{pngExportStatus}</p>
+          ) : null}
         </div>
       </div>
 
@@ -1600,12 +1686,12 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
           </section>
 
           <div className="proposal-document grid gap-5">
-            <ProposalPage number="01" eyebrow={`Data: ${proposalDate}`} title="Proposta de Parceria" cover>
+            <ProposalPage title="Proposta de Parceria" cover>
               <div className="max-w-4xl border-t-2 border-brand/60 pt-6">
                 <p className="text-3xl italic leading-tight text-slate-900 md:text-4xl">
-                  Mariana Betioli - {APP_CONFIG.projectName}
+                  Mariana Betioli
                 </p>
-                <div className="mt-12 grid gap-4 text-lg text-slate-600 md:grid-cols-2">
+                <div className="mt-10 grid max-w-xl gap-4 text-lg text-slate-600">
                   <p>
                     <span className="block text-xs font-bold uppercase tracking-[0.18em] text-brand">
                       Projeto
@@ -1614,31 +1700,22 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
                       {APP_CONFIG.projectName}
                     </span>
                   </p>
-                  <p>
-                    <span className="block text-xs font-bold uppercase tracking-[0.18em] text-brand">
-                      Especialista
-                    </span>
-                    <span className="mt-2 block text-2xl font-semibold text-slate-950">
-                      Mariana Betioli
-                    </span>
-                  </p>
                 </div>
               </div>
             </ProposalPage>
 
-            <ProposalPage number="02" eyebrow="Nossa visão sobre o projeto" title="Uma parceria para crescimento sustentável">
-              <p className="max-w-5xl whitespace-pre-wrap text-lg leading-9 text-slate-700">
+            <ProposalPage number="02" eyebrow="Nossa visão sobre o projeto">
+              <p className="max-w-5xl whitespace-pre-wrap text-base leading-7 text-slate-700">
                 {proposal.vision}
               </p>
             </ProposalPage>
 
-            <ProposalPage number="03" eyebrow="Nossa atuação no projeto" title="Como iremos atuar">
-              <p className="max-w-4xl text-lg leading-9 text-slate-700">
-                A atuação será conduzida de ponta a ponta, conectando estratégia, estrutura, aquisição,
-                conversão e expansão de LTV para criar uma base de crescimento mais clara, mensurável
-                e sustentável.
-              </p>
-              <div className="proposal-vertical-timeline relative mt-10 grid gap-7 border-l-2 border-brand/25 pl-8">
+            <ProposalPage
+              number="03"
+              eyebrow="Nossa atuação no projeto"
+              title="A Entrega Estratégica é dividida em 4 Frentes"
+            >
+              <div className="proposal-vertical-timeline relative mt-1 grid gap-5 border-l-2 border-brand/25 pl-8">
                 {proposalWorkBlocks.map((block, index) => (
                   <section key={block.key} className="proposal-timeline-item relative pb-1">
                     <span className="absolute -left-[43px] top-1 flex h-7 w-7 items-center justify-center rounded-full border-4 border-white bg-brand text-[10px] font-bold text-white">
@@ -1650,7 +1727,7 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
                     <h4 className="mt-2 text-2xl font-semibold leading-tight text-slate-950">
                       {block.title}
                     </h4>
-                    <p className="mt-4 max-w-5xl whitespace-pre-wrap text-lg leading-9 text-slate-700">
+                    <p className="mt-3 max-w-5xl whitespace-pre-wrap text-base leading-7 text-slate-700">
                       {proposal[block.key]}
                     </p>
                   </section>
@@ -1658,78 +1735,99 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
               </div>
             </ProposalPage>
 
-            <ProposalPage number="04" eyebrow="Plano de trabalho" title="Etapas, objetivos, entregas e prazos">
-              <div className="proposal-vertical-timeline relative mt-2 grid gap-7 border-l-2 border-brand/25 pl-8">
-                {proposalTimeline.map((item, index) => (
-                  <article key={item.phase} className="proposal-timeline-item relative pb-1">
-                    <span className="absolute -left-[43px] top-1 flex h-7 w-7 items-center justify-center rounded-full border-4 border-white bg-brand text-[10px] font-bold text-white">
-                      {index + 1}
-                    </span>
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">
+            <ProposalPage number="04" eyebrow="Plano de trabalho" title="Plano de Trabalho">
+              <p className="-mt-4 text-xl italic leading-tight text-slate-700">
+                Etapas, objetivos, entregas e prazos
+              </p>
+              <div className="proposal-plan-board mt-10">
+                <div className="grid gap-6 md:grid-cols-3">
+                  {proposalTimeline.map((item) => (
+                    <h4
+                      key={item.phase}
+                      className="text-lg font-bold uppercase leading-5 text-[#1f3d35]"
+                    >
                       {item.phase}
-                    </p>
-                    <h4 className="mt-2 text-2xl font-semibold uppercase leading-tight text-slate-950">
-                      {item.title}
                     </h4>
-                    <p className="mt-4 text-lg leading-9 text-slate-700">
-                      <strong>Objetivo:</strong> {item.objective}
-                    </p>
-                    <p className="mt-3 text-lg leading-9 text-slate-700">
-                      <strong>Entregas:</strong> {item.deliveries.join(", ")}.
-                    </p>
-                    <p className="mt-3 text-sm font-bold uppercase tracking-[0.14em] text-brand">
-                      Prazo estimado: {item.deadline}
-                    </p>
-                  </article>
-                ))}
+                  ))}
+                </div>
+                <div className="proposal-plan-line my-5 hidden h-6 rounded-full bg-gradient-to-r from-[#fff0cf] via-[#e6c16a] to-[#dba437] md:block" />
+                <div className="grid gap-6 md:grid-cols-3">
+                  {proposalTimeline.map((item) => (
+                    <article
+                      key={item.phase}
+                      className="proposal-timeline-item overflow-hidden rounded-md border border-[#e5bd68] bg-white"
+                    >
+                      <div className="bg-[#f5dca8] px-4 py-3 text-sm leading-5 text-slate-900">
+                        <strong>Objetivo:</strong> {item.objective}
+                      </div>
+                      <div className="px-4 py-4 text-sm leading-5 text-slate-800">
+                        <p className="font-bold">Entregas:</p>
+                        <ul className="mt-1 list-disc space-y-1 pl-5">
+                          {item.deliveries.map((delivery) => (
+                            <li key={delivery}>{delivery}</li>
+                          ))}
+                        </ul>
+                        <p className="mt-4">
+                          <strong>Tempo estimado:</strong> {item.deadline}
+                        </p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
               </div>
             </ProposalPage>
 
-            <ProposalPage number="05" eyebrow="Modelo de parceria" title="Modelo de Coprodução">
-              <div className="max-w-5xl text-xl leading-10 text-slate-800">
-                <p>
-                  Formato baseado em divisão percentual. Todos os investimentos, custos operacionais
-                  e receitas serão compartilhados conforme o percentual acordado entre as partes.
-                </p>
-                <p className="mt-6">
-                  O modelo busca alinhar interesses e garantir que o crescimento do projeto beneficie
-                  todos os envolvidos.
-                </p>
-              </div>
+            <ProposalPage number="05" eyebrow="Responsabilidades" title="Responsabilidades">
+              <ProposalResponsibilities value={proposal.responsibilities} />
             </ProposalPage>
 
-            <ProposalPage number="06" eyebrow="Proposta comercial" title="Configuração da parceria">
-              <div className="grid gap-8 md:grid-cols-2">
-                <section className="border-t border-brand/35 pt-5">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
-                    Percentual da especialista
+            <ProposalPage
+              number="06"
+              eyebrow="Modelo de parceria + proposta comercial"
+              title="Modelo de Coprodução"
+            >
+              <div className="grid gap-7">
+                <div className="max-w-5xl text-base leading-7 text-slate-800">
+                  <p>
+                    Formato baseado em divisão percentual. Todos os investimentos, custos operacionais
+                    e receitas serão compartilhados conforme o percentual acordado entre as partes.
                   </p>
-                  <p className="mt-3 whitespace-pre-wrap text-2xl font-semibold text-slate-950">
-                    {proposal.specialistPercentage || "A definir"}
+                  <p className="mt-4">
+                    O modelo busca alinhar interesses e garantir que o crescimento do projeto beneficie
+                    todos os envolvidos.
                   </p>
-                </section>
-                <section className="border-t border-brand/35 pt-5">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
-                    Percentual da parceria
-                  </p>
-                  <p className="mt-3 whitespace-pre-wrap text-2xl font-semibold text-slate-950">
-                    {proposal.partnershipPercentage || "A definir"}
-                  </p>
-                </section>
-                <p className="rounded-md border border-brand/20 bg-brand-soft px-5 py-4 text-lg font-semibold leading-8 text-brand md:col-span-2">
+                </div>
+                <div className="grid gap-6 md:grid-cols-2">
+                  <section className="border-t border-brand/35 pt-5">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
+                      Percentual da especialista
+                    </p>
+                    <p className="mt-3 whitespace-pre-wrap text-3xl font-semibold text-slate-950">
+                      {proposal.specialistPercentage || "A definir"}
+                    </p>
+                  </section>
+                  <section className="border-t border-brand/35 pt-5">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
+                      Percentual da parceria
+                    </p>
+                    <p className="mt-3 whitespace-pre-wrap text-3xl font-semibold text-slate-950">
+                      {proposal.partnershipPercentage || "A definir"}
+                    </p>
+                  </section>
+                </div>
+                <p className="rounded-md border border-brand/20 bg-brand-soft px-5 py-4 text-base font-semibold leading-7 text-brand">
                   Modelo de coprodução com divisão proporcional de receitas e custos da operação.
                 </p>
-                <section className="border-t border-slate-300 pt-5 md:col-span-2">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
-                    Responsabilidades
-                  </p>
-                  <ProposalResponsibilities value={proposal.responsibilities} />
-                </section>
+              </div>
+            </ProposalPage>
+
+            <ProposalPage number="07" eyebrow="Observações + condições" title="Observações e Condições">
+              <div className="grid gap-7 md:grid-cols-2">
                 <section className="border-t border-slate-300 pt-5">
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
-                    Observações
+                    Observações comerciais
                   </p>
-                  <p className="mt-4 whitespace-pre-wrap text-lg leading-9 text-slate-700">
+                  <p className="mt-4 whitespace-pre-wrap text-base leading-7 text-slate-700">
                     {proposal.observations || "A definir."}
                   </p>
                 </section>
@@ -1737,7 +1835,7 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
                     Condições
                   </p>
-                  <p className="mt-4 whitespace-pre-wrap text-lg leading-9 text-slate-700">
+                  <p className="mt-4 whitespace-pre-wrap text-base leading-7 text-slate-700">
                     {proposal.conditions || "A definir."}
                   </p>
                 </section>
