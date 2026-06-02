@@ -176,6 +176,10 @@ body {
     display: block !important;
   }
 
+  .print-mode-proposal .proposal-page-shell {
+    display: block !important;
+  }
+
   .print-mode-proposal .proposal-page {
     break-after: page;
     page-break-after: always;

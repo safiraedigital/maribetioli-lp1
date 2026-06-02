@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import html2canvas from "html2canvas";
 import mariProfileLockup from "../Mari Betioli perfil.png";
 
 const APP_CONFIG = {
@@ -1419,39 +1420,71 @@ function ProposalTextarea({ label, value, onChange, rows = 5 }) {
   );
 }
 
-function ProposalPage({ number, eyebrow, title, children, cover = false }) {
+function ProposalPage({
+  number,
+  eyebrow,
+  title,
+  children,
+  cover = false,
+  editable = false,
+  filename,
+  onDownload
+}) {
   return (
-    <section
-      className={`proposal-page relative overflow-hidden rounded-lg border border-slate-200 bg-white p-8 shadow-panel md:p-10 ${
-        cover ? "proposal-cover" : ""
-      }`}
-    >
-      <div className="absolute inset-y-0 left-0 w-3 bg-brand/80" />
-      <div className={cover ? "min-h-[430px] content-center pl-4" : "pl-4"}>
-        <div className="flex items-start justify-between gap-4">
-          <div className={cover ? "max-w-4xl" : ""}>
-            {eyebrow ? (
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">{eyebrow}</p>
-            ) : null}
-            {title ? (
-              <h3
-                className={`${
-                  cover ? "mt-5 text-5xl md:text-7xl" : "mt-2 text-3xl md:text-4xl"
-                } font-semibold leading-tight text-slate-950`}
-              >
-                {title}
-              </h3>
+    <div className="proposal-page-shell grid gap-2 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
+      <section
+        className={`proposal-page relative overflow-hidden rounded-lg border border-slate-200 bg-white p-8 shadow-panel md:p-10 ${
+          cover ? "proposal-cover" : ""
+        }`}
+      >
+        <div className="absolute inset-y-0 left-0 w-3 bg-brand/80" />
+        <div
+          className={`proposal-card-content ${cover ? "min-h-[430px] content-center pl-4" : "pl-4"} ${
+            editable ? "rounded-md outline outline-2 outline-brand/25 outline-offset-8" : ""
+          }`}
+          contentEditable={editable}
+          suppressContentEditableWarning
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div className={cover ? "max-w-4xl" : ""}>
+              {eyebrow ? (
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">{eyebrow}</p>
+              ) : null}
+              {title ? (
+                <h3
+                  className={`${
+                    cover ? "mt-5 text-5xl md:text-7xl" : "mt-2 text-3xl md:text-4xl"
+                  } font-semibold leading-tight text-slate-950`}
+                >
+                  {title}
+                </h3>
+              ) : null}
+            </div>
+            {number ? (
+              <span className="rounded-full border border-brand/25 bg-white px-4 py-2 text-xs font-bold text-brand">
+                {number}
+              </span>
             ) : null}
           </div>
-          {number ? (
-            <span className="rounded-full border border-brand/25 bg-white px-4 py-2 text-xs font-bold text-brand">
-              {number}
-            </span>
-          ) : null}
+          <div className={cover ? "mt-8" : title ? "mt-7" : "mt-4"}>{children}</div>
         </div>
-        <div className={cover ? "mt-8" : title ? "mt-7" : "mt-4"}>{children}</div>
-      </div>
-    </section>
+      </section>
+      {onDownload ? (
+        <button
+          type="button"
+          onClick={(event) => {
+            const shell = event.currentTarget.closest(".proposal-page-shell");
+            const page = shell?.querySelector(".proposal-page");
+            if (page) {
+              onDownload(page, filename);
+            }
+          }}
+          className="no-print rounded-md border border-brand/20 bg-white px-3 py-2 text-xs font-bold text-brand shadow-sm hover:bg-brand-soft"
+        >
+          Baixar PNG
+        </button>
+      ) : null}
+    </div>
   );
 }
 
@@ -1486,19 +1519,6 @@ function ProposalResponsibilities({ value }) {
   );
 }
 
-function inlineComputedStyles(sourceNode, targetNode) {
-  const computedStyle = window.getComputedStyle(sourceNode);
-  targetNode.style.cssText = Array.from(computedStyle)
-    .map((property) => `${property}:${computedStyle.getPropertyValue(property)};`)
-    .join("");
-
-  Array.from(sourceNode.children).forEach((sourceChild, index) => {
-    if (targetNode.children[index]) {
-      inlineComputedStyles(sourceChild, targetNode.children[index]);
-    }
-  });
-}
-
 function downloadCanvas(canvas, filename) {
   const link = document.createElement("a");
   link.download = filename;
@@ -1506,75 +1526,33 @@ function downloadCanvas(canvas, filename) {
   link.click();
 }
 
-function waitForImageLoad(image) {
-  return new Promise((resolve, reject) => {
-    image.onload = resolve;
-    image.onerror = reject;
-  });
-}
-
 async function exportNodeAsPng(node, filename) {
   await document.fonts?.ready;
-
-  const width = Math.ceil(node.offsetWidth);
-  const height = Math.ceil(node.offsetHeight);
-  const clone = node.cloneNode(true);
-  inlineComputedStyles(node, clone);
-  clone.style.width = `${width}px`;
-  clone.style.height = `${height}px`;
-  clone.style.margin = "0";
-  clone.style.boxSizing = "border-box";
-
-  const serializedNode = new XMLSerializer().serializeToString(clone);
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-      <foreignObject width="100%" height="100%">
-        <div xmlns="http://www.w3.org/1999/xhtml" style="width:${width}px;height:${height}px;background:#ffffff;">
-          ${serializedNode}
-        </div>
-      </foreignObject>
-    </svg>
-  `;
-  const svgUrl = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml;charset=utf-8" }));
-  const image = new Image();
-  image.src = svgUrl;
-  await waitForImageLoad(image);
-
-  const scale = 2;
-  const canvas = document.createElement("canvas");
-  canvas.width = width * scale;
-  canvas.height = height * scale;
-  const context = canvas.getContext("2d");
-  context.fillStyle = "#ffffff";
-  context.fillRect(0, 0, canvas.width, canvas.height);
-  context.scale(scale, scale);
-  context.drawImage(image, 0, 0);
-  URL.revokeObjectURL(svgUrl);
+  const canvas = await html2canvas(node, {
+    backgroundColor: "#ffffff",
+    scale: 2,
+    useCORS: true,
+    logging: false,
+    ignoreElements: (element) => element.classList?.contains("no-print"),
+    onclone: (clonedDocument) => {
+      clonedDocument.querySelectorAll("[contenteditable]").forEach((element) => {
+        element.removeAttribute("contenteditable");
+        element.style.outline = "none";
+      });
+    }
+  });
   downloadCanvas(canvas, filename);
 }
 
 function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, onGenerate, onExport }) {
   const updateProposal = (key, value) => onProposalChange({ ...proposal, [key]: value });
-  const [pngExportStatus, setPngExportStatus] = useState("");
+  const [cardsAreEditable, setCardsAreEditable] = useState(false);
 
-  async function exportProposalCardsAsPng() {
-    const cards = Array.from(document.querySelectorAll(".proposal-page"));
-
-    if (!cards.length) {
-      return;
-    }
-
-    setPngExportStatus("Gerando PNGs...");
-
+  async function downloadProposalCard(card, filename) {
     try {
-      for (const [index, card] of cards.entries()) {
-        await exportNodeAsPng(card, `proposta-mariana-betioli-card-${String(index + 1).padStart(2, "0")}.png`);
-        await new Promise((resolve) => setTimeout(resolve, 250));
-      }
-      setPngExportStatus("PNGs baixados");
-      window.setTimeout(() => setPngExportStatus(""), 2500);
+      await exportNodeAsPng(card, filename);
     } catch {
-      setPngExportStatus("Não foi possível gerar os PNGs neste navegador");
+      window.alert("Não foi possível gerar este PNG neste navegador.");
     }
   }
 
@@ -1613,18 +1591,15 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
             </button>
             <button
               type="button"
-              onClick={exportProposalCardsAsPng}
+              onClick={() => setCardsAreEditable((current) => !current)}
               disabled={!hasCurrentDiagnosisData}
               className={`rounded-md border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 ${
                 hasCurrentDiagnosisData ? "" : "cursor-not-allowed opacity-45"
               }`}
             >
-              Baixar cards em PNG
+              {cardsAreEditable ? "Edição visual ativa" : "Editar cards prontos"}
             </button>
           </div>
-          {pngExportStatus ? (
-            <p className="text-xs font-semibold text-slate-500 lg:text-right">{pngExportStatus}</p>
-          ) : null}
         </div>
       </div>
 
@@ -1711,7 +1686,13 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
           </section>
 
           <div className="proposal-document grid gap-5">
-            <ProposalPage title="Proposta de Parceria" cover>
+            <ProposalPage
+              title="Proposta de Parceria"
+              cover
+              editable={cardsAreEditable}
+              filename="proposta-mariana-betioli-card-01-capa.png"
+              onDownload={downloadProposalCard}
+            >
               <div className="max-w-4xl border-t-2 border-brand/60 pt-6">
                 <p className="text-3xl italic leading-tight text-slate-900 md:text-4xl">
                   Mariana Betioli
@@ -1729,7 +1710,13 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
               </div>
             </ProposalPage>
 
-            <ProposalPage number="02" eyebrow="Nossa visão sobre o projeto">
+            <ProposalPage
+              number="02"
+              eyebrow="Nossa visão sobre o projeto"
+              editable={cardsAreEditable}
+              filename="proposta-mariana-betioli-card-02-visao.png"
+              onDownload={downloadProposalCard}
+            >
               <p className="max-w-5xl whitespace-pre-wrap text-base leading-7 text-slate-700">
                 {proposal.vision}
               </p>
@@ -1738,7 +1725,10 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
             <ProposalPage
               number="03"
               eyebrow="Nossa atuação no projeto"
-              title="A Entrega Estratégica é dividida em 4 Frentes"
+              title="A Entrega Estratégica é Dividida em 4 Frentes"
+              editable={cardsAreEditable}
+              filename="proposta-mariana-betioli-card-03-atuacao.png"
+              onDownload={downloadProposalCard}
             >
               <div className="proposal-vertical-timeline relative mt-1 grid gap-5 border-l-2 border-brand/25 pl-8">
                 {proposalWorkBlocks.map((block, index) => (
@@ -1760,8 +1750,14 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
               </div>
             </ProposalPage>
 
-            <ProposalPage number="04" eyebrow="Plano de trabalho" title="Plano de Trabalho">
-              <p className="-mt-4 text-xl italic leading-tight text-slate-700">
+            <ProposalPage
+              number="04"
+              title="Plano de Trabalho"
+              editable={cardsAreEditable}
+              filename="proposta-mariana-betioli-card-04-plano.png"
+              onDownload={downloadProposalCard}
+            >
+              <p className="-mt-3 text-xl italic leading-tight text-slate-700">
                 Etapas, objetivos, entregas e prazos
               </p>
               <div className="proposal-plan-board mt-10">
@@ -1802,7 +1798,14 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
               </div>
             </ProposalPage>
 
-            <ProposalPage number="05" eyebrow="Responsabilidades" title="Responsabilidades">
+            <ProposalPage
+              number="05"
+              eyebrow="Responsabilidades"
+              title="Responsabilidades"
+              editable={cardsAreEditable}
+              filename="proposta-mariana-betioli-card-05-responsabilidades.png"
+              onDownload={downloadProposalCard}
+            >
               <ProposalResponsibilities value={proposal.responsibilities} />
             </ProposalPage>
 
@@ -1810,6 +1813,9 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
               number="06"
               eyebrow="Modelo de parceria + proposta comercial"
               title="Modelo de Coprodução"
+              editable={cardsAreEditable}
+              filename="proposta-mariana-betioli-card-06-modelo-proposta.png"
+              onDownload={downloadProposalCard}
             >
               <div className="grid gap-7">
                 <div className="max-w-5xl text-base leading-7 text-slate-800">
@@ -1846,7 +1852,14 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
               </div>
             </ProposalPage>
 
-            <ProposalPage number="07" eyebrow="Observações + condições" title="Observações e Condições">
+            <ProposalPage
+              number="07"
+              eyebrow="Observações + condições"
+              title="Observações e Condições"
+              editable={cardsAreEditable}
+              filename="proposta-mariana-betioli-card-07-observacoes-condicoes.png"
+              onDownload={downloadProposalCard}
+            >
               <div className="grid gap-7 md:grid-cols-2">
                 <section className="border-t border-slate-300 pt-5">
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
