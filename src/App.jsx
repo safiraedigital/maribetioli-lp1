@@ -441,36 +441,61 @@ const proposalWorkBlocks = [
 
 const proposalTimeline = [
   {
-    phase: "Mapeamento estratégico",
-    objective: "Compreender como o negócio opera hoje e quais elementos precisam estar presentes para que a expansão aconteça.",
+    phase: "Fase 01",
+    title: "Ambientação e imersão",
+    objective: "Compreender profundamente a operação atual.",
     deliveries: [
-      "Análise do modelo de negócio e dos indicadores críticos",
-      "Revisão de funis, canais, comportamento de cliente e histórico de resultados",
-      "Identificação das oportunidades de melhoria e das ineficiências estruturais",
-      "Definição dos pilares que irão orientar o planejamento"
+      "Acessos",
+      "Levantamento de ativos",
+      "Imersão no negócio",
+      "Organização inicial das informações"
     ],
-    deadline: "2 semanas"
+    deadlineLabel: "Prazo estimado",
+    deadline: "7 a 10 dias"
   },
   {
-    phase: "Planejamento e decisões estruturais",
-    objective: "Transformar o diagnóstico em direção clara e priorizada, definindo o que irá guiar o crescimento no próximo ciclo.",
+    phase: "Fase 02",
+    title: "Estruturação e mapeamento",
+    objective: "Construir a base necessária para tomada de decisão.",
     deliveries: [
-      "Priorização das frentes estratégicas",
-      "Metas e direcionadores definidos",
-      "Organização das decisões no F.O.E. Framework",
-      "Direção para funis de vendas, oferta e aquisição"
+      "Tracking",
+      "CRM",
+      "Fluxos",
+      "Estrutura de dados",
+      "Pesquisa com compradoras",
+      "ICP",
+      "Jornada de compra",
+      "Mapeamento de objeções"
     ],
-    deadline: "2 semanas"
+    deadlineLabel: "Prazo estimado",
+    deadline: "15 a 30 dias"
   },
   {
-    phase: "Plano de implementação e acompanhamento inicial",
-    objective: "Organizar a execução para que o crescimento saia do papel com clareza, ritmo e coerência operacional.",
+    phase: "Fase 03",
+    title: "Otimização",
+    objective: "Melhorar eficiência e conversão dos ativos existentes.",
     deliveries: [
-      "Plano de implementação com etapas, responsáveis e prazos",
-      "Padrões e recomendações essenciais para garantir alinhamento entre estratégia e execução",
-      "Acompanhamento inicial das primeiras ações para validar aderência ao direcionamento definido"
+      "Ajustes de oferta",
+      "Ajustes de perpétuo",
+      "Refinamento dos processos de conversão",
+      "Conteúdo Guiado",
+      "Relacionamento"
     ],
-    deadline: "3 a 4 semanas"
+    deadlineLabel: "Prazo estimado",
+    deadline: "30 a 60 dias"
+  },
+  {
+    phase: "Fase 04",
+    title: "Análise de dados e escala",
+    objective: "Usar os dados gerados para implementação de novos funis.",
+    deliveries: [
+      "Análise de resultados",
+      "Evolução da esteira",
+      "Escala dos canais validados",
+      "Desenvolvimento do Ecossistema"
+    ],
+    deadlineLabel: "Prazo",
+    deadline: "Contínuo"
   }
 ];
 
@@ -1740,24 +1765,24 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
                 Etapas, objetivos, entregas e prazos
               </p>
               <div className="proposal-plan-board mt-10">
-                <div className="grid gap-6 md:grid-cols-3">
+                <div className="grid gap-5 lg:grid-cols-4">
                   {proposalTimeline.map((item) => (
-                    <h4
-                      key={item.phase}
-                      className="text-lg font-bold uppercase leading-5 text-[#1f3d35]"
-                    >
-                      {item.phase}
+                    <h4 key={item.phase} className="text-lg font-bold uppercase leading-5 text-brand">
+                      <span className="block text-xs tracking-[0.18em] text-brand/70">
+                        {item.phase}
+                      </span>
+                      {item.title}
                     </h4>
                   ))}
                 </div>
-                <div className="proposal-plan-line my-5 hidden h-6 rounded-full bg-gradient-to-r from-[#fff0cf] via-[#e6c16a] to-[#dba437] md:block" />
-                <div className="grid gap-6 md:grid-cols-3">
+                <div className="proposal-plan-line my-5 hidden h-4 rounded-full bg-gradient-to-r from-brand-soft via-brand/45 to-brand lg:block" />
+                <div className="grid gap-5 lg:grid-cols-4">
                   {proposalTimeline.map((item) => (
                     <article
                       key={item.phase}
-                      className="proposal-timeline-item overflow-hidden rounded-md border border-[#e5bd68] bg-white"
+                      className="proposal-timeline-item overflow-hidden rounded-md border border-brand/20 bg-white"
                     >
-                      <div className="bg-[#f5dca8] px-4 py-3 text-sm leading-5 text-slate-900">
+                      <div className="bg-brand-soft px-4 py-3 text-sm leading-5 text-slate-900">
                         <strong>Objetivo:</strong> {item.objective}
                       </div>
                       <div className="px-4 py-4 text-sm leading-5 text-slate-800">
@@ -1768,7 +1793,7 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
                           ))}
                         </ul>
                         <p className="mt-4">
-                          <strong>Tempo estimado:</strong> {item.deadline}
+                          <strong>{item.deadlineLabel}:</strong> {item.deadline}
                         </p>
                       </div>
                     </article>
