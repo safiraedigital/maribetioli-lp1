@@ -179,12 +179,12 @@ body {
   .print-mode-proposal .proposal-page {
     break-after: page;
     page-break-after: always;
-    break-inside: avoid;
-    page-break-inside: avoid;
+    break-inside: auto;
+    page-break-inside: auto;
     border-color: #e5e7eb !important;
     margin-bottom: 0 !important;
     min-height: auto !important;
-    padding: 18px !important;
+    padding: 16mm !important;
   }
 
   .print-mode-proposal .proposal-page:last-child {
@@ -192,9 +192,21 @@ body {
     page-break-after: auto;
   }
 
-  .print-mode-proposal .proposal-timeline-item {
+  .print-mode-proposal .proposal-timeline-item,
+  .print-mode-proposal .proposal-page section,
+  .print-mode-proposal .proposal-page article {
     break-inside: avoid;
     page-break-inside: avoid;
+  }
+
+  .print-mode-proposal .proposal-vertical-timeline {
+    gap: 14px !important;
+  }
+
+  .print-mode-proposal .proposal-page h3,
+  .print-mode-proposal .proposal-page h4 {
+    break-after: avoid;
+    page-break-after: avoid;
   }
 
   .print-mode-proposal .proposal-edit-field {

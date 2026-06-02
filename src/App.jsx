@@ -423,44 +423,19 @@ const salesHighlights = [
 const proposalWorkBlocks = [
   {
     key: "strategy",
-    title: "Estratégia",
-    items: [
-      "Direcionamentos de ajustes",
-      "Arquitetura de crescimento",
-      "Priorização de ações",
-      "Refinamento de ofertas e funis",
-      "Planejamento comercial"
-    ]
+    title: "Estratégia"
   },
   {
     key: "structure",
-    title: "Estrutura",
-    items: [
-      "CRM",
-      "Tracking",
-      "Automações",
-      "Organização dos ativos digitais"
-    ]
+    title: "Estrutura"
   },
   {
     key: "acquisition",
-    title: "Aquisição e conversão",
-    items: [
-      "Implementação do Conteúdo Guiado",
-      "Social Selling, mediante aprovação da especialista",
-      "Processos de relacionamento",
-      "Evolução dos mecanismos de conversão"
-    ]
+    title: "Aquisição e conversão"
   },
   {
     key: "expansion",
-    title: "LTV e expansão",
-    items: [
-      "Pesquisa com compradoras",
-      "Ascensão de novos produtos",
-      "Desenvolvimento de novas ofertas",
-      "Estratégias de retenção e recorrência"
-    ]
+    title: "LTV e expansão"
   }
 ];
 
@@ -519,6 +494,38 @@ const proposalTimeline = [
     deadline: "Contínuo"
   }
 ];
+
+const DEFAULT_PROPOSAL_TEXTS = {
+  strategy:
+    "Definição de direcionamentos estratégicos, priorização de iniciativas, evolução da oferta atual, construção da arquitetura de crescimento e acompanhamento dos principais indicadores do projeto.",
+  structure:
+    "Implementação e organização da camada operacional do projeto, incluindo CRM, tracking, automações, processos comerciais, coleta de dados e acompanhamento de métricas.",
+  acquisition:
+    "Evolução dos mecanismos de aquisição e conversão por meio de Conteúdo Guiado, otimização do perpétuo, fortalecimento do relacionamento com a audiência e Social Selling (mediante aprovação da especialista).",
+  expansion:
+    "Pesquisa com compradoras, aprofundamento do ICP, identificação de novas oportunidades de monetização, desenvolvimento de ofertas complementares e estratégias de retenção ao longo da jornada das alunas.",
+  responsibilities:
+    "Amanda & Robson: Responsáveis pela frente estratégica, estruturação da operação, implementação de melhorias, acompanhamento de indicadores, condução das iniciativas de crescimento e suporte à tomada de decisão do projeto.\n\nMari Betioli: Responsável pela autoridade técnica do projeto, validação das estratégias propostas, produção de conteúdo, participação em decisões-chave e alinhamentos necessários para execução das iniciativas.",
+  observations:
+    "A execução das iniciativas seguirá uma ordem de priorização definida em conjunto entre as partes, respeitando a capacidade operacional, disponibilidade de recursos e estágio de maturidade do projeto.",
+  conditions:
+    "O percentual de participação contempla atuação contínua nas frentes de estratégia, estrutura, crescimento e expansão do projeto. Investimentos, ferramentas, fornecedores externos e demais custos operacionais serão alinhados previamente entre as partes antes de sua contratação ou implementação."
+};
+
+const PREVIOUS_PROPOSAL_TEXTS = {
+  strategy:
+    "Construir uma arquitetura de crescimento com prioridades claras, refinamento dos ativos comerciais e organização das decisões estratégicas do projeto.",
+  structure:
+    "Estruturar a base operacional necessária para acompanhamento, leitura de dados, automações, CRM e organização dos principais ativos digitais.",
+  acquisition:
+    "Evoluir os mecanismos de aquisição e conversão por meio de Conteúdo Guiado, processos de relacionamento e Social Selling mediante aprovação da especialista.",
+  expansion:
+    "Aprofundar a compreensão da base de alunas, identificar oportunidades ao longo da jornada e desenvolver novas ofertas com potencial de expansão de LTV.",
+  responsibilities:
+    "Amanda & Robson: estratégia, estruturação, acompanhamento comercial, organização dos ativos digitais, leitura de dados e condução das frentes de crescimento.\n\nMari Betioli: validação estratégica, aprovação de diretrizes, participação em decisões-chave, produção de conteúdos sensíveis à autoridade técnica e disponibilidade para alinhamentos definidos entre as partes.",
+  conditions:
+    "Os percentuais finais, responsabilidades específicas, investimentos e condições operacionais serão formalizados após alinhamento entre as partes."
+};
 
 const signalProposalLanguage = {
   "Operação centralizada na especialista": "evolução da governança operacional",
@@ -705,23 +712,16 @@ A partir da leitura estratégica realizada, enxergamos um caminho de parceria vo
 
   return {
     vision: visionText,
-    strategy:
-      "Construir uma arquitetura de crescimento com prioridades claras, refinamento dos ativos comerciais e organização das decisões estratégicas do projeto.",
-    structure:
-      "Estruturar a base operacional necessária para acompanhamento, leitura de dados, automações, CRM e organização dos principais ativos digitais.",
-    acquisition:
-      "Evoluir os mecanismos de aquisição e conversão por meio de Conteúdo Guiado, processos de relacionamento e Social Selling mediante aprovação da especialista.",
-    expansion:
-      "Aprofundar a compreensão da base de alunas, identificar oportunidades ao longo da jornada e desenvolver novas ofertas com potencial de expansão de LTV.",
+    strategy: normalizedPrevious.strategy || DEFAULT_PROPOSAL_TEXTS.strategy,
+    structure: normalizedPrevious.structure || DEFAULT_PROPOSAL_TEXTS.structure,
+    acquisition: normalizedPrevious.acquisition || DEFAULT_PROPOSAL_TEXTS.acquisition,
+    expansion: normalizedPrevious.expansion || DEFAULT_PROPOSAL_TEXTS.expansion,
     specialistPercentage: normalizedPrevious.specialistPercentage || "",
     partnershipPercentage: normalizedPrevious.partnershipPercentage || "",
     responsibilities:
-      normalizedPrevious.responsibilities ||
-      "Amanda & Robson: estratégia, estruturação, acompanhamento comercial, organização dos ativos digitais, leitura de dados e condução das frentes de crescimento.\n\nMari Betioli: validação estratégica, aprovação de diretrizes, participação em decisões-chave, produção de conteúdos sensíveis à autoridade técnica e disponibilidade para alinhamentos definidos entre as partes.",
-    observations: normalizedPrevious.observations || "",
-    conditions:
-      normalizedPrevious.conditions ||
-      "Os percentuais finais, responsabilidades específicas, investimentos e condições operacionais serão formalizados após alinhamento entre as partes."
+      normalizedPrevious.responsibilities || DEFAULT_PROPOSAL_TEXTS.responsibilities,
+    observations: normalizedPrevious.observations || DEFAULT_PROPOSAL_TEXTS.observations,
+    conditions: normalizedPrevious.conditions || DEFAULT_PROPOSAL_TEXTS.conditions
   };
 }
 
@@ -730,7 +730,7 @@ function normalizeProposalFields(proposal) {
     return null;
   }
 
-  return {
+  const normalized = {
     ...proposal,
     vision: (proposal.vision || "").replaceAll(
       "projeto Poder do Parto",
@@ -740,6 +740,18 @@ function normalizeProposalFields(proposal) {
       .replaceAll("Safira & Digital:", "Amanda & Robson:")
       .replaceAll("Especialista:", "Mari Betioli:")
   };
+
+  Object.entries(PREVIOUS_PROPOSAL_TEXTS).forEach(([key, previousText]) => {
+    if (normalized[key] === previousText) {
+      normalized[key] = DEFAULT_PROPOSAL_TEXTS[key];
+    }
+  });
+
+  if (!normalized.observations) {
+    normalized.observations = DEFAULT_PROPOSAL_TEXTS.observations;
+  }
+
+  return normalized;
 }
 
 function getStageFromHash() {
@@ -1626,18 +1638,20 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
                 conversão e expansão de LTV para criar uma base de crescimento mais clara, mensurável
                 e sustentável.
               </p>
-              <div className="mt-10 grid gap-x-10 gap-y-8 md:grid-cols-2">
+              <div className="proposal-vertical-timeline relative mt-10 grid gap-7 border-l-2 border-brand/25 pl-8">
                 {proposalWorkBlocks.map((block, index) => (
-                  <section key={block.key} className="border-t border-brand/35 pt-5">
+                  <section key={block.key} className="proposal-timeline-item relative pb-1">
+                    <span className="absolute -left-[43px] top-1 flex h-7 w-7 items-center justify-center rounded-full border-4 border-white bg-brand text-[10px] font-bold text-white">
+                      {index + 1}
+                    </span>
                     <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">
-                      0{index + 1}
+                      Frente 0{index + 1}
                     </p>
-                    <h4 className="mt-2 text-2xl font-semibold text-slate-950">{block.title}</h4>
-                    <p className="mt-4 whitespace-pre-wrap text-base leading-8 text-slate-700">
+                    <h4 className="mt-2 text-2xl font-semibold leading-tight text-slate-950">
+                      {block.title}
+                    </h4>
+                    <p className="mt-4 max-w-5xl whitespace-pre-wrap text-lg leading-9 text-slate-700">
                       {proposal[block.key]}
-                    </p>
-                    <p className="mt-4 text-sm leading-7 text-slate-500">
-                      Inclui: {block.items.join(", ")}.
                     </p>
                   </section>
                 ))}
@@ -1645,19 +1659,22 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
             </ProposalPage>
 
             <ProposalPage number="04" eyebrow="Plano de trabalho" title="Etapas, objetivos, entregas e prazos">
-              <div className="grid gap-x-10 gap-y-8 md:grid-cols-2">
+              <div className="proposal-vertical-timeline relative mt-2 grid gap-7 border-l-2 border-brand/25 pl-8">
                 {proposalTimeline.map((item, index) => (
-                  <article key={item.phase} className="proposal-timeline-item border-t border-slate-300 pt-5">
-                    <p className="text-sm font-bold uppercase tracking-[0.18em] text-brand">
-                      0{index + 1}. {item.phase}
+                  <article key={item.phase} className="proposal-timeline-item relative pb-1">
+                    <span className="absolute -left-[43px] top-1 flex h-7 w-7 items-center justify-center rounded-full border-4 border-white bg-brand text-[10px] font-bold text-white">
+                      {index + 1}
+                    </span>
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">
+                      {item.phase}
                     </p>
-                    <h4 className="mt-3 text-2xl font-semibold uppercase leading-tight text-slate-950">
+                    <h4 className="mt-2 text-2xl font-semibold uppercase leading-tight text-slate-950">
                       {item.title}
                     </h4>
-                    <p className="mt-4 text-base leading-8 text-slate-700">
+                    <p className="mt-4 text-lg leading-9 text-slate-700">
                       <strong>Objetivo:</strong> {item.objective}
                     </p>
-                    <p className="mt-3 text-base leading-8 text-slate-700">
+                    <p className="mt-3 text-lg leading-9 text-slate-700">
                       <strong>Entregas:</strong> {item.deliveries.join(", ")}.
                     </p>
                     <p className="mt-3 text-sm font-bold uppercase tracking-[0.14em] text-brand">
@@ -1699,6 +1716,9 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
                     {proposal.partnershipPercentage || "A definir"}
                   </p>
                 </section>
+                <p className="rounded-md border border-brand/20 bg-brand-soft px-5 py-4 text-lg font-semibold leading-8 text-brand md:col-span-2">
+                  Modelo de coprodução com divisão proporcional de receitas e custos da operação.
+                </p>
                 <section className="border-t border-slate-300 pt-5 md:col-span-2">
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
                     Responsabilidades
@@ -1709,7 +1729,7 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
                     Observações
                   </p>
-                  <p className="mt-4 whitespace-pre-wrap text-base leading-8 text-slate-700">
+                  <p className="mt-4 whitespace-pre-wrap text-lg leading-9 text-slate-700">
                     {proposal.observations || "A definir."}
                   </p>
                 </section>
@@ -1717,7 +1737,7 @@ function ProposalModule({ hasCurrentDiagnosisData, proposal, onProposalChange, o
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
                     Condições
                   </p>
-                  <p className="mt-4 whitespace-pre-wrap text-base leading-8 text-slate-700">
+                  <p className="mt-4 whitespace-pre-wrap text-lg leading-9 text-slate-700">
                     {proposal.conditions || "A definir."}
                   </p>
                 </section>
