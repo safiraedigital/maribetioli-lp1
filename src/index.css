@@ -33,6 +33,58 @@ body {
   display: none;
 }
 
+.pdf-export-layout .proposal-page-shell {
+  display: block !important;
+  width: 760px !important;
+}
+
+.pdf-export-layout .proposal-page {
+  width: 760px !important;
+  min-height: 980px;
+  padding: 46px !important;
+  border-color: #e8d8ef !important;
+  box-shadow: none !important;
+}
+
+.pdf-export-layout .proposal-cover .proposal-card-content {
+  min-height: 860px !important;
+}
+
+.pdf-export-layout .proposal-page h3 {
+  font-size: 34px !important;
+  line-height: 1.12 !important;
+}
+
+.pdf-export-layout .proposal-page p,
+.pdf-export-layout .proposal-page li {
+  font-size: 16px !important;
+  line-height: 1.55 !important;
+}
+
+.pdf-export-layout .proposal-page .text-xs {
+  font-size: 11px !important;
+}
+
+.pdf-export-layout .proposal-page .text-sm {
+  font-size: 14px !important;
+}
+
+.pdf-export-layout .proposal-page .text-2xl {
+  font-size: 22px !important;
+}
+
+.pdf-export-layout .proposal-page .text-3xl {
+  font-size: 28px !important;
+}
+
+.pdf-export-layout .proposal-plan-board .grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.pdf-export-layout .proposal-plan-line {
+  display: none !important;
+}
+
 @media print {
   @page {
     margin: 12mm;

@@ -1526,9 +1526,10 @@ function downloadCanvas(canvas, filename) {
   link.click();
 }
 
-async function exportNodeAsPng(node, filename) {
+async function captureProposalNode(node) {
   await document.fonts?.ready;
-  const canvas = await html2canvas(node, {
+
+  return html2canvas(node, {
     backgroundColor: "#ffffff",
     scale: 2,
     useCORS: true,
@@ -1541,7 +1542,49 @@ async function exportNodeAsPng(node, filename) {
       });
     }
   });
+}
+
+async function exportNodeAsPng(node, filename) {
+  const canvas = await captureProposalNode(node);
   downloadCanvas(canvas, filename);
+}
+
+async function exportProposalPagesAsPdf(filename = "Proposta de Parceria - Mariana Betioli.pdf") {
+  const pages = Array.from(document.querySelectorAll(".proposal-page"));
+
+  if (!pages.length) {
+    throw new Error("Nenhuma página de proposta encontrada.");
+  }
+
+  const { jsPDF } = await import("jspdf");
+
+  document.body.classList.add("pdf-export-layout");
+  await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+  let pdf = null;
+
+  try {
+    for (const [index, page] of pages.entries()) {
+      const canvas = await captureProposalNode(page);
+      const image = canvas.toDataURL("image/jpeg", 0.95);
+      const rect = page.getBoundingClientRect();
+      const width = Math.ceil(rect.width);
+      const height = Math.ceil(rect.height);
+      const orientation = width > height ? "landscape" : "portrait";
+
+      if (!pdf) {
+        pdf = new jsPDF({ orientation, unit: "px", format: [width, height], compress: true });
+      } else {
+        pdf.addPage([width, height], orientation);
+      }
+
+      pdf.addImage(image, "JPEG", 0, 0, width, height, undefined, "FAST");
+    }
+
+    pdf.save(filename);
+  } finally {
+    document.body.classList.remove("pdf-export-layout");
+  }
 }
 
 function ProposalEditorModule({ hasCurrentDiagnosisData, proposalDraft, onProposalDraftChange, onSave, onSaveEdit }) {
@@ -2351,14 +2394,20 @@ export default function App() {
     window.setTimeout(() => window.print(), 50);
   }
 
-  function exportProposalPdf() {
+  async function exportProposalPdf() {
     if (!hasCurrentDiagnosisData) {
       setSaveState("Nenhum diagnóstico aberto");
       return;
     }
 
-    setPrintMode("proposal");
-    window.setTimeout(() => window.print(), 50);
+    setSaveState("Gerando PDF da proposta...");
+
+    try {
+      await exportProposalPagesAsPdf();
+      setSaveState("PDF da proposta gerado");
+    } catch {
+      setSaveState("Não foi possível gerar o PDF");
+    }
   }
 
   if (authStatus !== "authenticated") {
