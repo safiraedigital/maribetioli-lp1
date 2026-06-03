@@ -1445,7 +1445,7 @@ function ProposalPage({
       >
         <div className="absolute inset-y-0 left-0 w-3 bg-brand/80" />
         <div
-          className={`proposal-card-content ${cover ? "min-h-[430px] content-center pl-4" : "pl-4"} ${
+          className={`proposal-card-content pl-4 ${
             editable ? "rounded-md outline outline-2 outline-brand/25 outline-offset-8" : ""
           }`}
           contentEditable={editable}
