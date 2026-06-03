@@ -468,7 +468,7 @@ const proposalTimeline = [
       "Pesquisa com compradoras"
     ],
     deadlineLabel: "Prazo estimado",
-    deadline: "10 dias"
+    deadline: "10 a 15 dias"
   },
   {
     phase: "Fase 03",
