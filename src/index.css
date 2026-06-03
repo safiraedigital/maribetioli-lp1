@@ -101,6 +101,14 @@ body {
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
 }
 
+.pdf-export-layout .proposal-plan-mobile {
+  display: none !important;
+}
+
+.pdf-export-layout .proposal-plan-desktop {
+  display: block !important;
+}
+
 .pdf-export-layout .proposal-plan-line {
   display: block !important;
 }

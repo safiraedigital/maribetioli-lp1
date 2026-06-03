@@ -1432,12 +1432,10 @@ function ProposalPage({
   title,
   children,
   cover = false,
-  editable = false,
-  filename,
-  onDownload
+  editable = false
 }) {
   return (
-    <div className="proposal-page-shell grid gap-2 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
+    <div className="proposal-page-shell">
       <section
         className={`proposal-page relative overflow-hidden rounded-lg border border-slate-200 bg-white p-8 shadow-panel md:p-10 ${
           cover ? "proposal-cover" : ""
@@ -1475,21 +1473,6 @@ function ProposalPage({
           <div className={cover ? "mt-8" : title ? "mt-7" : "mt-4"}>{children}</div>
         </div>
       </section>
-      {onDownload ? (
-        <button
-          type="button"
-          onClick={(event) => {
-            const shell = event.currentTarget.closest(".proposal-page-shell");
-            const page = shell?.querySelector(".proposal-page");
-            if (page) {
-              onDownload(page, filename);
-            }
-          }}
-          className="no-print rounded-md border border-brand/20 bg-white px-3 py-2 text-xs font-bold text-brand shadow-sm hover:bg-brand-soft"
-        >
-          Baixar PNG
-        </button>
-      ) : null}
     </div>
   );
 }
@@ -1525,13 +1508,6 @@ function ProposalResponsibilities({ value }) {
   );
 }
 
-function downloadCanvas(canvas, filename) {
-  const link = document.createElement("a");
-  link.download = filename;
-  link.href = canvas.toDataURL("image/png");
-  link.click();
-}
-
 async function captureProposalNode(node) {
   await document.fonts?.ready;
 
@@ -1548,11 +1524,6 @@ async function captureProposalNode(node) {
       });
     }
   });
-}
-
-async function exportNodeAsPng(node, filename) {
-  const canvas = await captureProposalNode(node);
-  downloadCanvas(canvas, filename);
 }
 
 async function exportProposalPagesAsPdf(filename = "Proposta de Parceria - Mariana Betioli.pdf") {
@@ -1719,14 +1690,6 @@ function ProposalEditorModule({ hasCurrentDiagnosisData, proposalDraft, onPropos
 }
 
 function ProposalModule({ proposal, onExport }) {
-  async function downloadProposalCard(card, filename) {
-    try {
-      await exportNodeAsPng(card, filename);
-    } catch {
-      window.alert("Não foi possível gerar este PNG neste navegador.");
-    }
-  }
-
   return (
     <section className="proposal-module grid gap-5">
       <div className="proposal-controls no-print rounded-lg border border-brand/15 bg-white p-5 shadow-panel">
@@ -1754,8 +1717,6 @@ function ProposalModule({ proposal, onExport }) {
             <ProposalPage
               title="Proposta de Parceria"
               cover
-              filename="proposta-mariana-betioli-card-01-capa.png"
-              onDownload={downloadProposalCard}
             >
               <div className="max-w-4xl border-t-2 border-brand/60 pt-6">
                 <p className="mb-8 text-xs font-bold uppercase tracking-[0.18em] text-brand">
@@ -1771,8 +1732,6 @@ function ProposalModule({ proposal, onExport }) {
               number="02"
               eyebrow="Análise estratégica"
               title="Nossa Visão Sobre o Projeto"
-              filename="proposta-mariana-betioli-card-02-visao.png"
-              onDownload={downloadProposalCard}
             >
               <p className="max-w-5xl whitespace-pre-wrap text-base leading-7 text-slate-700">
                 {proposal.vision}
@@ -1783,8 +1742,6 @@ function ProposalModule({ proposal, onExport }) {
               number="03"
               eyebrow="Atuação no projeto"
               title="Frentes Estratégicas"
-              filename="proposta-mariana-betioli-card-03-atuacao.png"
-              onDownload={downloadProposalCard}
             >
               <div className="proposal-vertical-timeline relative mt-1 grid gap-5 border-l-2 border-brand/25 pl-8">
                 {proposalWorkBlocks.map((block, index) => (
@@ -1810,43 +1767,71 @@ function ProposalModule({ proposal, onExport }) {
               number="04"
               eyebrow="Plano de trabalho"
               title="Fases do Projeto"
-              filename="proposta-mariana-betioli-card-04-plano.png"
-              onDownload={downloadProposalCard}
             >
               <div className="proposal-plan-board mt-10">
-                <div className="grid gap-5 lg:grid-cols-4">
+                <div className="proposal-plan-mobile grid gap-7 lg:hidden">
                   {proposalTimeline.map((item) => (
-                    <h4 key={item.phase} className="text-lg font-bold uppercase leading-5 text-brand">
-                      <span className="block text-xs tracking-[0.18em] text-brand/70">
-                        {item.phase}
-                      </span>
-                      {item.title}
-                    </h4>
+                    <section key={item.phase} className="grid gap-3">
+                      <h4 className="text-lg font-bold uppercase leading-5 text-brand">
+                        <span className="block text-xs tracking-[0.18em] text-brand/70">
+                          {item.phase}
+                        </span>
+                        {item.title}
+                      </h4>
+                      <article className="proposal-timeline-item overflow-hidden rounded-md border border-brand/20 bg-white">
+                        <div className="bg-brand-soft px-4 py-3 text-sm leading-5 text-slate-900">
+                          <strong>Objetivo:</strong> {item.objective}
+                        </div>
+                        <div className="px-4 py-4 text-sm leading-5 text-slate-800">
+                          <p className="font-bold">Entregas:</p>
+                          <ul className="mt-1 list-disc space-y-1 pl-5">
+                            {item.deliveries.map((delivery) => (
+                              <li key={delivery}>{delivery}</li>
+                            ))}
+                          </ul>
+                          <p className="mt-4">
+                            <strong>{item.deadlineLabel}:</strong> {item.deadline}
+                          </p>
+                        </div>
+                      </article>
+                    </section>
                   ))}
                 </div>
-                <div className="proposal-plan-line my-5 hidden h-4 rounded-full bg-gradient-to-r from-brand-soft via-brand/45 to-brand lg:block" />
-                <div className="grid gap-5 lg:grid-cols-4">
-                  {proposalTimeline.map((item) => (
-                    <article
-                      key={item.phase}
-                      className="proposal-timeline-item overflow-hidden rounded-md border border-brand/20 bg-white"
-                    >
-                      <div className="bg-brand-soft px-4 py-3 text-sm leading-5 text-slate-900">
-                        <strong>Objetivo:</strong> {item.objective}
-                      </div>
-                      <div className="px-4 py-4 text-sm leading-5 text-slate-800">
-                        <p className="font-bold">Entregas:</p>
-                        <ul className="mt-1 list-disc space-y-1 pl-5">
-                          {item.deliveries.map((delivery) => (
-                            <li key={delivery}>{delivery}</li>
-                          ))}
-                        </ul>
-                        <p className="mt-4">
-                          <strong>{item.deadlineLabel}:</strong> {item.deadline}
-                        </p>
-                      </div>
-                    </article>
-                  ))}
+                <div className="proposal-plan-desktop hidden lg:block">
+                  <div className="grid gap-5 lg:grid-cols-4">
+                    {proposalTimeline.map((item) => (
+                      <h4 key={item.phase} className="text-lg font-bold uppercase leading-5 text-brand">
+                        <span className="block text-xs tracking-[0.18em] text-brand/70">
+                          {item.phase}
+                        </span>
+                        {item.title}
+                      </h4>
+                    ))}
+                  </div>
+                  <div className="proposal-plan-line my-5 h-4 rounded-full bg-gradient-to-r from-brand-soft via-brand/45 to-brand" />
+                  <div className="grid gap-5 lg:grid-cols-4">
+                    {proposalTimeline.map((item) => (
+                      <article
+                        key={item.phase}
+                        className="proposal-timeline-item overflow-hidden rounded-md border border-brand/20 bg-white"
+                      >
+                        <div className="bg-brand-soft px-4 py-3 text-sm leading-5 text-slate-900">
+                          <strong>Objetivo:</strong> {item.objective}
+                        </div>
+                        <div className="px-4 py-4 text-sm leading-5 text-slate-800">
+                          <p className="font-bold">Entregas:</p>
+                          <ul className="mt-1 list-disc space-y-1 pl-5">
+                            {item.deliveries.map((delivery) => (
+                              <li key={delivery}>{delivery}</li>
+                            ))}
+                          </ul>
+                          <p className="mt-4">
+                            <strong>{item.deadlineLabel}:</strong> {item.deadline}
+                          </p>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
                 </div>
               </div>
             </ProposalPage>
@@ -1855,8 +1840,6 @@ function ProposalModule({ proposal, onExport }) {
               number="05"
               eyebrow="Escopo da parceria"
               title="Responsabilidades"
-              filename="proposta-mariana-betioli-card-05-responsabilidades.png"
-              onDownload={downloadProposalCard}
             >
               <ProposalResponsibilities value={proposal.responsibilities} />
             </ProposalPage>
@@ -1865,8 +1848,6 @@ function ProposalModule({ proposal, onExport }) {
               number="06"
               eyebrow="Parceria"
               title="Modelo de Coprodução"
-              filename="proposta-mariana-betioli-card-06-modelo-proposta.png"
-              onDownload={downloadProposalCard}
             >
               <div className="grid gap-7">
                 <div className="max-w-5xl text-base leading-7 text-slate-800">
@@ -1914,8 +1895,6 @@ function ProposalModule({ proposal, onExport }) {
               number="07"
               eyebrow="Considerações finais"
               title="Observações e Condições"
-              filename="proposta-mariana-betioli-card-07-observacoes-condicoes.png"
-              onDownload={downloadProposalCard}
             >
               <div className="grid gap-7 md:grid-cols-2">
                 <section className="border-t border-slate-300 pt-5">
