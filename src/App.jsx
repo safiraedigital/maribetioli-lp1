@@ -14,6 +14,8 @@ const PREVIOUS_SAVED_DIAGNOSES_KEY = "mari-betioli-saved-diagnoses-v2";
 const CURRENT_DIAGNOSIS_KEY = "currentDiagnosis";
 const SAVED_DIAGNOSES_KEY = "savedDiagnoses";
 const PROPOSAL_STORAGE_KEY = "proposalCommercialConfig";
+const PROPOSAL_CONTENT_VERSION_KEY = "proposalCommercialContentVersion";
+const CURRENT_PROPOSAL_CONTENT_VERSION = "mariana-corrected-pdf-2026-06-02";
 const STORAGE_MIGRATION_KEY = "mari-betioli-storage-migration-v3";
 const PUBLISHED_DIAGNOSIS_SEED_KEY = "mari-betioli-published-diagnosis-seeded-v1";
 const PUBLISHED_DIAGNOSIS_ID = "published-mari-betioli-2026-06-01-1333";
@@ -443,47 +445,43 @@ const proposalWorkBlocks = [
 const proposalTimeline = [
   {
     phase: "Fase 01",
-    title: "Ambientação e imersão",
+    title: "Ambientação e ajustes iniciais",
     objective: "Compreender profundamente a operação atual.",
     deliveries: [
-      "Acessos",
-      "Levantamento de ativos",
+      "Solicitação de acessos",
+      "Levantamento de dados",
       "Imersão no negócio",
-      "Organização inicial das informações"
+      "Instalar tracking",
+      "Ajustes básicos na estrutura"
     ],
     deadlineLabel: "Prazo estimado",
     deadline: "7 a 10 dias"
   },
   {
     phase: "Fase 02",
-    title: "Estruturação e mapeamento",
-    objective: "Construir a base necessária para tomada de decisão.",
+    title: "Mapeamento implementação",
+    objective: "Iniciar otimizações estruturais e mapear o público alvo (ICP).",
     deliveries: [
-      "Tracking",
-      "CRM",
-      "Fluxos",
-      "Estrutura de dados",
-      "Pesquisa com compradoras",
-      "ICP",
-      "Jornada de compra",
-      "Mapeamento de objeções"
+      "Mapeamento de ICP, jornada de compra e objeções",
+      "Configuração do CRM",
+      "Otimização de fluxos",
+      "Pesquisa com compradoras"
     ],
     deadlineLabel: "Prazo estimado",
-    deadline: "15 a 30 dias"
+    deadline: "10 dias"
   },
   {
     phase: "Fase 03",
-    title: "Otimização",
-    objective: "Melhorar eficiência e conversão dos ativos existentes.",
+    title: "Validação e otimizações",
+    objective: "Alinhar a comunicação da oferta, conteúdos e narrativas.",
     deliveries: [
-      "Ajustes de oferta",
-      "Ajustes de perpétuo",
+      "Ajustes de copy e oferta",
       "Refinamento dos processos de conversão",
       "Conteúdo Guiado",
       "Relacionamento"
     ],
     deadlineLabel: "Prazo estimado",
-    deadline: "30 a 60 dias"
+    deadline: "15 a 30 dias"
   },
   {
     phase: "Fase 04",
@@ -501,18 +499,20 @@ const proposalTimeline = [
 ];
 
 const DEFAULT_PROPOSAL_TEXTS = {
+  vision:
+    "Acreditamos que existe uma oportunidade relevante de crescimento a partir da organização e evolução da estrutura que sustenta o projeto atualmente.\n\nHoje, grande parte dos resultados está concentrada na autoridade construída pela Mari ao longo dos anos.\n\nNossa atuação será direcionada para transformar esse ativo em uma operação mais estruturada, com processos, dados e mecanismos de conversão que permitam tomar decisões com mais segurança e ampliar o potencial de crescimento do negócio.",
   strategy:
     "Definição de direcionamentos estratégicos, priorização de iniciativas, evolução da oferta atual, construção da arquitetura de crescimento e acompanhamento dos principais indicadores do projeto.",
   structure:
     "Implementação e organização da camada operacional do projeto, incluindo CRM, tracking, automações, processos comerciais, coleta de dados e acompanhamento de métricas.",
   acquisition:
-    "Evolução dos mecanismos de aquisição e conversão por meio de Conteúdo Guiado, otimização do perpétuo, fortalecimento do relacionamento com a audiência e Social Selling (mediante aprovação da especialista).",
+    "Evolução dos mecanismos de aquisição e conversão por meio de Conteúdo Guiado, otimização do perpétuo, fortalecimento do relacionamento com a audiência e Social Selling - mediante aprovação da especialista*",
   expansion:
     "Pesquisa com compradoras, aprofundamento do ICP, identificação de novas oportunidades de monetização, desenvolvimento de ofertas complementares e estratégias de retenção ao longo da jornada das alunas.",
   responsibilities:
-    "Amanda & Robson: Responsáveis pela frente estratégica, estruturação da operação, implementação de melhorias, acompanhamento de indicadores, condução das iniciativas de crescimento e suporte à tomada de decisão do projeto.\n\nMari Betioli: Responsável pela autoridade técnica do projeto, validação das estratégias propostas, produção de conteúdo, participação em decisões-chave e alinhamentos necessários para execução das iniciativas.",
+    "Amanda & Robson: Responsáveis pela liderança estratégica da operação, estruturação dos processos, definição de prioridades, análise de dados, acompanhamento dos resultados e construção dos planos de crescimento do projeto.\n\nMari Betioli: Responsável pela autoridade técnica e posicionamento da marca, validação das estratégias propostas, produção dos conteúdos e participação nas decisões relacionadas à evolução do projeto.",
   observations:
-    "A execução das iniciativas seguirá uma ordem de priorização definida em conjunto entre as partes, respeitando a capacidade operacional, disponibilidade de recursos e estágio de maturidade do projeto.",
+    "A execução das ações seguirá uma ordem de priorização pré definida em conjunto, respeitando a capacidade operacional, disponibilidade de recursos e estágio de maturidade do projeto.",
   conditions:
     "O percentual de participação contempla atuação contínua nas frentes de estratégia, estrutura, crescimento e expansão do projeto. Investimentos, ferramentas, fornecedores externos e demais custos operacionais serão alinhados previamente entre as partes antes de sua contratação ou implementação."
 };
@@ -706,23 +706,15 @@ function getProposalOpportunities(data) {
 
 function buildProposalFields(data, previous = {}) {
   const normalizedPrevious = normalizeProposalFields(previous);
-  const opportunities = getProposalOpportunities(data);
-  const formattedOpportunities = opportunities.map((item) => item.toLowerCase());
-
-  const visionText = `Acreditamos que o projeto ${APP_CONFIG.projectName} possui potencial para crescimento sustentável por meio da evolução da estrutura comercial, dos processos de relacionamento e da construção de novas oportunidades de monetização ao longo da jornada das alunas.
-
-A partir da leitura estratégica realizada, enxergamos um caminho de parceria voltado para ${formattedOpportunities
-    .slice(0, 4)
-    .join(", ")}. A proposta é organizar as próximas etapas com clareza, priorização e acompanhamento, preservando a autoridade da especialista e ampliando a capacidade de crescimento do projeto.`;
 
   return {
-    vision: visionText,
+    vision: normalizedPrevious?.vision || DEFAULT_PROPOSAL_TEXTS.vision,
     strategy: normalizedPrevious.strategy || DEFAULT_PROPOSAL_TEXTS.strategy,
     structure: normalizedPrevious.structure || DEFAULT_PROPOSAL_TEXTS.structure,
     acquisition: normalizedPrevious.acquisition || DEFAULT_PROPOSAL_TEXTS.acquisition,
     expansion: normalizedPrevious.expansion || DEFAULT_PROPOSAL_TEXTS.expansion,
-    specialistPercentage: normalizedPrevious.specialistPercentage || "",
-    partnershipPercentage: normalizedPrevious.partnershipPercentage || "",
+    specialistPercentage: normalizedPrevious.specialistPercentage || "50%",
+    partnershipPercentage: normalizedPrevious.partnershipPercentage || "50%",
     responsibilities:
       normalizedPrevious.responsibilities || DEFAULT_PROPOSAL_TEXTS.responsibilities,
     observations: normalizedPrevious.observations || DEFAULT_PROPOSAL_TEXTS.observations,
@@ -757,6 +749,20 @@ function normalizeProposalFields(proposal) {
   }
 
   return normalized;
+}
+
+function loadProposalConfig(data = loadCurrentDiagnosis()) {
+  try {
+    const version = window.localStorage.getItem(PROPOSAL_CONTENT_VERSION_KEY);
+
+    if (version !== CURRENT_PROPOSAL_CONTENT_VERSION) {
+      return buildProposalFields(data);
+    }
+  } catch {
+    return buildProposalFields(data);
+  }
+
+  return normalizeProposalFields(safeReadJson(PROPOSAL_STORAGE_KEY, null)) || buildProposalFields(data);
 }
 
 function getStageFromHash() {
@@ -1752,25 +1758,19 @@ function ProposalModule({ proposal, onExport }) {
               onDownload={downloadProposalCard}
             >
               <div className="max-w-4xl border-t-2 border-brand/60 pt-6">
-                <p className="text-3xl italic leading-tight text-slate-900 md:text-4xl">
-                  Mariana Betioli
+                <p className="mb-8 text-xs font-bold uppercase tracking-[0.18em] text-brand">
+                  02 de junho de 2026
                 </p>
-                <div className="mt-10 grid max-w-xl gap-4 text-lg text-slate-600">
-                  <p>
-                    <span className="block text-xs font-bold uppercase tracking-[0.18em] text-brand">
-                      Projeto
-                    </span>
-                    <span className="mt-2 block text-2xl font-semibold text-slate-950">
-                      {APP_CONFIG.projectName}
-                    </span>
-                  </p>
-                </div>
+                <p className="text-3xl italic leading-tight text-slate-900 md:text-4xl">
+                  Mariana Betioli - {APP_CONFIG.projectName}
+                </p>
               </div>
             </ProposalPage>
 
             <ProposalPage
               number="02"
-              eyebrow="Nossa visão sobre o projeto"
+              eyebrow="Análise estratégica"
+              title="Nossa Visão Sobre o Projeto"
               filename="proposta-mariana-betioli-card-02-visao.png"
               onDownload={downloadProposalCard}
             >
@@ -1781,8 +1781,8 @@ function ProposalModule({ proposal, onExport }) {
 
             <ProposalPage
               number="03"
-              eyebrow="Nossa atuação no projeto"
-              title="A Entrega Estratégica é Dividida em 4 Frentes"
+              eyebrow="Atuação no projeto"
+              title="Frentes Estratégicas"
               filename="proposta-mariana-betioli-card-03-atuacao.png"
               onDownload={downloadProposalCard}
             >
@@ -1808,13 +1808,11 @@ function ProposalModule({ proposal, onExport }) {
 
             <ProposalPage
               number="04"
-              title="Plano de Trabalho"
+              eyebrow="Plano de trabalho"
+              title="Fases do Projeto"
               filename="proposta-mariana-betioli-card-04-plano.png"
               onDownload={downloadProposalCard}
             >
-              <p className="-mt-3 text-xl italic leading-tight text-slate-700">
-                Etapas, objetivos, entregas e prazos
-              </p>
               <div className="proposal-plan-board mt-10">
                 <div className="grid gap-5 lg:grid-cols-4">
                   {proposalTimeline.map((item) => (
@@ -1855,7 +1853,7 @@ function ProposalModule({ proposal, onExport }) {
 
             <ProposalPage
               number="05"
-              eyebrow="Responsabilidades"
+              eyebrow="Escopo da parceria"
               title="Responsabilidades"
               filename="proposta-mariana-betioli-card-05-responsabilidades.png"
               onDownload={downloadProposalCard}
@@ -1865,7 +1863,7 @@ function ProposalModule({ proposal, onExport }) {
 
             <ProposalPage
               number="06"
-              eyebrow="Modelo de parceria + proposta comercial"
+              eyebrow="Parceria"
               title="Modelo de Coprodução"
               filename="proposta-mariana-betioli-card-06-modelo-proposta.png"
               onDownload={downloadProposalCard}
@@ -1873,18 +1871,23 @@ function ProposalModule({ proposal, onExport }) {
               <div className="grid gap-7">
                 <div className="max-w-5xl text-base leading-7 text-slate-800">
                   <p>
-                    Formato baseado em divisão percentual. Todos os investimentos, custos operacionais
-                    e receitas serão compartilhados conforme o percentual acordado entre as partes.
+                    Modelo de coprodução com divisão proporcional de receitas e custos da operação.
+                    Neste formato todos os investimentos, custos operacionais e receitas serão
+                    compartilhados conforme o percentual acordado entre as partes.
                   </p>
-                  <p className="mt-4">
-                    O modelo busca alinhar interesses e garantir que o crescimento do projeto beneficie
-                    todos os envolvidos.
+                </div>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
+                    Proposta comercial
                   </p>
+                  <h4 className="mt-2 text-2xl font-semibold leading-tight text-slate-950">
+                    Estrutura da Parceria
+                  </h4>
                 </div>
                 <div className="grid gap-6 md:grid-cols-2">
                   <section className="border-t border-brand/35 pt-5">
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
-                      Percentual da especialista
+                      Mariana Betioli
                     </p>
                     <p className="mt-3 whitespace-pre-wrap text-3xl font-semibold text-slate-950">
                       {proposal.specialistPercentage || "A definir"}
@@ -1892,7 +1895,7 @@ function ProposalModule({ proposal, onExport }) {
                   </section>
                   <section className="border-t border-brand/35 pt-5">
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
-                      Percentual da parceria
+                      Operação estratégica
                     </p>
                     <p className="mt-3 whitespace-pre-wrap text-3xl font-semibold text-slate-950">
                       {proposal.partnershipPercentage || "A definir"}
@@ -1900,14 +1903,16 @@ function ProposalModule({ proposal, onExport }) {
                   </section>
                 </div>
                 <p className="rounded-md border border-brand/20 bg-brand-soft px-5 py-4 text-base font-semibold leading-7 text-brand">
-                  Modelo de coprodução com divisão proporcional de receitas e custos da operação.
+                  Nossa sugestão de divisão busca alinhar responsabilidades, interesses e
+                  expectativas, garantindo que o crescimento do projeto seja uma construção conjunta
+                  entre as partes.
                 </p>
               </div>
             </ProposalPage>
 
             <ProposalPage
               number="07"
-              eyebrow="Observações + condições"
+              eyebrow="Considerações finais"
               title="Observações e Condições"
               filename="proposta-mariana-betioli-card-07-observacoes-condicoes.png"
               onDownload={downloadProposalCard}
@@ -2000,16 +2005,8 @@ export default function App() {
   const [activeStage, setActiveStage] = useState(getStageFromHash);
   const [data, setData] = useState(loadCurrentDiagnosis);
   const [savedDiagnoses, setSavedDiagnoses] = useState(loadSavedDiagnoses);
-  const [proposal, setProposal] = useState(
-    () =>
-      normalizeProposalFields(safeReadJson(PROPOSAL_STORAGE_KEY, null)) ||
-      buildProposalFields(loadCurrentDiagnosis())
-  );
-  const [proposalDraft, setProposalDraft] = useState(
-    () =>
-      normalizeProposalFields(safeReadJson(PROPOSAL_STORAGE_KEY, null)) ||
-      buildProposalFields(loadCurrentDiagnosis())
-  );
+  const [proposal, setProposal] = useState(() => loadProposalConfig(loadCurrentDiagnosis()));
+  const [proposalDraft, setProposalDraft] = useState(() => loadProposalConfig(loadCurrentDiagnosis()));
   const [lastSavedSnapshot, setLastSavedSnapshot] = useState("");
   const [saveState, setSaveState] = useState("Salvo localmente");
   const [printMode, setPrintMode] = useState("diagnosis");
@@ -2072,6 +2069,7 @@ export default function App() {
 
   useEffect(() => {
     window.localStorage.setItem(PROPOSAL_STORAGE_KEY, JSON.stringify(proposal));
+    window.localStorage.setItem(PROPOSAL_CONTENT_VERSION_KEY, CURRENT_PROPOSAL_CONTENT_VERSION);
   }, [proposal]);
 
   useEffect(() => {
