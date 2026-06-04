@@ -14,6 +14,7 @@ const PREVIOUS_SAVED_DIAGNOSES_KEY = "mari-betioli-saved-diagnoses-v2";
 const CURRENT_DIAGNOSIS_KEY = "currentDiagnosis";
 const SAVED_DIAGNOSES_KEY = "savedDiagnoses";
 const PROPOSAL_STORAGE_KEY = "proposalCommercialConfig";
+const EXECUTION_PLAYBOOK_KEY = "commercialExecutionPlaybook";
 const PROPOSAL_CONTENT_VERSION_KEY = "proposalCommercialContentVersion";
 const CURRENT_PROPOSAL_CONTENT_VERSION = "mariana-corrected-pdf-2026-06-02";
 const STORAGE_MIGRATION_KEY = "mari-betioli-storage-migration-v3";
@@ -229,6 +230,51 @@ const fieldConfig = [
     label: "Hipóteses identificadas",
     helper: "Possíveis caminhos, riscos ou oportunidades para validar depois.",
     placeholder: "Liste hipóteses para validar, riscos, gargalos prováveis e caminhos de investigação..."
+  }
+];
+
+const executionFieldConfig = [
+  {
+    key: "objetivo",
+    label: "Objetivo comercial",
+    helper: "Direção da frente comercial e resultado esperado.",
+    placeholder:
+      "Ex.: organizar o fluxo de relacionamento, aumentar previsibilidade e padronizar abordagem comercial..."
+  },
+  {
+    key: "fluxo",
+    label: "Fluxograma comercial",
+    helper: "Caminho da lead até a compra, com responsáveis e pontos de contato.",
+    placeholder:
+      "Descreva o fluxo: origem da lead, primeira abordagem, nutrição, conversa, objeções, fechamento, pós-compra..."
+  },
+  {
+    key: "etapasFunil",
+    label: "Etapas do funil",
+    helper: "Fases do processo comercial e critérios de passagem.",
+    placeholder:
+      "Liste as etapas do funil, gatilhos para avançar, prazos de retorno e critérios de prioridade..."
+  },
+  {
+    key: "scripts",
+    label: "Scripts e abordagens",
+    helper: "Mensagens, perguntas e condução das conversas.",
+    placeholder:
+      "Registre scripts de WhatsApp, perguntas de qualificação, respostas para objeções e tons de abordagem..."
+  },
+  {
+    key: "indicadores",
+    label: "Indicadores e rotina",
+    helper: "Métricas, cadência de acompanhamento e rituais comerciais.",
+    placeholder:
+      "Defina indicadores, frequência de acompanhamento, responsáveis, reuniões e rotina de atualização..."
+  },
+  {
+    key: "observacoes",
+    label: "Anotações da Aline",
+    helper: "Aprendizados, decisões e ajustes percebidos na execução.",
+    placeholder:
+      "Espaço livre para a Aline registrar aprendizados, decisões, dúvidas e próximos ajustes do comercial..."
   }
 ];
 
@@ -602,6 +648,13 @@ function createInitialData() {
   }, {});
 }
 
+function normalizeExecutionPlaybook(playbook = {}) {
+  return executionFieldConfig.reduce((fields, field) => {
+    fields[field.key] = typeof playbook?.[field.key] === "string" ? playbook[field.key] : "";
+    return fields;
+  }, {});
+}
+
 function mergeSavedData(savedData) {
   return stages.reduce((acc, stage) => {
     acc[stage.id] = normalizeStageData(savedData?.[stage.id], stage.strategicSignals);
@@ -645,6 +698,10 @@ function loadCurrentDiagnosis() {
   }
 
   return createInitialData();
+}
+
+function loadExecutionPlaybook() {
+  return normalizeExecutionPlaybook(safeReadJson(EXECUTION_PLAYBOOK_KEY, null));
 }
 
 function hasPreviousCurrentDiagnosisData() {
@@ -767,8 +824,34 @@ function loadProposalConfig(data = loadCurrentDiagnosis()) {
 
 function getStageFromHash() {
   const hash = window.location.hash.replace("#", "");
-  const validIds = new Set([...stages.map((stage) => stage.id), "documento", "resumo", "proposta"]);
+  const validIds = new Set([
+    ...stages.map((stage) => stage.id),
+    "documento",
+    "resumo",
+    "proposta",
+    "playbook-comercial"
+  ]);
   return validIds.has(hash) ? hash : stages[0].id;
+}
+
+function getMenuGroupFromStage(stageId) {
+  if (stages.some((stage) => stage.id === stageId)) {
+    return "mapeamento";
+  }
+
+  if (stageId === "resumo") {
+    return "diagnostico";
+  }
+
+  if (stageId === "documento" || stageId === "proposta") {
+    return "proposta";
+  }
+
+  if (stageId === "playbook-comercial") {
+    return "execucao";
+  }
+
+  return "mapeamento";
 }
 
 function createSavedDiagnosis(data, overrides = {}) {
@@ -1409,6 +1492,95 @@ function EmptySummaryState({ savedCount }) {
   );
 }
 
+function SidebarGroup({ title, subtitle, active, open, onToggle, children }) {
+  return (
+    <section className="rounded-lg border border-slate-200 bg-slate-50 p-2">
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={open}
+        className={`flex w-full items-center justify-between gap-3 rounded-md px-3 py-3 text-left transition ${
+          active ? "bg-brand text-white shadow-brand" : "bg-white text-slate-800 hover:bg-slate-50"
+        }`}
+      >
+        <span>
+          <span className="block text-sm font-semibold">{title}</span>
+          <span className={active ? "text-xs text-white/70" : "text-xs text-slate-500"}>
+            {subtitle}
+          </span>
+        </span>
+        <span className={active ? "text-xs font-bold text-white" : "text-xs font-bold text-brand"}>
+          {open ? "Fechar" : "Abrir"}
+        </span>
+      </button>
+      {open ? <div className="mt-2 grid gap-2">{children}</div> : null}
+    </section>
+  );
+}
+
+function SidebarStageButton({ stage, filled, active, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`grid grid-cols-[36px_1fr_auto] items-center gap-3 rounded-lg border px-3 py-3 text-left transition ${
+        active
+          ? "border-brand bg-brand text-white shadow-brand"
+          : "border-transparent bg-white text-slate-700 hover:border-slate-200 hover:bg-white"
+      }`}
+    >
+      <span
+        className={`grid h-9 w-9 place-items-center rounded-md text-xs font-bold ${
+          active ? "bg-white/15 text-white" : "bg-brand-soft text-brand"
+        }`}
+      >
+        {stage.number}
+      </span>
+      <span>
+        <span className="block text-sm font-semibold">{stage.title}</span>
+        <span className={active ? "text-xs text-white/70" : "text-xs text-slate-400"}>
+          {stage.eyebrow}
+        </span>
+      </span>
+      <span
+        className={`rounded-full px-2 py-1 text-[11px] font-bold ${
+          active ? "bg-white/15 text-white" : "bg-slate-100 text-slate-500"
+        }`}
+      >
+        {filled}/4
+      </span>
+    </button>
+  );
+}
+
+function SidebarNavButton({ title, subtitle, badge, active, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`grid grid-cols-[36px_1fr] items-center gap-3 rounded-lg border px-3 py-3 text-left transition ${
+        active
+          ? "border-brand bg-brand text-white shadow-brand"
+          : "border-transparent bg-white text-slate-700 hover:border-slate-200 hover:bg-white"
+      }`}
+    >
+      <span
+        className={`grid h-9 w-9 place-items-center rounded-md text-xs font-bold ${
+          active ? "bg-white/15 text-white" : "bg-brand-soft text-brand"
+        }`}
+      >
+        {badge}
+      </span>
+      <span>
+        <span className="block text-sm font-semibold">{title}</span>
+        <span className={active ? "text-xs text-white/70" : "text-xs text-slate-400"}>
+          {subtitle}
+        </span>
+      </span>
+    </button>
+  );
+}
+
 function ProposalTextarea({ label, value, onChange, rows = 5 }) {
   return (
     <label className="block">
@@ -1685,6 +1857,83 @@ function ProposalEditorModule({ hasCurrentDiagnosisData, proposalDraft, onPropos
           </div>
         </section>
       )}
+    </section>
+  );
+}
+
+function ExecutionField({ field, value, onChange }) {
+  return (
+    <label className="flex min-h-[250px] flex-col rounded-lg border border-slate-200 bg-white shadow-panel">
+      <span className="border-b border-slate-100 px-4 py-3">
+        <span className="block text-xs font-bold uppercase text-slate-500">{field.label}</span>
+        <span className="mt-1 block text-sm leading-5 text-slate-500">{field.helper}</span>
+      </span>
+      <textarea
+        value={value}
+        onChange={(event) => onChange(field.key, event.target.value)}
+        placeholder={field.placeholder}
+        className="min-h-[180px] flex-1 resize-y rounded-b-lg border-0 bg-white px-4 py-4 text-[15px] leading-7 text-slate-800 outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-brand/25"
+      />
+    </label>
+  );
+}
+
+function ExecutionPlaybookModule({ playbook, onChange }) {
+  return (
+    <section className="grid gap-5">
+      <section className="rounded-lg border border-brand/15 bg-white p-5 shadow-panel">
+        <div className="flex flex-col gap-4 border-l-4 border-brand pl-4">
+          <p className="text-xs font-bold uppercase text-brand">Execução comercial</p>
+          <h2 className="text-3xl font-semibold text-slate-950">Playbook comercial</h2>
+          <p className="max-w-4xl text-sm leading-7 text-slate-500">
+            Área para registrar a operação comercial da Mari: fluxo, etapas do funil, scripts,
+            indicadores, rotina de acompanhamento e aprendizados da Aline.
+          </p>
+        </div>
+      </section>
+
+      <section className="grid gap-4 lg:grid-cols-3">
+        {[
+          {
+            title: "Mapear",
+            text: "Documentar como a lead chega, como é abordada e quais pontos movem a conversa."
+          },
+          {
+            title: "Padronizar",
+            text: "Organizar scripts, critérios de passagem, objeções e próximos passos comerciais."
+          },
+          {
+            title: "Acompanhar",
+            text: "Definir indicadores, rotina de leitura e ajustes para melhorar previsibilidade."
+          }
+        ].map((item) => (
+          <article key={item.title} className="rounded-lg border border-slate-200 bg-white p-5 shadow-panel">
+            <p className="text-xs font-bold uppercase text-brand">Frente de execução</p>
+            <h3 className="mt-2 text-xl font-semibold text-slate-950">{item.title}</h3>
+            <p className="mt-3 text-sm leading-7 text-slate-500">{item.text}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="grid gap-4">
+        <div className="flex flex-col gap-2 border-l-4 border-brand pl-4">
+          <p className="text-xs font-bold uppercase text-brand">Registro operacional</p>
+          <h3 className="text-xl font-semibold text-slate-950">
+            Fluxo, scripts, indicadores e aprendizados
+          </h3>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          {executionFieldConfig.map((field) => (
+            <ExecutionField
+              key={field.key}
+              field={field}
+              value={playbook[field.key] || ""}
+              onChange={onChange}
+            />
+          ))}
+        </div>
+      </section>
     </section>
   );
 }
@@ -1986,6 +2235,13 @@ export default function App() {
   const [savedDiagnoses, setSavedDiagnoses] = useState(loadSavedDiagnoses);
   const [proposal, setProposal] = useState(() => loadProposalConfig(loadCurrentDiagnosis()));
   const [proposalDraft, setProposalDraft] = useState(() => loadProposalConfig(loadCurrentDiagnosis()));
+  const [executionPlaybook, setExecutionPlaybook] = useState(loadExecutionPlaybook);
+  const [openMenus, setOpenMenus] = useState(() => ({
+    mapeamento: getMenuGroupFromStage(getStageFromHash()) === "mapeamento",
+    diagnostico: getMenuGroupFromStage(getStageFromHash()) === "diagnostico",
+    proposta: getMenuGroupFromStage(getStageFromHash()) === "proposta",
+    execucao: getMenuGroupFromStage(getStageFromHash()) === "execucao"
+  }));
   const [lastSavedSnapshot, setLastSavedSnapshot] = useState("");
   const [saveState, setSaveState] = useState("Salvo localmente");
   const [printMode, setPrintMode] = useState("diagnosis");
@@ -2050,6 +2306,10 @@ export default function App() {
     window.localStorage.setItem(PROPOSAL_STORAGE_KEY, JSON.stringify(proposal));
     window.localStorage.setItem(PROPOSAL_CONTENT_VERSION_KEY, CURRENT_PROPOSAL_CONTENT_VERSION);
   }, [proposal]);
+
+  useEffect(() => {
+    window.localStorage.setItem(EXECUTION_PLAYBOOK_KEY, JSON.stringify(executionPlaybook));
+  }, [executionPlaybook]);
 
   useEffect(() => {
     const resetPrintMode = () => setPrintMode("diagnosis");
@@ -2122,6 +2382,11 @@ export default function App() {
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
+  useEffect(() => {
+    const activeMenu = getMenuGroupFromStage(activeStage);
+    setOpenMenus((current) => ({ ...current, [activeMenu]: true }));
+  }, [activeStage]);
+
   const completedFields = useMemo(() => {
     return stages.reduce((total, stage) => total + getFilledFields(data[stage.id] || {}), 0);
   }, [data]);
@@ -2132,6 +2397,7 @@ export default function App() {
   const isSummary = activeStage === "resumo";
   const isDocument = activeStage === "documento";
   const isProposal = activeStage === "proposta";
+  const isExecution = activeStage === "playbook-comercial";
   const hasCurrentDiagnosisData = useMemo(() => hasDiagnosisData(data), [data]);
   const reportData = data;
   const currentSnapshot = useMemo(() => snapshotDiagnosis(data), [data]);
@@ -2154,18 +2420,26 @@ export default function App() {
       ? "Etapa 07"
       : isSummary
         ? "Etapa final"
-        : `Etapa ${currentStage.number}`;
+        : isExecution
+          ? "Execução"
+          : `Etapa ${currentStage.number}`;
   const headerTitle = isProposal
     ? "Proposta Comercial"
     : isDocument
       ? "Documento de parceria"
       : isSummary
         ? "Resumo e Diagnóstico"
-        : currentStage.title;
+        : isExecution
+          ? "Playbook comercial"
+          : currentStage.title;
 
   function navigateTo(stageId) {
     window.location.hash = stageId;
     setActiveStage(stageId);
+  }
+
+  function toggleMenu(menuId) {
+    setOpenMenus((current) => ({ ...current, [menuId]: !current[menuId] }));
   }
 
   async function login(password) {
@@ -2236,6 +2510,13 @@ export default function App() {
         }
       };
     });
+  }
+
+  function updateExecutionField(fieldKey, value) {
+    setExecutionPlaybook((current) => ({
+      ...current,
+      [fieldKey]: value
+    }));
   }
 
   async function copySummary() {
@@ -2406,106 +2687,79 @@ export default function App() {
           </p>
         </div>
 
-        <nav className="mt-6 grid gap-2">
-          {stages.map((stage) => {
-            const filled = getFilledFields(data[stage.id] || {});
-            const active = activeStage === stage.id;
-
-            return (
-              <button
+        <nav className="mt-6 grid gap-3">
+          <SidebarGroup
+            title="Mapeamento do projeto"
+            subtitle="Etapas preenchidas no discovery"
+            active={getMenuGroupFromStage(activeStage) === "mapeamento"}
+            open={openMenus.mapeamento}
+            onToggle={() => toggleMenu("mapeamento")}
+          >
+            {stages.map((stage) => (
+              <SidebarStageButton
                 key={stage.id}
-                type="button"
+                stage={stage}
+                filled={getFilledFields(data[stage.id] || {})}
+                active={activeStage === stage.id}
                 onClick={() => navigateTo(stage.id)}
-                className={`grid grid-cols-[36px_1fr_auto] items-center gap-3 rounded-lg border px-3 py-3 text-left transition ${
-                  active
-                    ? "border-brand bg-brand text-white shadow-brand"
-                    : "border-transparent bg-white text-slate-700 hover:border-slate-200 hover:bg-slate-50"
-                }`}
-              >
-                <span
-                  className={`grid h-9 w-9 place-items-center rounded-md text-xs font-bold ${
-                    active ? "bg-white/15 text-white" : "bg-brand-soft text-brand"
-                  }`}
-                >
-                  {stage.number}
-                </span>
-                <span>
-                  <span className="block text-sm font-semibold">{stage.title}</span>
-                  <span className={active ? "text-xs text-white/70" : "text-xs text-slate-400"}>
-                    {stage.eyebrow}
-                  </span>
-                </span>
-                <span
-                  className={`rounded-full px-2 py-1 text-[11px] font-bold ${
-                    active ? "bg-white/15 text-white" : "bg-slate-100 text-slate-500"
-                  }`}
-                >
-                  {filled}/4
-                </span>
-              </button>
-            );
-          })}
+              />
+            ))}
+          </SidebarGroup>
 
-          <button
-            type="button"
-            onClick={() => navigateTo("documento")}
-            className={`mt-3 grid grid-cols-[36px_1fr_auto] items-center gap-3 rounded-lg border px-3 py-3 text-left transition ${
-              isDocument
-                ? "border-brand bg-brand text-white shadow-brand"
-                : "border-transparent bg-white text-slate-700 hover:border-slate-200 hover:bg-slate-50"
-            }`}
+          <SidebarGroup
+            title="Diagnóstico e síntese final"
+            subtitle="Resumo executivo consolidado"
+            active={getMenuGroupFromStage(activeStage) === "diagnostico"}
+            open={openMenus.diagnostico}
+            onToggle={() => toggleMenu("diagnostico")}
           >
-            <span
-              className={`grid h-9 w-9 place-items-center rounded-md text-xs font-bold ${
-                isDocument ? "bg-white/15 text-white" : "bg-brand-soft text-brand"
-              }`}
-            >
-              07
-            </span>
-            <span>
-              <span className="block text-sm font-semibold">Documento de parceria</span>
-              <span className={isDocument ? "text-xs text-white/70" : "text-xs text-slate-400"}>
-                Proposta comercial
-              </span>
-            </span>
-            <span
-              className={`rounded-full px-2 py-1 text-[11px] font-bold ${
-                isDocument ? "bg-white/15 text-white" : "bg-slate-100 text-slate-500"
-              }`}
-            >
-              7
-            </span>
-          </button>
+            <SidebarNavButton
+              title="Resumo e Diagnóstico"
+              subtitle="Síntese consolidada"
+              badge="R"
+              active={isSummary}
+              onClick={() => navigateTo("resumo")}
+            />
+          </SidebarGroup>
 
-          <button
-            type="button"
-            onClick={() => navigateTo("resumo")}
-            className={`mt-3 rounded-lg border px-4 py-4 text-left transition ${
-              isSummary
-                ? "border-brand bg-brand text-white shadow-brand"
-                : "border-slate-200 bg-slate-50 text-slate-800 hover:bg-white"
-            }`}
+          <SidebarGroup
+            title="Proposta"
+            subtitle="Edição e apresentação final"
+            active={getMenuGroupFromStage(activeStage) === "proposta"}
+            open={openMenus.proposta}
+            onToggle={() => toggleMenu("proposta")}
           >
-            <span className="block text-sm font-semibold">Resumo e Diagnóstico</span>
-            <span className={isSummary ? "text-xs text-white/70" : "text-xs text-slate-500"}>
-              Síntese consolidada
-            </span>
-          </button>
+            <SidebarNavButton
+              title="Preenchimento da proposta"
+              subtitle="Documento de parceria"
+              badge="07"
+              active={isDocument}
+              onClick={() => navigateTo("documento")}
+            />
+            <SidebarNavButton
+              title="Proposta comercial"
+              subtitle="Apresentação pronta"
+              badge="P"
+              active={isProposal}
+              onClick={() => navigateTo("proposta")}
+            />
+          </SidebarGroup>
 
-          <button
-            type="button"
-            onClick={() => navigateTo("proposta")}
-            className={`rounded-lg border px-4 py-4 text-left transition ${
-              isProposal
-                ? "border-brand bg-brand text-white shadow-brand"
-                : "border-slate-200 bg-slate-50 text-slate-800 hover:bg-white"
-            }`}
+          <SidebarGroup
+            title="Execução comercial"
+            subtitle="Playbook e operação da Aline"
+            active={getMenuGroupFromStage(activeStage) === "execucao"}
+            open={openMenus.execucao}
+            onToggle={() => toggleMenu("execucao")}
           >
-            <span className="block text-sm font-semibold">Proposta Comercial</span>
-            <span className={isProposal ? "text-xs text-white/70" : "text-xs text-slate-500"}>
-              Documento de parceria
-            </span>
-          </button>
+            <SidebarNavButton
+              title="Playbook comercial"
+              subtitle="Fluxo, scripts e rotina"
+              badge="E"
+              active={isExecution}
+              onClick={() => navigateTo("playbook-comercial")}
+            />
+          </SidebarGroup>
         </nav>
 
         <section className="mt-5 rounded-lg border border-slate-200 bg-slate-50 p-4">
@@ -2572,31 +2826,38 @@ export default function App() {
             </div>
           </div>
 
-          <div className="mx-auto mt-4 flex max-w-7xl gap-2 overflow-x-auto pb-1 lg:hidden">
-            {[
-              ...stages,
-              { id: "documento", number: "07", title: "Documento" },
-              { id: "resumo", number: "R", title: "Resumo" },
-              { id: "proposta", number: "P", title: "Proposta" }
-            ].map((stage) => (
-              <button
-                key={stage.id}
-                type="button"
-                onClick={() => navigateTo(stage.id)}
-                className={`whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold ${
-                  activeStage === stage.id
-                    ? "border-brand bg-brand text-white"
-                    : "border-slate-200 bg-white text-slate-600"
-                }`}
+          <div className="mx-auto mt-4 max-w-7xl lg:hidden">
+            <label className="block">
+              <span className="text-xs font-bold uppercase text-slate-500">Navegação</span>
+              <select
+                value={activeStage}
+                onChange={(event) => navigateTo(event.target.value)}
+                className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 outline-none focus:border-brand focus:ring-4 focus:ring-brand/15"
               >
-                {stage.number} {stage.title}
-              </button>
-            ))}
+                <optgroup label="Mapeamento do projeto">
+                  {stages.map((stage) => (
+                    <option key={stage.id} value={stage.id}>
+                      {stage.number} - {stage.title}
+                    </option>
+                  ))}
+                </optgroup>
+                <optgroup label="Diagnóstico e síntese final">
+                  <option value="resumo">Resumo e Diagnóstico</option>
+                </optgroup>
+                <optgroup label="Proposta">
+                  <option value="documento">Preenchimento da proposta</option>
+                  <option value="proposta">Proposta comercial</option>
+                </optgroup>
+                <optgroup label="Execução comercial">
+                  <option value="playbook-comercial">Playbook comercial</option>
+                </optgroup>
+              </select>
+            </label>
           </div>
         </header>
 
         <div className="mx-auto max-w-7xl px-4 py-6 md:px-7 md:py-8">
-          {!isSummary && !isProposal && !isDocument ? (
+          {!isSummary && !isProposal && !isDocument && !isExecution ? (
             <div className="grid gap-6">
               <FlowCard title={currentStage.title} eyebrow="Tema da categoria" tone="brand">
                 <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1.25fr]">
@@ -2654,6 +2915,11 @@ export default function App() {
               onProposalDraftChange={setProposalDraft}
               onSave={() => saveProposalDraft("Proposta salva")}
               onSaveEdit={() => saveProposalDraft("Edição da proposta salva")}
+            />
+          ) : isExecution ? (
+            <ExecutionPlaybookModule
+              playbook={executionPlaybook}
+              onChange={updateExecutionField}
             />
           ) : isSummary ? (
             <div className="grid gap-5">
