@@ -1598,54 +1598,38 @@ function ProposalTextarea({ label, value, onChange, rows = 5 }) {
   );
 }
 
-function ProposalPage({
+function ProposalSection({
   number,
   eyebrow,
   title,
   children,
-  cover = false,
-  editable = false
+  cover = false
 }) {
   return (
-    <div className="proposal-page-shell">
-      <section
-        className={`proposal-page relative overflow-hidden rounded-lg border border-slate-200 bg-white p-8 shadow-panel md:p-10 ${
-          cover ? "proposal-cover" : ""
-        }`}
-      >
-        <div className="absolute inset-y-0 left-0 w-3 bg-brand/80" />
-        <div
-          className={`proposal-card-content pl-4 ${
-            editable ? "rounded-md outline outline-2 outline-brand/25 outline-offset-8" : ""
-          }`}
-          contentEditable={editable}
-          suppressContentEditableWarning
-        >
-          <div className="flex items-start justify-between gap-4">
-            <div className={cover ? "max-w-4xl" : ""}>
-              {eyebrow ? (
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">{eyebrow}</p>
-              ) : null}
-              {title ? (
-                <h3
-                  className={`${
-                    cover ? "mt-5 text-5xl md:text-7xl" : "mt-2 text-3xl md:text-4xl"
-                  } font-semibold leading-tight text-slate-950`}
-                >
-                  {title}
-                </h3>
-              ) : null}
-            </div>
-            {number ? (
-              <span className="rounded-full border border-brand/25 bg-white px-4 py-2 text-xs font-bold text-brand">
-                {number}
-              </span>
-            ) : null}
-          </div>
-          <div className={cover ? "mt-8" : title ? "mt-7" : "mt-4"}>{children}</div>
+    <section className={`proposal-section ${cover ? "proposal-cover-section" : ""}`}>
+      <div className="flex items-start justify-between gap-4">
+        <div className={cover ? "max-w-4xl" : ""}>
+          {eyebrow ? (
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">{eyebrow}</p>
+          ) : null}
+          {title ? (
+            <h3
+              className={`${
+                cover ? "mt-5 text-5xl md:text-6xl" : "mt-2 text-3xl md:text-4xl"
+              } font-semibold leading-tight text-slate-950`}
+            >
+              {title}
+            </h3>
+          ) : null}
         </div>
-      </section>
-    </div>
+        {number ? (
+          <span className="rounded-full border border-brand/25 bg-white px-4 py-2 text-xs font-bold text-brand">
+            {number}
+          </span>
+        ) : null}
+      </div>
+      <div className={cover ? "mt-8" : title ? "mt-6" : "mt-4"}>{children}</div>
+    </section>
   );
 }
 
@@ -1962,8 +1946,10 @@ function ProposalModule({ proposal, onExport }) {
         </div>
       </div>
 
-      <div className="proposal-document grid gap-5">
-            <ProposalPage
+      <div className="proposal-document proposal-page relative overflow-hidden rounded-lg border border-slate-200 bg-white p-8 shadow-panel md:p-10">
+        <div className="absolute inset-y-0 left-0 w-3 bg-brand/80" />
+        <div className="relative pl-4">
+            <ProposalSection
               title="Proposta de Parceria"
               cover
             >
@@ -1975,9 +1961,9 @@ function ProposalModule({ proposal, onExport }) {
                   Mariana Betioli - {APP_CONFIG.projectName}
                 </p>
               </div>
-            </ProposalPage>
+            </ProposalSection>
 
-            <ProposalPage
+            <ProposalSection
               number="02"
               eyebrow="Análise estratégica"
               title="Nossa Visão Sobre o Projeto"
@@ -1985,9 +1971,9 @@ function ProposalModule({ proposal, onExport }) {
               <p className="max-w-5xl whitespace-pre-wrap text-base leading-7 text-slate-700">
                 {proposal.vision}
               </p>
-            </ProposalPage>
+            </ProposalSection>
 
-            <ProposalPage
+            <ProposalSection
               number="03"
               eyebrow="Atuação no projeto"
               title="Frentes Estratégicas"
@@ -2010,9 +1996,9 @@ function ProposalModule({ proposal, onExport }) {
                   </section>
                 ))}
               </div>
-            </ProposalPage>
+            </ProposalSection>
 
-            <ProposalPage
+            <ProposalSection
               number="04"
               eyebrow="Plano de trabalho"
               title="Fases do Projeto"
@@ -2083,17 +2069,17 @@ function ProposalModule({ proposal, onExport }) {
                   </div>
                 </div>
               </div>
-            </ProposalPage>
+            </ProposalSection>
 
-            <ProposalPage
+            <ProposalSection
               number="05"
               eyebrow="Escopo da parceria"
               title="Responsabilidades"
             >
               <ProposalResponsibilities value={proposal.responsibilities} />
-            </ProposalPage>
+            </ProposalSection>
 
-            <ProposalPage
+            <ProposalSection
               number="06"
               eyebrow="Parceria"
               title="Modelo de Coprodução"
@@ -2138,9 +2124,9 @@ function ProposalModule({ proposal, onExport }) {
                   entre as partes.
                 </p>
               </div>
-            </ProposalPage>
+            </ProposalSection>
 
-            <ProposalPage
+            <ProposalSection
               number="07"
               eyebrow="Considerações finais"
               title="Observações e Condições"
@@ -2163,8 +2149,9 @@ function ProposalModule({ proposal, onExport }) {
                   </p>
                 </section>
               </div>
-            </ProposalPage>
-          </div>
+            </ProposalSection>
+        </div>
+      </div>
     </section>
   );
 }
