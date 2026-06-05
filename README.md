@@ -1,6 +1,6 @@
-# Diagnostico Estrategico Mari Betioli
+# O Poder do Parto - Landing Page
 
-Aplicacao web para conduzir uma reuniao de discovery estrategico com Mari Betioli.
+Copia funcional e editavel da pagina de vendas "O Poder do Parto", criada em React + Vite.
 
 ## Como rodar
 
@@ -13,11 +13,10 @@ Abra a URL local indicada pelo Vite.
 
 ## Funcionalidades
 
-- Registro por etapas com autosave no navegador.
-- Sinais estrategicos por categoria.
-- Resumo executivo consolidado.
-- Historico local de diagnosticos salvos.
-- Exportacao em PDF pela impressao do navegador.
+- Estrutura visual baseada na pagina original.
+- Imagens e depoimentos servidos localmente em `public/assets`.
+- Layout responsivo para desktop, tablet e mobile.
+- Codigo organizado para edicao futura.
 
 ## Build
 

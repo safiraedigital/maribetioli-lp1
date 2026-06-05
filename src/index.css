@@ -1,308 +1,236 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  color: #111827;
-  background: #f1f5f9;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@import url("https://agencialcw.com.br/wp-content/themes/hello-elementor/assets/css/reset.css?ver=3.4.9");
+@import url("https://agencialcw.com.br/wp-content/themes/hello-elementor/assets/css/theme.css?ver=3.4.9");
+@import url("https://agencialcw.com.br/wp-content/uploads/elementor/css/custom-frontend.min.css?ver=1780113175");
+@import url("https://agencialcw.com.br/wp-content/plugins/elementor/assets/css/widget-image.min.css?ver=4.1.1");
+@import url("https://agencialcw.com.br/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=4.1.1");
+@import url("https://agencialcw.com.br/wp-content/plugins/elementor/assets/css/widget-divider.min.css?ver=4.1.1");
+@import url("https://agencialcw.com.br/wp-content/uploads/elementor/css/custom-widget-icon-box.min.css?ver=1780113175");
+@import url("https://agencialcw.com.br/wp-content/uploads/elementor/css/custom-widget-icon-list.min.css?ver=1780113175");
+@import url("https://agencialcw.com.br/wp-content/plugins/elementor/assets/css/widget-image-carousel.min.css?ver=4.1.1");
+@import url("https://agencialcw.com.br/wp-content/plugins/elementor-pro/assets/css/widget-gallery.min.css?ver=3.32.3");
+@import url("https://agencialcw.com.br/wp-content/plugins/elementor/assets/css/widget-nested-accordion.min.css?ver=4.1.1");
+@import url("https://agencialcw.com.br/wp-content/plugins/qi-addons-for-elementor/assets/css/main.min.css?ver=1.10");
+@import url("https://agencialcw.com.br/wp-content/plugins/qi-addons-for-elementor/assets/css/grid.min.css?ver=1.10");
+@import url("https://agencialcw.com.br/wp-content/plugins/qi-addons-for-elementor/assets/css/helper-parts.min.css?ver=1.10");
+@import url("https://agencialcw.com.br/wp-content/plugins/happy-elementor-addons/assets/fonts/style.min.css?ver=3.21.4");
+@import url("https://agencialcw.com.br/wp-content/plugins/elementor/assets/lib/font-awesome/css/font-awesome.min.css?ver=4.7.0");
+@import url("https://agencialcw.com.br/wp-content/uploads/elementor/google-fonts/css/manrope.css?ver=1770671112");
+@import url("https://agencialcw.com.br/wp-content/uploads/elementor/google-fonts/css/roboto.css?ver=1770671063");
+@import url("https://agencialcw.com.br/wp-content/uploads/elementor/google-fonts/css/poppins.css?ver=1770671813");
+@import url("./elementor-post-518-local.css");
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  min-width: 320px;
   margin: 0;
-  background: #f1f5f9;
+  background: #fcfcfc;
 }
 
-::selection {
-  background: rgba(112, 34, 153, 0.18);
+#root {
+  min-width: 320px;
 }
 
-.text-balance {
-  text-wrap: balance;
+.cloned-elementor-page {
+  width: 100%;
+  overflow-x: clip;
 }
 
-.print-only {
+.elementor img {
+  height: auto;
+  max-width: 100%;
+  border: 0;
+}
+
+.elementor-widget:not(:last-child) {
+  margin-block-end: 20px;
+}
+
+@media (min-width: 1025px) {
+  .elementor-hidden-desktop {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .elementor-hidden-tablet {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .elementor-hidden-mobile {
+    display: none !important;
+  }
+}
+
+.cloned-video-frame {
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 15px;
+  background: #000;
+  transform: translateZ(0);
+}
+
+.cloned-video-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.swiper,
+.swiper-wrapper,
+.e-n-carousel,
+.elementor-image-carousel-wrapper {
+  overflow: hidden;
+}
+
+.qodef-qi-text-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.qodef-qi-text-marquee .qodef-m-content,
+.qodef-qi-text-marquee .qodef-m-text {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: max-content;
+}
+
+.qodef-qi-text-marquee .qodef-e-icon-holder {
+  display: inline-flex;
+  width: 28px;
+}
+
+.swiper-wrapper,
+.elementor-image-carousel {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: nowrap;
+}
+
+.swiper-slide {
+  flex: 0 0 50%;
+  max-width: 50%;
+  height: auto;
+}
+
+.elementor-image-carousel .swiper-slide {
+  flex: 0 0 33.333%;
+  max-width: 33.333%;
+  padding-right: 20px;
+}
+
+.elementor-image-carousel .swiper-slide-image {
+  width: 100%;
+  height: auto;
+}
+
+.elementor-518 .elementor-element.elementor-element-6e3bf6a .swiper-slide {
+  flex: 0 0 33.333% !important;
+  max-width: 33.333% !important;
+}
+
+.elementor-518 .elementor-element.elementor-element-450b043b {
+  height: 329px;
+  overflow: hidden;
+}
+
+.elementor-widget-gallery .e-gallery-container,
+.elementor-widget-gallery .elementor-gallery__container {
+  display: block;
+  column-count: 3;
+  column-gap: 70px;
+}
+
+.elementor-widget-gallery .e-gallery-item {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  margin: 0 0 70px;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+}
+
+.elementor-widget-gallery .e-gallery-item::before {
+  content: "";
+  display: block;
+  padding-top: var(--gallery-ratio, 62%);
+}
+
+.elementor-widget-gallery .e-gallery-image {
+  position: absolute;
+  inset: 0;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.elementor-widget-gallery .e-gallery-item:nth-child(1) {
+  --gallery-ratio: 169.96%;
+}
+
+.elementor-widget-gallery .e-gallery-item:nth-child(2) {
+  --gallery-ratio: 68.29%;
+}
+
+.elementor-widget-gallery .e-gallery-item:nth-child(3) {
+  --gallery-ratio: 58.03%;
+}
+
+.elementor-widget-gallery .e-gallery-item:nth-child(4),
+.elementor-widget-gallery .e-gallery-item:nth-child(5),
+.elementor-widget-gallery .e-gallery-item:nth-child(8) {
+  --gallery-ratio: 32.99%;
+}
+
+.elementor-widget-gallery .e-gallery-item:nth-child(6) {
+  --gallery-ratio: 53.87%;
+}
+
+.elementor-widget-gallery .e-gallery-item:nth-child(7) {
+  --gallery-ratio: 101.31%;
+}
+
+.elementor-widget-gallery .e-gallery-item:nth-child(9) {
+  --gallery-ratio: 42.15%;
+}
+
+.e-n-accordion-item:not([open]) > [role="region"] {
   display: none;
 }
 
-.proposal-document {
-  width: 100%;
+@media (max-width: 1024px) {
+  .elementor-518 .elementor-element.elementor-element-6e3bf6a .swiper-slide,
+  .elementor-image-carousel .swiper-slide {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+  }
+
+  .elementor-widget-gallery .e-gallery-container,
+  .elementor-widget-gallery .elementor-gallery__container {
+    column-count: 2;
+    column-gap: 10px;
+  }
+
+  .elementor-widget-gallery .e-gallery-item {
+    margin-bottom: 10px;
+  }
 }
 
-.proposal-document .proposal-section {
-  border-top: 1px solid #e2e8f0;
-  padding: 34px 0;
-}
-
-.proposal-document .proposal-section:first-child {
-  border-top: 0;
-  padding-top: 0;
-}
-
-.proposal-document .proposal-section:last-child {
-  padding-bottom: 0;
-}
-
-.proposal-document .proposal-cover-section {
-  padding-bottom: 40px;
-}
-
-.pdf-export-layout .proposal-page {
-  width: 1120px !important;
-  padding: 54px !important;
-  border-color: #e8d8ef !important;
-  box-shadow: none !important;
-}
-
-.pdf-export-layout .proposal-section {
-  padding: 30px 0 !important;
-}
-
-.pdf-export-layout .proposal-section:first-child {
-  padding-top: 0 !important;
-}
-
-.pdf-export-layout .proposal-page h3 {
-  font-size: 34px !important;
-  line-height: 1.12 !important;
-}
-
-.pdf-export-layout .proposal-page p,
-.pdf-export-layout .proposal-page li {
-  font-size: 17px !important;
-  line-height: 1.45 !important;
-}
-
-.pdf-export-layout .proposal-page .text-xs {
-  font-size: 11px !important;
-}
-
-.pdf-export-layout .proposal-page .text-sm {
-  font-size: 14px !important;
-}
-
-.pdf-export-layout .proposal-page .text-2xl {
-  font-size: 22px !important;
-}
-
-.pdf-export-layout .proposal-page .text-3xl {
-  font-size: 30px !important;
-}
-
-.pdf-export-layout .proposal-plan-board .grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-}
-
-.pdf-export-layout .proposal-plan-mobile {
-  display: none !important;
-}
-
-.pdf-export-layout .proposal-plan-desktop {
-  display: block !important;
-}
-
-.pdf-export-layout .proposal-plan-line {
-  display: block !important;
-}
-
-@media print {
-  @page {
-    margin: 12mm;
+@media (max-width: 767px) {
+  .elementor-518 .elementor-element.elementor-element-6e3bf6a .swiper-slide,
+  .elementor-image-carousel .swiper-slide {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
   }
 
-  html,
-  body {
-    background: #ffffff !important;
-  }
-
-  body {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  aside,
-  header,
-  button,
-  .no-print {
-    display: none !important;
-  }
-
-  *,
-  *::before,
-  *::after {
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
-
-  main {
-    background: #ffffff !important;
-  }
-
-  .lg\:pl-80 {
-    padding-left: 0 !important;
-  }
-
-  .max-w-7xl {
-    max-width: none !important;
-  }
-
-  .px-4,
-  .md\:px-7 {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-
-  .py-6,
-  .md\:py-8 {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-  }
-
-  .print-only {
-    display: block !important;
-  }
-
-  .print-report-header {
-    break-inside: avoid;
-    page-break-inside: avoid;
-    margin-bottom: 10px !important;
-  }
-
-  .print-report-logo {
-    display: block;
-    width: 100%;
-    max-height: 86px;
-    object-fit: contain;
-    object-position: left center;
-  }
-
-  .print-stack {
-    display: block !important;
-  }
-
-  .print-stack > * + * {
-    margin-top: 10px !important;
-  }
-
-  .print-card,
-  .print-stage-card,
-  .print-entry,
-  .print-chart {
-    border-color: #e5e7eb !important;
-  }
-
-  .print-card,
-  .print-stage-card,
-  .print-chart {
-    margin-bottom: 8px !important;
-    padding: 12px !important;
-  }
-
-  .print-entry {
-    margin-top: 7px !important;
-    padding: 10px !important;
-  }
-
-  .print-heading-group,
-  .print-avoid-break,
-  .print-chart {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  .print-section-heading,
-  .print-stage-header {
-    break-after: avoid;
-    page-break-after: avoid;
-  }
-
-  .print-stage-card {
-    break-inside: auto;
-    page-break-inside: auto;
-  }
-
-  .print-stage-card:not(.print-long-stage) .print-entry {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  .print-long-stage .print-entry {
-    break-inside: auto;
-    page-break-inside: auto;
-  }
-
-  .print-mode-diagnosis .proposal-module {
-    display: none !important;
-  }
-
-  .print-mode-proposal .diagnostic-summary-content {
-    display: none !important;
-  }
-
-  .print-mode-proposal .proposal-module {
-    border: 0 !important;
-    padding: 0 !important;
-  }
-
-  .print-mode-proposal .proposal-document {
-    display: block !important;
-  }
-
-  .print-mode-proposal .proposal-page {
-    break-after: page;
-    page-break-after: always;
-    break-inside: auto;
-    page-break-inside: auto;
-    border-color: #e5e7eb !important;
-    margin-bottom: 0 !important;
-    min-height: auto !important;
-    padding: 16mm !important;
-  }
-
-  .print-mode-proposal .proposal-page:last-child {
-    break-after: auto;
-    page-break-after: auto;
-  }
-
-  .print-mode-proposal .proposal-timeline-item,
-  .print-mode-proposal .proposal-page section,
-  .print-mode-proposal .proposal-page article {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  .print-mode-proposal .proposal-vertical-timeline {
-    gap: 14px !important;
-  }
-
-  .print-mode-proposal .proposal-page h3,
-  .print-mode-proposal .proposal-page h4 {
-    break-after: avoid;
-    page-break-after: avoid;
-  }
-
-  .print-mode-proposal .proposal-edit-field {
-    display: none !important;
-  }
-
-  .print-mode-proposal .proposal-print-value,
-  .print-mode-proposal .proposal-print-note {
-    display: block !important;
-  }
-
-  h2,
-  h3,
-  h4,
-  p {
-    orphans: 3;
-    widows: 3;
+  .elementor-widget-gallery .e-gallery-container,
+  .elementor-widget-gallery .elementor-gallery__container {
+    column-count: 2;
   }
 }
