@@ -6,6 +6,7 @@ const bodyClass =
 
 const DELAY_MS = 18 * 60 * 1000;
 const delayedRoute = "/aula-gratuita";
+const delayedStorageKey = "poder-do-parto-aula-gratuita-started-at-v2";
 const nextSectionMarker =
   '<div class="elementor-element elementor-element-4704962f';
 
@@ -14,26 +15,148 @@ function getDelayedPageParts() {
 
   if (splitIndex === -1) {
     return {
-      heroHtml: pageHtml,
-      delayedHtml: ""
+      delayedHtml: pageHtml
     };
   }
 
-  const heroHtml = pageHtml
-    .slice(0, splitIndex)
-    .replace(
-      "Aprenda tudo sobre a gestação e parto, prepare seu acompanhante, evite a violência obstétrica e",
-      "Aprenda tudo sobre gestação e parto. Prepare seu acompanhante, evite a violência obstétrica e"
-    )
-    .replace(
-      "Assista e entenda como conquistar um parto seguro e cheio de amor, tanto pelo SUS, quanto pelo particular.\n",
-      "Assista e entenda como conquistar um parto seguro."
-    );
-
   return {
-    heroHtml,
     delayedHtml: pageHtml.slice(splitIndex)
   };
+}
+
+function DelayedFunnelHero() {
+  useEffect(() => {
+    const headline = document.querySelector(".delayed-lesson-headline");
+    const headlineLines = headline
+      ? [...headline.querySelectorAll(".headline-line")]
+      : [];
+
+    if (!headline || headlineLines.length === 0) {
+      return undefined;
+    }
+
+    const fitHeadline = () => {
+      headline.style.removeProperty("--headline-font-size");
+
+      let styles = window.getComputedStyle(headline);
+      const maxFontSize = Number.parseFloat(styles.fontSize);
+      const minFontSize = window.innerWidth <= 767 ? 10 : 24;
+
+      const linesFit = () =>
+        headlineLines.every((line) => line.scrollWidth <= headline.clientWidth + 1);
+
+      if (linesFit()) {
+        return;
+      }
+
+      let low = minFontSize;
+      let high = maxFontSize;
+
+      while (high - low > 0.25) {
+        const mid = (low + high) / 2;
+        headline.style.setProperty("--headline-font-size", `${mid}px`);
+        styles = window.getComputedStyle(headline);
+
+        if (linesFit()) {
+          low = Number.parseFloat(styles.fontSize);
+        } else {
+          high = mid;
+        }
+      }
+
+      headline.style.setProperty("--headline-font-size", `${low}px`);
+    };
+
+    fitHeadline();
+    document.fonts?.ready.then(fitHeadline);
+    window.addEventListener("resize", fitHeadline);
+
+    return () => {
+      window.removeEventListener("resize", fitHeadline);
+    };
+  }, []);
+
+  return (
+    <section className="delayed-lesson-hero" aria-label="Aula gratuita">
+      <header className="delayed-lesson-header">
+        <img
+          src="/assets/imgi_30_o-poder-do-parto-2048x680-1.png"
+          alt="O Poder do Parto"
+          className="delayed-lesson-logo"
+        />
+      </header>
+
+      <main className="delayed-lesson-main">
+        <h1 className="delayed-lesson-headline">
+          <span className="headline-line">
+            <span className="headline-normal">
+              A forma como você se prepara durante a gestação pode
+            </span>
+          </span>
+          <span className="headline-line">
+            <strong className="headline-strong">
+              mudar completamente a sua experiência de parto.
+            </strong>
+          </span>
+        </h1>
+
+        <p className="delayed-lesson-subheadline">
+          <span className="subheadline-line">
+            Prepare seu acompanhante, evite a violência obstétrica
+          </span>{" "}
+          <span className="subheadline-line">
+            e{" "}
+            <span className="subheadline-highlight">
+              viva o parto dos seus sonhos.
+            </span>
+          </span>
+        </p>
+
+        <div className="delayed-lesson-video cloned-video-frame">
+          <iframe
+            title="Poder do Parto Site Oficial"
+            src="https://www.youtube-nocookie.com/embed/AHY6KT1x67I?controls=0&disablekb=1&fs=0&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+        </div>
+      </main>
+
+      <footer className="delayed-lesson-footer">
+        © 2025 Mariana Betioli. Todos os direitos reservados.
+      </footer>
+    </section>
+  );
+}
+
+function getInitialDelayState(isDelayedFunnel) {
+  if (!isDelayedFunnel) {
+    return true;
+  }
+
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const startedAt = Number(window.localStorage.getItem(delayedStorageKey));
+
+  if (!Number.isFinite(startedAt) || startedAt <= 0) {
+    return false;
+  }
+
+  return Date.now() - startedAt >= DELAY_MS;
+}
+
+function getDelayStart() {
+  const now = Date.now();
+  const storedStart = Number(window.localStorage.getItem(delayedStorageKey));
+
+  if (Number.isFinite(storedStart) && storedStart > 0) {
+    return storedStart;
+  }
+
+  window.localStorage.setItem(delayedStorageKey, String(now));
+  return now;
 }
 
 export default function App() {
@@ -42,7 +165,9 @@ export default function App() {
     window.location.pathname.replace(/\/$/, "") === delayedRoute ||
     searchParams.get("funil") === "aula-gratuita" ||
     searchParams.get("pagina") === "aula-gratuita";
-  const [showDelayedContent, setShowDelayedContent] = useState(!isDelayedFunnel);
+  const [showDelayedContent, setShowDelayedContent] = useState(() =>
+    getInitialDelayState(isDelayedFunnel)
+  );
   const delayedParts = useMemo(getDelayedPageParts, []);
 
   useEffect(() => {
@@ -71,15 +196,8 @@ export default function App() {
       return undefined;
     }
 
-    const storageKey = "poder-do-parto-aula-gratuita-started-at";
     const now = Date.now();
-    const storedStart = Number(window.localStorage.getItem(storageKey));
-    const startedAt = Number.isFinite(storedStart) && storedStart > 0 ? storedStart : now;
-
-    if (!storedStart) {
-      window.localStorage.setItem(storageKey, String(startedAt));
-    }
-
+    const startedAt = getDelayStart();
     const remainingDelay = Math.max(DELAY_MS - (now - startedAt), 0);
 
     if (remainingDelay === 0) {
@@ -100,10 +218,13 @@ export default function App() {
   if (isDelayedFunnel) {
     return (
       <div className="cloned-elementor-page delayed-funnel-page">
-        <div dangerouslySetInnerHTML={{ __html: delayedParts.heroHtml }} />
+        <DelayedFunnelHero />
         {showDelayedContent && (
           <div
-            className="delayed-funnel-content"
+            data-elementor-type="wp-page"
+            data-elementor-id="518"
+            className="delayed-funnel-content elementor elementor-518"
+            data-elementor-post-type="page"
             dangerouslySetInnerHTML={{ __html: delayedParts.delayedHtml }}
           />
         )}
