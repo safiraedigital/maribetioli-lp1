@@ -462,8 +462,35 @@ body {
 }
 
 .elementor-518 .elementor-element.elementor-element-450b043b {
-  height: 329px;
+  height: clamp(360px, 34vw, 470px);
   overflow: hidden;
+}
+
+.elementor-518 .elementor-element.elementor-element-450b043b .e-n-carousel {
+  overflow: hidden;
+  height: 100%;
+  padding-bottom: 46px;
+}
+
+.elementor-518 .elementor-element.elementor-element-450b043b .swiper-wrapper {
+  align-items: stretch;
+}
+
+.elementor-518 .elementor-element.elementor-element-450b043b .swiper-slide {
+  height: auto;
+}
+
+.elementor-518 .elementor-element.elementor-element-450b043b .swiper-slide > .e-con {
+  height: 100%;
+}
+
+.elementor-518
+  .elementor-element.elementor-element-450b043b
+  .elementor-widget-image
+  img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .elementor-widget-gallery .e-gallery-container,
@@ -652,6 +679,15 @@ body {
 
   .elementor-518 .elementor-element.elementor-element-6e3bf6a .swiper-slide,
   .elementor-image-carousel .swiper-slide {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+
+  .elementor-518 .elementor-element.elementor-element-450b043b {
+    height: clamp(330px, 92vw, 400px);
+  }
+
+  .elementor-518 .elementor-element.elementor-element-450b043b .swiper-slide {
     flex: 0 0 100% !important;
     max-width: 100% !important;
   }
