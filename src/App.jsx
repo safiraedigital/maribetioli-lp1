@@ -5,10 +5,27 @@ const bodyClass =
   "wp-singular page-template-default page page-id-518 wp-embed-responsive wp-theme-hello-elementor qodef-qi--touch qi-addons-for-elementor-1.10 hello-elementor-default elementor-default elementor-template-canvas elementor-kit-5 elementor-page elementor-page-518";
 
 const DELAY_MS = 18 * 60 * 1000;
-const delayedRoute = "/aula-gratuita";
-const delayedStorageKey = "poder-do-parto-aula-gratuita-started-at-v2";
+const delayedRoutes = ["/aula", "/aula-gratuita"];
+const delayedStorageKey = "poder-do-parto-aula-started-at-v3";
+const salesVturbPlayerScript =
+  "https://scripts.converteai.net/639563c1-cf70-4484-8d65-6fd485e96ab9/players/6a288cff68519b4d1b50bf92/v4/player.js";
+const lessonVturbPlayerScript =
+  "https://scripts.converteai.net/639563c1-cf70-4484-8d65-6fd485e96ab9/players/6a28849f56303c2b198f3c7b/v4/player.js";
 const nextSectionMarker =
   '<div class="elementor-element elementor-element-4704962f';
+
+function injectScriptOnce(src) {
+  const existingScript = document.querySelector(`script[src="${src}"]`);
+
+  if (existingScript) {
+    return;
+  }
+
+  const script = document.createElement("script");
+  script.src = src;
+  script.async = true;
+  document.head.appendChild(script);
+}
 
 function getDelayedPageParts() {
   const splitIndex = pageHtml.indexOf(nextSectionMarker);
@@ -25,6 +42,11 @@ function getDelayedPageParts() {
 }
 
 function DelayedFunnelHero() {
+  useEffect(() => {
+    injectScriptOnce(lessonVturbPlayerScript);
+    return undefined;
+  }, []);
+
   useEffect(() => {
     const headline = document.querySelector(".delayed-lesson-headline");
     const headlineLines = headline
@@ -112,12 +134,10 @@ function DelayedFunnelHero() {
           </span>
         </p>
 
-        <div className="delayed-lesson-video cloned-video-frame">
-          <iframe
-            title="Poder do Parto Site Oficial"
-            src="https://www.youtube-nocookie.com/embed/AHY6KT1x67I?controls=0&disablekb=1&fs=0&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
+        <div className="delayed-lesson-video delayed-lesson-vturb">
+          <vturb-smartplayer
+            id="vid-6a28849f56303c2b198f3c7b"
+            style={{ display: "block", margin: "0 auto", width: "100%", maxWidth: "400px" }}
           />
         </div>
       </main>
@@ -161,9 +181,12 @@ function getDelayStart() {
 
 export default function App() {
   const searchParams = new URLSearchParams(window.location.search);
+  const normalizedPathname = window.location.pathname.replace(/\/$/, "") || "/";
   const isDelayedFunnel =
-    window.location.pathname.replace(/\/$/, "") === delayedRoute ||
+    delayedRoutes.includes(normalizedPathname) ||
+    searchParams.get("funil") === "aula" ||
     searchParams.get("funil") === "aula-gratuita" ||
+    searchParams.get("pagina") === "aula" ||
     searchParams.get("pagina") === "aula-gratuita";
   const [showDelayedContent, setShowDelayedContent] = useState(() =>
     getInitialDelayState(isDelayedFunnel)
@@ -192,6 +215,7 @@ export default function App() {
 
   useEffect(() => {
     if (!isDelayedFunnel) {
+      injectScriptOnce(salesVturbPlayerScript);
       setShowDelayedContent(true);
       return undefined;
     }

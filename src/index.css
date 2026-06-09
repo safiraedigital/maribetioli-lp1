@@ -236,6 +236,21 @@ body {
   box-shadow: 0 28px 70px rgba(111, 32, 151, 0.22);
 }
 
+.delayed-lesson-vturb {
+  width: min(400px, 100%);
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 28px 70px rgba(111, 32, 151, 0.22);
+}
+
+.delayed-lesson-vturb vturb-smartplayer {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
 .delayed-lesson-footer {
   color: #6f2097;
   font-family: "Poppins", sans-serif;
@@ -302,6 +317,12 @@ body {
     box-shadow: 0 16px 36px rgba(111, 32, 151, 0.18);
   }
 
+  .delayed-lesson-vturb {
+    width: min(400px, calc(100vw - 12px));
+    border-radius: 12px;
+    box-shadow: 0 16px 36px rgba(111, 32, 151, 0.18);
+  }
+
   .delayed-lesson-footer {
     margin-top: 14px;
     font-size: 12px;
@@ -361,6 +382,17 @@ body {
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+.cloned-video-frame--vturb {
+  aspect-ratio: auto;
+  background: transparent;
+}
+
+.cloned-video-frame--vturb vturb-smartplayer {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .swiper,
