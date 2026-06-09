@@ -395,6 +395,18 @@ body {
   margin: 0 auto;
 }
 
+.cloned-elementor-page:not(.delayed-funnel-page) .cloned-video-frame--vturb {
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.cloned-elementor-page:not(.delayed-funnel-page)
+  .cloned-video-frame--vturb
+  vturb-smartplayer {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .swiper,
 .swiper-wrapper,
 .e-n-carousel,
@@ -538,6 +550,106 @@ body {
 }
 
 @media (max-width: 767px) {
+  .cloned-elementor-page:not(.delayed-funnel-page)
+    .elementor-518
+    .elementor-element.elementor-element-711f9568 {
+    --min-height: auto;
+    --gap: 28px 0;
+    --row-gap: 28px;
+    --margin-top: -30%;
+    --padding-top: 142px;
+    --padding-bottom: 44px;
+  }
+
+  .cloned-elementor-page:not(.delayed-funnel-page)
+    .elementor-518
+    .elementor-element.elementor-element-3fa7a574 {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 390px);
+    aspect-ratio: 16 / 9;
+    align-self: center;
+  }
+
+  .cloned-elementor-page:not(.delayed-funnel-page)
+    .elementor-518
+    .elementor-element.elementor-element-25a0155f {
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    aspect-ratio: 16 / 9;
+  }
+
+  .cloned-elementor-page:not(.delayed-funnel-page)
+    .elementor-518
+    .elementor-element.elementor-element-224af24 {
+    position: relative;
+    z-index: 2;
+  }
+
+  .cloned-elementor-page:not(.delayed-funnel-page)
+    .cloned-video-frame--vturb {
+    width: min(100%, 390px);
+    margin: 0 auto 2px;
+    border-radius: 14px;
+  }
+
+  .cloned-elementor-page:not(.delayed-funnel-page)
+    .elementor-518
+    .elementor-element.elementor-element-48e05a14,
+  .cloned-elementor-page:not(.delayed-funnel-page)
+    .elementor-518
+    .elementor-element.elementor-element-1c90f5ec {
+    width: min(100%, 390px);
+    max-width: 100%;
+  }
+
+  .cloned-elementor-page:not(.delayed-funnel-page)
+    .elementor-518
+    .elementor-element.elementor-element-48e05a14
+    .elementor-heading-title {
+    font-size: clamp(22px, 6.4vw, 28px);
+    line-height: 1.14;
+  }
+
+  .cloned-elementor-page:not(.delayed-funnel-page)
+    .elementor-518
+    .elementor-element.elementor-element-1c90f5ec
+    .elementor-heading-title {
+    font-size: clamp(17px, 4.8vw, 20px);
+    line-height: 1.22;
+  }
+
+  .cloned-elementor-page:not(.delayed-funnel-page)
+    .elementor-518
+    .elementor-element.elementor-element-39715f50 {
+    width: min(100%, 360px);
+    max-width: 100%;
+  }
+
+  .cloned-elementor-page:not(.delayed-funnel-page)
+    .elementor-518
+    .elementor-element.elementor-element-39715f50
+    .elementor-button {
+    padding-right: 10px;
+    padding-left: 22px;
+  }
+
+  .cloned-elementor-page:not(.delayed-funnel-page)
+    .elementor-518
+    .elementor-element.elementor-element-39715f50
+    .elementor-button-text {
+    font-size: clamp(13.5px, 3.65vw, 15.5px);
+    white-space: nowrap;
+  }
+
+  .cloned-elementor-page:not(.delayed-funnel-page)
+    .elementor-518
+    .elementor-element.elementor-element-6a6e2791 {
+    justify-content: center;
+    gap: 14px;
+  }
+
   .elementor-518 .elementor-element.elementor-element-6e3bf6a .swiper-slide,
   .elementor-image-carousel .swiper-slide {
     flex: 0 0 100% !important;
