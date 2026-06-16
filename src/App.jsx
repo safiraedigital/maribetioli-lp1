@@ -12,7 +12,8 @@ const delayedStorageKey = "poder-do-parto-aula-started-at-v3";
 const affiliateDelayedStorageKey = "poder-do-parto-aula-aline-started-at-v1";
 const originalCheckoutUrl =
   "https://pay.hotmart.com/X88395451D?off=o69s199w&#038;checkoutMode=10&#038;bid=1752756480235&#038;fromExitPopup=true";
-const affiliateCheckoutUrl = originalCheckoutUrl;
+const affiliateCheckoutUrl =
+  "https://pay.hotmart.com/X88395451D?off=o69s199w&checkoutMode=10&bid=1752756480235&fromExitPopup=true&src=v3_222319bb-2007-4602-ad07-47305fb81f2a_6a288cff68519b4d1b50bf92_65_s-1&_hi=eyJjaWQiOiIxNzgxMDQzNDM0MDk4NjM0ODM3NDE5NDQxNTYyMDAwIiwiYmlkIjoiMTc4MTA0MzQzNDA5ODYzNDgzNzQxOTQ0MTU2MjAwMCIsInNpZCI6IjIwMDBmMDEyYTYxYTRjZTQ4MjEyMWZkOTY1ODUwZmY0In0=.1781614831576";
 const salesVturbPlayerScript =
   "https://scripts.converteai.net/639563c1-cf70-4484-8d65-6fd485e96ab9/players/6a288cff68519b4d1b50bf92/v4/player.js";
 const lessonVturbPlayerScript =
