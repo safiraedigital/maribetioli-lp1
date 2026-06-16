@@ -6,7 +6,13 @@ const bodyClass =
 
 const DELAY_MS = 18 * 60 * 1000;
 const delayedRoutes = ["/aula", "/aula-gratuita"];
+const affiliateSalesRoutes = ["/poder-do-parto-afiliada"];
+const affiliateDelayedRoutes = ["/aula-afiliada"];
 const delayedStorageKey = "poder-do-parto-aula-started-at-v3";
+const affiliateDelayedStorageKey = "poder-do-parto-aula-afiliada-started-at-v1";
+const originalCheckoutUrl =
+  "https://pay.hotmart.com/X88395451D?off=o69s199w&#038;checkoutMode=10&#038;bid=1752756480235&#038;fromExitPopup=true";
+const affiliateCheckoutUrl = originalCheckoutUrl;
 const salesVturbPlayerScript =
   "https://scripts.converteai.net/639563c1-cf70-4484-8d65-6fd485e96ab9/players/6a288cff68519b4d1b50bf92/v4/player.js";
 const lessonVturbPlayerScript =
@@ -27,18 +33,26 @@ function injectScriptOnce(src) {
   document.head.appendChild(script);
 }
 
-function getDelayedPageParts() {
-  const splitIndex = pageHtml.indexOf(nextSectionMarker);
+function getDelayedPageParts(html = pageHtml) {
+  const splitIndex = html.indexOf(nextSectionMarker);
 
   if (splitIndex === -1) {
     return {
-      delayedHtml: pageHtml
+      delayedHtml: html
     };
   }
 
   return {
-    delayedHtml: pageHtml.slice(splitIndex)
+    delayedHtml: html.slice(splitIndex)
   };
+}
+
+function getPageHtml({ isAffiliate = false } = {}) {
+  if (!isAffiliate || affiliateCheckoutUrl === originalCheckoutUrl) {
+    return pageHtml;
+  }
+
+  return pageHtml.replaceAll(originalCheckoutUrl, affiliateCheckoutUrl);
 }
 
 function DelayedFunnelHero() {
@@ -149,7 +163,11 @@ function DelayedFunnelHero() {
   );
 }
 
-function getInitialDelayState(isDelayedFunnel) {
+function getStorageKey(isAffiliate) {
+  return isAffiliate ? affiliateDelayedStorageKey : delayedStorageKey;
+}
+
+function getInitialDelayState(isDelayedFunnel, isAffiliate) {
   if (!isDelayedFunnel) {
     return true;
   }
@@ -158,7 +176,7 @@ function getInitialDelayState(isDelayedFunnel) {
     return false;
   }
 
-  const startedAt = Number(window.localStorage.getItem(delayedStorageKey));
+  const startedAt = Number(window.localStorage.getItem(getStorageKey(isAffiliate)));
 
   if (!Number.isFinite(startedAt) || startedAt <= 0) {
     return false;
@@ -167,31 +185,43 @@ function getInitialDelayState(isDelayedFunnel) {
   return Date.now() - startedAt >= DELAY_MS;
 }
 
-function getDelayStart() {
+function getDelayStart(isAffiliate) {
   const now = Date.now();
-  const storedStart = Number(window.localStorage.getItem(delayedStorageKey));
+  const storageKey = getStorageKey(isAffiliate);
+  const storedStart = Number(window.localStorage.getItem(storageKey));
 
   if (Number.isFinite(storedStart) && storedStart > 0) {
     return storedStart;
   }
 
-  window.localStorage.setItem(delayedStorageKey, String(now));
+  window.localStorage.setItem(storageKey, String(now));
   return now;
 }
 
 export default function App() {
   const searchParams = new URLSearchParams(window.location.search);
   const normalizedPathname = window.location.pathname.replace(/\/$/, "") || "/";
+  const isAffiliateSalesFunnel = affiliateSalesRoutes.includes(normalizedPathname);
+  const isAffiliateDelayedFunnel = affiliateDelayedRoutes.includes(normalizedPathname);
+  const isAffiliateFunnel = isAffiliateSalesFunnel || isAffiliateDelayedFunnel;
   const isDelayedFunnel =
     delayedRoutes.includes(normalizedPathname) ||
+    isAffiliateDelayedFunnel ||
     searchParams.get("funil") === "aula" ||
     searchParams.get("funil") === "aula-gratuita" ||
     searchParams.get("pagina") === "aula" ||
     searchParams.get("pagina") === "aula-gratuita";
   const [showDelayedContent, setShowDelayedContent] = useState(() =>
-    getInitialDelayState(isDelayedFunnel)
+    getInitialDelayState(isDelayedFunnel, isAffiliateDelayedFunnel)
   );
-  const delayedParts = useMemo(getDelayedPageParts, []);
+  const renderedPageHtml = useMemo(
+    () => getPageHtml({ isAffiliate: isAffiliateFunnel }),
+    [isAffiliateFunnel]
+  );
+  const delayedParts = useMemo(
+    () => getDelayedPageParts(renderedPageHtml),
+    [renderedPageHtml]
+  );
 
   useEffect(() => {
     const previousClass = document.body.className;
@@ -221,7 +251,7 @@ export default function App() {
     }
 
     const now = Date.now();
-    const startedAt = getDelayStart();
+    const startedAt = getDelayStart(isAffiliateDelayedFunnel);
     const remainingDelay = Math.max(DELAY_MS - (now - startedAt), 0);
 
     if (remainingDelay === 0) {
@@ -237,11 +267,15 @@ export default function App() {
     return () => {
       window.clearTimeout(timeout);
     };
-  }, [isDelayedFunnel]);
+  }, [isDelayedFunnel, isAffiliateDelayedFunnel]);
 
   if (isDelayedFunnel) {
     return (
-      <div className="cloned-elementor-page delayed-funnel-page">
+      <div
+        className={`cloned-elementor-page delayed-funnel-page${
+          isAffiliateDelayedFunnel ? " affiliate-funnel-page" : ""
+        }`}
+      >
         <DelayedFunnelHero />
         {showDelayedContent && (
           <div
@@ -258,8 +292,10 @@ export default function App() {
 
   return (
     <div
-      className="cloned-elementor-page"
-      dangerouslySetInnerHTML={{ __html: pageHtml }}
+      className={`cloned-elementor-page${
+        isAffiliateSalesFunnel ? " affiliate-funnel-page" : ""
+      }`}
+      dangerouslySetInnerHTML={{ __html: renderedPageHtml }}
     />
   );
 }
