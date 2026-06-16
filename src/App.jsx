@@ -6,10 +6,10 @@ const bodyClass =
 
 const DELAY_MS = 18 * 60 * 1000;
 const delayedRoutes = ["/aula", "/aula-gratuita"];
-const affiliateSalesRoutes = ["/poder-do-parto-afiliada"];
-const affiliateDelayedRoutes = ["/aula-afiliada"];
+const affiliateSalesRoutes = ["/inscricoes-abertas"];
+const affiliateDelayedRoutes = ["/aula-liberada"];
 const delayedStorageKey = "poder-do-parto-aula-started-at-v3";
-const affiliateDelayedStorageKey = "poder-do-parto-aula-afiliada-started-at-v1";
+const affiliateDelayedStorageKey = "poder-do-parto-aula-aline-started-at-v1";
 const originalCheckoutUrl =
   "https://pay.hotmart.com/X88395451D?off=o69s199w&#038;checkoutMode=10&#038;bid=1752756480235&#038;fromExitPopup=true";
 const affiliateCheckoutUrl = originalCheckoutUrl;
