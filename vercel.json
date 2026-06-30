@@ -1,0 +1,968 @@
+{
+  "redirects": [
+    {
+      "source": "/aula/instagram",
+      "destination": "/aula?utm_source=instagram&utm_medium=bio&utm_campaign=aula_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/aula/instagram/",
+      "destination": "/aula?utm_source=instagram&utm_medium=bio&utm_campaign=aula_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/instagram",
+      "destination": "/?utm_source=instagram&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/instagram/",
+      "destination": "/?utm_source=instagram&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/instagram",
+      "destination": "/?utm_source=instagram&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/instagram/",
+      "destination": "/?utm_source=instagram&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/aula/bio-instagram",
+      "destination": "/aula?utm_source=instagram&utm_medium=bio&utm_campaign=aula_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/aula/bio-instagram/",
+      "destination": "/aula?utm_source=instagram&utm_medium=bio&utm_campaign=aula_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/bio-instagram",
+      "destination": "/?utm_source=instagram&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/bio-instagram/",
+      "destination": "/?utm_source=instagram&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/bio-instagram",
+      "destination": "/?utm_source=instagram&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/bio-instagram/",
+      "destination": "/?utm_source=instagram&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/aula/bio-insta",
+      "destination": "/aula?utm_source=instagram&utm_medium=bio&utm_campaign=aula_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/aula/bio-insta/",
+      "destination": "/aula?utm_source=instagram&utm_medium=bio&utm_campaign=aula_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/bio-insta",
+      "destination": "/?utm_source=instagram&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/bio-insta/",
+      "destination": "/?utm_source=instagram&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/bio-insta",
+      "destination": "/?utm_source=instagram&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/bio-insta/",
+      "destination": "/?utm_source=instagram&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/aula/tiktok",
+      "destination": "/aula?utm_source=tiktok&utm_medium=bio&utm_campaign=aula_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/aula/tiktok/",
+      "destination": "/aula?utm_source=tiktok&utm_medium=bio&utm_campaign=aula_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/tiktok",
+      "destination": "/?utm_source=tiktok&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/tiktok/",
+      "destination": "/?utm_source=tiktok&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/tiktok",
+      "destination": "/?utm_source=tiktok&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/tiktok/",
+      "destination": "/?utm_source=tiktok&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/aula/bio-tiktok",
+      "destination": "/aula?utm_source=tiktok&utm_medium=bio&utm_campaign=aula_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/aula/bio-tiktok/",
+      "destination": "/aula?utm_source=tiktok&utm_medium=bio&utm_campaign=aula_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/bio-tiktok",
+      "destination": "/?utm_source=tiktok&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/bio-tiktok/",
+      "destination": "/?utm_source=tiktok&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/bio-tiktok",
+      "destination": "/?utm_source=tiktok&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/bio-tiktok/",
+      "destination": "/?utm_source=tiktok&utm_medium=bio&utm_campaign=venda_poder_do_parto&utm_content=link_bio&utm_term=bio",
+      "permanent": false
+    },
+    {
+      "source": "/aula/manychat",
+      "destination": "/aula?utm_source=manychat&utm_medium=automacao&utm_campaign=aula_poder_do_parto&utm_content=manychat&utm_term=manychat",
+      "permanent": false
+    },
+    {
+      "source": "/aula/manychat/",
+      "destination": "/aula?utm_source=manychat&utm_medium=automacao&utm_campaign=aula_poder_do_parto&utm_content=manychat&utm_term=manychat",
+      "permanent": false
+    },
+    {
+      "source": "/manychat",
+      "destination": "/?utm_source=manychat&utm_medium=automacao&utm_campaign=venda_poder_do_parto&utm_content=manychat&utm_term=manychat",
+      "permanent": false
+    },
+    {
+      "source": "/manychat/",
+      "destination": "/?utm_source=manychat&utm_medium=automacao&utm_campaign=venda_poder_do_parto&utm_content=manychat&utm_term=manychat",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/manychat",
+      "destination": "/?utm_source=manychat&utm_medium=automacao&utm_campaign=venda_poder_do_parto&utm_content=manychat&utm_term=manychat",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/manychat/",
+      "destination": "/?utm_source=manychat&utm_medium=automacao&utm_campaign=venda_poder_do_parto&utm_content=manychat&utm_term=manychat",
+      "permanent": false
+    },
+    {
+      "source": "/aula/manychat-instagram",
+      "destination": "/aula?utm_source=instagram&utm_medium=dm_manychat&utm_campaign=aula_poder_do_parto&utm_content=automacao_instagram&utm_term=manychat_instagram",
+      "permanent": false
+    },
+    {
+      "source": "/aula/manychat-instagram/",
+      "destination": "/aula?utm_source=instagram&utm_medium=dm_manychat&utm_campaign=aula_poder_do_parto&utm_content=automacao_instagram&utm_term=manychat_instagram",
+      "permanent": false
+    },
+    {
+      "source": "/manychat-instagram",
+      "destination": "/?utm_source=instagram&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_instagram&utm_term=manychat_instagram",
+      "permanent": false
+    },
+    {
+      "source": "/manychat-instagram/",
+      "destination": "/?utm_source=instagram&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_instagram&utm_term=manychat_instagram",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/manychat-instagram",
+      "destination": "/?utm_source=instagram&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_instagram&utm_term=manychat_instagram",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/manychat-instagram/",
+      "destination": "/?utm_source=instagram&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_instagram&utm_term=manychat_instagram",
+      "permanent": false
+    },
+    {
+      "source": "/aula/manychat-ig",
+      "destination": "/aula?utm_source=instagram&utm_medium=dm_manychat&utm_campaign=aula_poder_do_parto&utm_content=automacao_instagram&utm_term=manychat_instagram",
+      "permanent": false
+    },
+    {
+      "source": "/aula/manychat-ig/",
+      "destination": "/aula?utm_source=instagram&utm_medium=dm_manychat&utm_campaign=aula_poder_do_parto&utm_content=automacao_instagram&utm_term=manychat_instagram",
+      "permanent": false
+    },
+    {
+      "source": "/manychat-ig",
+      "destination": "/?utm_source=instagram&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_instagram&utm_term=manychat_instagram",
+      "permanent": false
+    },
+    {
+      "source": "/manychat-ig/",
+      "destination": "/?utm_source=instagram&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_instagram&utm_term=manychat_instagram",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/manychat-ig",
+      "destination": "/?utm_source=instagram&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_instagram&utm_term=manychat_instagram",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/manychat-ig/",
+      "destination": "/?utm_source=instagram&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_instagram&utm_term=manychat_instagram",
+      "permanent": false
+    },
+    {
+      "source": "/aula/manychat-tiktok",
+      "destination": "/aula?utm_source=tiktok&utm_medium=dm_manychat&utm_campaign=aula_poder_do_parto&utm_content=automacao_tiktok&utm_term=manychat_tiktok",
+      "permanent": false
+    },
+    {
+      "source": "/aula/manychat-tiktok/",
+      "destination": "/aula?utm_source=tiktok&utm_medium=dm_manychat&utm_campaign=aula_poder_do_parto&utm_content=automacao_tiktok&utm_term=manychat_tiktok",
+      "permanent": false
+    },
+    {
+      "source": "/manychat-tiktok",
+      "destination": "/?utm_source=tiktok&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_tiktok&utm_term=manychat_tiktok",
+      "permanent": false
+    },
+    {
+      "source": "/manychat-tiktok/",
+      "destination": "/?utm_source=tiktok&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_tiktok&utm_term=manychat_tiktok",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/manychat-tiktok",
+      "destination": "/?utm_source=tiktok&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_tiktok&utm_term=manychat_tiktok",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/manychat-tiktok/",
+      "destination": "/?utm_source=tiktok&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_tiktok&utm_term=manychat_tiktok",
+      "permanent": false
+    },
+    {
+      "source": "/aula/manychat-tt",
+      "destination": "/aula?utm_source=tiktok&utm_medium=dm_manychat&utm_campaign=aula_poder_do_parto&utm_content=automacao_tiktok&utm_term=manychat_tiktok",
+      "permanent": false
+    },
+    {
+      "source": "/aula/manychat-tt/",
+      "destination": "/aula?utm_source=tiktok&utm_medium=dm_manychat&utm_campaign=aula_poder_do_parto&utm_content=automacao_tiktok&utm_term=manychat_tiktok",
+      "permanent": false
+    },
+    {
+      "source": "/manychat-tt",
+      "destination": "/?utm_source=tiktok&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_tiktok&utm_term=manychat_tiktok",
+      "permanent": false
+    },
+    {
+      "source": "/manychat-tt/",
+      "destination": "/?utm_source=tiktok&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_tiktok&utm_term=manychat_tiktok",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/manychat-tt",
+      "destination": "/?utm_source=tiktok&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_tiktok&utm_term=manychat_tiktok",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/manychat-tt/",
+      "destination": "/?utm_source=tiktok&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_tiktok&utm_term=manychat_tiktok",
+      "permanent": false
+    },
+    {
+      "source": "/aula/manychat-facebook",
+      "destination": "/aula?utm_source=facebook&utm_medium=dm_manychat&utm_campaign=aula_poder_do_parto&utm_content=automacao_facebook&utm_term=manychat_facebook",
+      "permanent": false
+    },
+    {
+      "source": "/aula/manychat-facebook/",
+      "destination": "/aula?utm_source=facebook&utm_medium=dm_manychat&utm_campaign=aula_poder_do_parto&utm_content=automacao_facebook&utm_term=manychat_facebook",
+      "permanent": false
+    },
+    {
+      "source": "/manychat-facebook",
+      "destination": "/?utm_source=facebook&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_facebook&utm_term=manychat_facebook",
+      "permanent": false
+    },
+    {
+      "source": "/manychat-facebook/",
+      "destination": "/?utm_source=facebook&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_facebook&utm_term=manychat_facebook",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/manychat-facebook",
+      "destination": "/?utm_source=facebook&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_facebook&utm_term=manychat_facebook",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/manychat-facebook/",
+      "destination": "/?utm_source=facebook&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_facebook&utm_term=manychat_facebook",
+      "permanent": false
+    },
+    {
+      "source": "/aula/manychat-fb",
+      "destination": "/aula?utm_source=facebook&utm_medium=dm_manychat&utm_campaign=aula_poder_do_parto&utm_content=automacao_facebook&utm_term=manychat_facebook",
+      "permanent": false
+    },
+    {
+      "source": "/aula/manychat-fb/",
+      "destination": "/aula?utm_source=facebook&utm_medium=dm_manychat&utm_campaign=aula_poder_do_parto&utm_content=automacao_facebook&utm_term=manychat_facebook",
+      "permanent": false
+    },
+    {
+      "source": "/manychat-fb",
+      "destination": "/?utm_source=facebook&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_facebook&utm_term=manychat_facebook",
+      "permanent": false
+    },
+    {
+      "source": "/manychat-fb/",
+      "destination": "/?utm_source=facebook&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_facebook&utm_term=manychat_facebook",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/manychat-fb",
+      "destination": "/?utm_source=facebook&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_facebook&utm_term=manychat_facebook",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/manychat-fb/",
+      "destination": "/?utm_source=facebook&utm_medium=dm_manychat&utm_campaign=venda_poder_do_parto&utm_content=automacao_facebook&utm_term=manychat_facebook",
+      "permanent": false
+    },
+    {
+      "source": "/aula/whatsapp",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=conversa&utm_campaign=aula_poder_do_parto&utm_content=envio_manual&utm_term=whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/aula/whatsapp/",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=conversa&utm_campaign=aula_poder_do_parto&utm_content=envio_manual&utm_term=whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/whatsapp",
+      "destination": "/?utm_source=whatsapp&utm_medium=conversa&utm_campaign=venda_poder_do_parto&utm_content=envio_manual&utm_term=whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/whatsapp/",
+      "destination": "/?utm_source=whatsapp&utm_medium=conversa&utm_campaign=venda_poder_do_parto&utm_content=envio_manual&utm_term=whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/whatsapp",
+      "destination": "/?utm_source=whatsapp&utm_medium=conversa&utm_campaign=venda_poder_do_parto&utm_content=envio_manual&utm_term=whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/whatsapp/",
+      "destination": "/?utm_source=whatsapp&utm_medium=conversa&utm_campaign=venda_poder_do_parto&utm_content=envio_manual&utm_term=whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/aula/whats",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=conversa&utm_campaign=aula_poder_do_parto&utm_content=envio_manual&utm_term=whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/aula/whats/",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=conversa&utm_campaign=aula_poder_do_parto&utm_content=envio_manual&utm_term=whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/whats",
+      "destination": "/?utm_source=whatsapp&utm_medium=conversa&utm_campaign=venda_poder_do_parto&utm_content=envio_manual&utm_term=whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/whats/",
+      "destination": "/?utm_source=whatsapp&utm_medium=conversa&utm_campaign=venda_poder_do_parto&utm_content=envio_manual&utm_term=whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/whats",
+      "destination": "/?utm_source=whatsapp&utm_medium=conversa&utm_campaign=venda_poder_do_parto&utm_content=envio_manual&utm_term=whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/whats/",
+      "destination": "/?utm_source=whatsapp&utm_medium=conversa&utm_campaign=venda_poder_do_parto&utm_content=envio_manual&utm_term=whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/aula/direct",
+      "destination": "/aula?utm_source=instagram&utm_medium=direct&utm_campaign=aula_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/aula/direct/",
+      "destination": "/aula?utm_source=instagram&utm_medium=direct&utm_campaign=aula_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/direct",
+      "destination": "/?utm_source=instagram&utm_medium=direct&utm_campaign=venda_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/direct/",
+      "destination": "/?utm_source=instagram&utm_medium=direct&utm_campaign=venda_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/direct",
+      "destination": "/?utm_source=instagram&utm_medium=direct&utm_campaign=venda_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/direct/",
+      "destination": "/?utm_source=instagram&utm_medium=direct&utm_campaign=venda_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/aula/instagram-direct",
+      "destination": "/aula?utm_source=instagram&utm_medium=direct&utm_campaign=aula_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/aula/instagram-direct/",
+      "destination": "/aula?utm_source=instagram&utm_medium=direct&utm_campaign=aula_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/instagram-direct",
+      "destination": "/?utm_source=instagram&utm_medium=direct&utm_campaign=venda_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/instagram-direct/",
+      "destination": "/?utm_source=instagram&utm_medium=direct&utm_campaign=venda_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/instagram-direct",
+      "destination": "/?utm_source=instagram&utm_medium=direct&utm_campaign=venda_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/instagram-direct/",
+      "destination": "/?utm_source=instagram&utm_medium=direct&utm_campaign=venda_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/aula/direct-instagram",
+      "destination": "/aula?utm_source=instagram&utm_medium=direct&utm_campaign=aula_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/aula/direct-instagram/",
+      "destination": "/aula?utm_source=instagram&utm_medium=direct&utm_campaign=aula_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/direct-instagram",
+      "destination": "/?utm_source=instagram&utm_medium=direct&utm_campaign=venda_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/direct-instagram/",
+      "destination": "/?utm_source=instagram&utm_medium=direct&utm_campaign=venda_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/direct-instagram",
+      "destination": "/?utm_source=instagram&utm_medium=direct&utm_campaign=venda_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/direct-instagram/",
+      "destination": "/?utm_source=instagram&utm_medium=direct&utm_campaign=venda_poder_do_parto&utm_content=envio_manual_direct&utm_term=direct",
+      "permanent": false
+    },
+    {
+      "source": "/aula/stories",
+      "destination": "/aula?utm_source=instagram&utm_medium=stories&utm_campaign=aula_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/aula/stories/",
+      "destination": "/aula?utm_source=instagram&utm_medium=stories&utm_campaign=aula_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/stories",
+      "destination": "/?utm_source=instagram&utm_medium=stories&utm_campaign=venda_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/stories/",
+      "destination": "/?utm_source=instagram&utm_medium=stories&utm_campaign=venda_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/stories",
+      "destination": "/?utm_source=instagram&utm_medium=stories&utm_campaign=venda_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/stories/",
+      "destination": "/?utm_source=instagram&utm_medium=stories&utm_campaign=venda_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/aula/story",
+      "destination": "/aula?utm_source=instagram&utm_medium=stories&utm_campaign=aula_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/aula/story/",
+      "destination": "/aula?utm_source=instagram&utm_medium=stories&utm_campaign=aula_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/story",
+      "destination": "/?utm_source=instagram&utm_medium=stories&utm_campaign=venda_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/story/",
+      "destination": "/?utm_source=instagram&utm_medium=stories&utm_campaign=venda_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/story",
+      "destination": "/?utm_source=instagram&utm_medium=stories&utm_campaign=venda_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/story/",
+      "destination": "/?utm_source=instagram&utm_medium=stories&utm_campaign=venda_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/aula/instagram-stories",
+      "destination": "/aula?utm_source=instagram&utm_medium=stories&utm_campaign=aula_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/aula/instagram-stories/",
+      "destination": "/aula?utm_source=instagram&utm_medium=stories&utm_campaign=aula_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/instagram-stories",
+      "destination": "/?utm_source=instagram&utm_medium=stories&utm_campaign=venda_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/instagram-stories/",
+      "destination": "/?utm_source=instagram&utm_medium=stories&utm_campaign=venda_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/instagram-stories",
+      "destination": "/?utm_source=instagram&utm_medium=stories&utm_campaign=venda_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/instagram-stories/",
+      "destination": "/?utm_source=instagram&utm_medium=stories&utm_campaign=venda_poder_do_parto&utm_content=link_stories&utm_term=stories",
+      "permanent": false
+    },
+    {
+      "source": "/aula/grupo-alunas",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=grupo_alunas&utm_campaign=aula_poder_do_parto&utm_content=link_grupo_alunas&utm_term=grupo_alunas",
+      "permanent": false
+    },
+    {
+      "source": "/aula/grupo-alunas/",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=grupo_alunas&utm_campaign=aula_poder_do_parto&utm_content=link_grupo_alunas&utm_term=grupo_alunas",
+      "permanent": false
+    },
+    {
+      "source": "/grupo-alunas",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo_alunas&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_alunas&utm_term=grupo_alunas",
+      "permanent": false
+    },
+    {
+      "source": "/grupo-alunas/",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo_alunas&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_alunas&utm_term=grupo_alunas",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/grupo-alunas",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo_alunas&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_alunas&utm_term=grupo_alunas",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/grupo-alunas/",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo_alunas&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_alunas&utm_term=grupo_alunas",
+      "permanent": false
+    },
+    {
+      "source": "/aula/alunas",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=grupo_alunas&utm_campaign=aula_poder_do_parto&utm_content=link_grupo_alunas&utm_term=grupo_alunas",
+      "permanent": false
+    },
+    {
+      "source": "/aula/alunas/",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=grupo_alunas&utm_campaign=aula_poder_do_parto&utm_content=link_grupo_alunas&utm_term=grupo_alunas",
+      "permanent": false
+    },
+    {
+      "source": "/alunas",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo_alunas&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_alunas&utm_term=grupo_alunas",
+      "permanent": false
+    },
+    {
+      "source": "/alunas/",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo_alunas&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_alunas&utm_term=grupo_alunas",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/alunas",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo_alunas&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_alunas&utm_term=grupo_alunas",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/alunas/",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo_alunas&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_alunas&utm_term=grupo_alunas",
+      "permanent": false
+    },
+    {
+      "source": "/aula/grupo-whats",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=grupo&utm_campaign=aula_poder_do_parto&utm_content=link_grupo_whatsapp&utm_term=grupo_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/aula/grupo-whats/",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=grupo&utm_campaign=aula_poder_do_parto&utm_content=link_grupo_whatsapp&utm_term=grupo_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/grupo-whats",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_whatsapp&utm_term=grupo_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/grupo-whats/",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_whatsapp&utm_term=grupo_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/grupo-whats",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_whatsapp&utm_term=grupo_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/grupo-whats/",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_whatsapp&utm_term=grupo_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/aula/grupo-whatsapp",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=grupo&utm_campaign=aula_poder_do_parto&utm_content=link_grupo_whatsapp&utm_term=grupo_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/aula/grupo-whatsapp/",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=grupo&utm_campaign=aula_poder_do_parto&utm_content=link_grupo_whatsapp&utm_term=grupo_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/grupo-whatsapp",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_whatsapp&utm_term=grupo_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/grupo-whatsapp/",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_whatsapp&utm_term=grupo_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/grupo-whatsapp",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_whatsapp&utm_term=grupo_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/grupo-whatsapp/",
+      "destination": "/?utm_source=whatsapp&utm_medium=grupo&utm_campaign=venda_poder_do_parto&utm_content=link_grupo_whatsapp&utm_term=grupo_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/aula/comunidade-whats",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=aula_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/aula/comunidade-whats/",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=aula_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/comunidade-whats",
+      "destination": "/?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=venda_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/comunidade-whats/",
+      "destination": "/?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=venda_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/comunidade-whats",
+      "destination": "/?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=venda_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/comunidade-whats/",
+      "destination": "/?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=venda_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/aula/comunidade-whatsapp",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=aula_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/aula/comunidade-whatsapp/",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=aula_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/comunidade-whatsapp",
+      "destination": "/?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=venda_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/comunidade-whatsapp/",
+      "destination": "/?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=venda_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/comunidade-whatsapp",
+      "destination": "/?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=venda_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/comunidade-whatsapp/",
+      "destination": "/?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=venda_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/aula/comunidade",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=aula_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/aula/comunidade/",
+      "destination": "/aula?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=aula_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/comunidade",
+      "destination": "/?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=venda_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/comunidade/",
+      "destination": "/?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=venda_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/comunidade",
+      "destination": "/?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=venda_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/comunidade/",
+      "destination": "/?utm_source=whatsapp&utm_medium=comunidade&utm_campaign=venda_poder_do_parto&utm_content=link_comunidade_whatsapp&utm_term=comunidade_whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/aula/telegram",
+      "destination": "/aula?utm_source=telegram&utm_medium=grupo&utm_campaign=aula_poder_do_parto&utm_content=link_telegram&utm_term=telegram",
+      "permanent": false
+    },
+    {
+      "source": "/aula/telegram/",
+      "destination": "/aula?utm_source=telegram&utm_medium=grupo&utm_campaign=aula_poder_do_parto&utm_content=link_telegram&utm_term=telegram",
+      "permanent": false
+    },
+    {
+      "source": "/telegram",
+      "destination": "/?utm_source=telegram&utm_medium=grupo&utm_campaign=venda_poder_do_parto&utm_content=link_telegram&utm_term=telegram",
+      "permanent": false
+    },
+    {
+      "source": "/telegram/",
+      "destination": "/?utm_source=telegram&utm_medium=grupo&utm_campaign=venda_poder_do_parto&utm_content=link_telegram&utm_term=telegram",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/telegram",
+      "destination": "/?utm_source=telegram&utm_medium=grupo&utm_campaign=venda_poder_do_parto&utm_content=link_telegram&utm_term=telegram",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/telegram/",
+      "destination": "/?utm_source=telegram&utm_medium=grupo&utm_campaign=venda_poder_do_parto&utm_content=link_telegram&utm_term=telegram",
+      "permanent": false
+    },
+    {
+      "source": "/aula/youtube",
+      "destination": "/aula?utm_source=youtube&utm_medium=descricao&utm_campaign=aula_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/aula/youtube/",
+      "destination": "/aula?utm_source=youtube&utm_medium=descricao&utm_campaign=aula_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/youtube",
+      "destination": "/?utm_source=youtube&utm_medium=descricao&utm_campaign=venda_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/youtube/",
+      "destination": "/?utm_source=youtube&utm_medium=descricao&utm_campaign=venda_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/youtube",
+      "destination": "/?utm_source=youtube&utm_medium=descricao&utm_campaign=venda_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/youtube/",
+      "destination": "/?utm_source=youtube&utm_medium=descricao&utm_campaign=venda_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/aula/descricao-youtube",
+      "destination": "/aula?utm_source=youtube&utm_medium=descricao&utm_campaign=aula_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/aula/descricao-youtube/",
+      "destination": "/aula?utm_source=youtube&utm_medium=descricao&utm_campaign=aula_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/descricao-youtube",
+      "destination": "/?utm_source=youtube&utm_medium=descricao&utm_campaign=venda_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/descricao-youtube/",
+      "destination": "/?utm_source=youtube&utm_medium=descricao&utm_campaign=venda_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/descricao-youtube",
+      "destination": "/?utm_source=youtube&utm_medium=descricao&utm_campaign=venda_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/descricao-youtube/",
+      "destination": "/?utm_source=youtube&utm_medium=descricao&utm_campaign=venda_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/aula/youtube-descricao",
+      "destination": "/aula?utm_source=youtube&utm_medium=descricao&utm_campaign=aula_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/aula/youtube-descricao/",
+      "destination": "/aula?utm_source=youtube&utm_medium=descricao&utm_campaign=aula_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/youtube-descricao",
+      "destination": "/?utm_source=youtube&utm_medium=descricao&utm_campaign=venda_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/youtube-descricao/",
+      "destination": "/?utm_source=youtube&utm_medium=descricao&utm_campaign=venda_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/youtube-descricao",
+      "destination": "/?utm_source=youtube&utm_medium=descricao&utm_campaign=venda_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    },
+    {
+      "source": "/vendas/youtube-descricao/",
+      "destination": "/?utm_source=youtube&utm_medium=descricao&utm_campaign=venda_poder_do_parto&utm_content=link_descricao&utm_term=youtube_descricao",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/aula",
+      "destination": "/"
+    },
+    {
+      "source": "/aula/",
+      "destination": "/"
+    },
+    {
+      "source": "/aula-gratuita",
+      "destination": "/"
+    },
+    {
+      "source": "/aula-gratuita/",
+      "destination": "/"
+    },
+    {
+      "source": "/inscricoes-abertas",
+      "destination": "/"
+    },
+    {
+      "source": "/inscricoes-abertas/",
+      "destination": "/"
+    },
+    {
+      "source": "/aula-liberada",
+      "destination": "/"
+    },
+    {
+      "source": "/aula-liberada/",
+      "destination": "/"
+    }
+  ]
+}
