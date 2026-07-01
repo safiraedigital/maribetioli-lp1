@@ -1,6 +1,16 @@
 {
   "redirects": [
     {
+  "source": "/facebook",
+  "destination": "/?utm_source=facebook&utm_medium=social&utm_campaign=venda_poder_do_parto&utm_content=facebook&utm_term=facebook&sck=facebook&xcod=facebook",
+  "permanent": false
+},
+{
+  "source": "/aula/facebook",
+  "destination": "/aula?utm_source=facebook&utm_medium=social&utm_campaign=aula_poder_do_parto&utm_content=facebook&utm_term=facebook&sck=facebook&xcod=facebook",
+  "permanent": false
+  },
+    {
       "source": "/aula/instagram",
       "destination": "/aula?utm_source=instagram&utm_medium=bio&utm_campaign=aula_poder_do_parto&utm_content=link_bio&utm_term=bio",
       "permanent": false
